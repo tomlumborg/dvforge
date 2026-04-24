@@ -10,22 +10,15 @@ pip install -r requirements.txt
 
 Requires Python 3.10+.
 
-## Quick start
+## Commands
 
-1. Create an input directory with the files described below.
-2. Run dvforge:
+### `dvforge build`
 
-```bash
-python -m dvforge --input ./my-solution --output ./output
-```
-
-3. Pack with PAC:
+Compile your input YAML into a Dataverse solution tree.
 
 ```bash
-pac solution pack --zipfile MySolution.zip --folder .\output\.
+python -m dvforge build --input ./my-solution --output ./output
 ```
-
-## CLI options
 
 | Flag | Description |
 |------|-------------|
@@ -35,9 +28,37 @@ pac solution pack --zipfile MySolution.zip --folder .\output\.
 | `--unmanaged` | Generate an unmanaged solution (default: managed) |
 | `--dry-run` | Print output paths without writing any files |
 
-## Input files
+Then pack with PAC:
 
-Your input directory should contain:
+```bash
+pac solution pack --zipfile MySolution.zip --folder .\output\.
+```
+
+---
+
+### `dvforge test`
+
+Build and compare the output against a real `pac solution unpack` directory to check for discrepancies.
+
+```bash
+python -m dvforge test --input ./my-solution --actual ./pac-unpack
+```
+
+| Flag | Description |
+|------|-------------|
+| `--input` | Path to your input YAML directory (required) |
+| `--actual` | Path to a `pac solution unpack` directory to compare against (required) |
+| `--out` | Save build output here instead of a temp dir (dir is kept after the run) |
+| `--version` | Override the solution version, e.g. `1.2.0.0` |
+| `--unmanaged` | Generate an unmanaged solution (default: managed) |
+| `--skip-build` | Skip building; compare existing `--out` directory against `--actual` |
+| `--ignore-key` | YAML key to exclude from comparison — repeatable, e.g. `--ignore-key IntroducedVersion` |
+
+Exits 0 if all files match, 1 if anything differs.
+
+---
+
+## Input files
 
 ```
 my-solution/
@@ -45,7 +66,7 @@ my-solution/
 ├── optionsets.yml      (optional)
 └── entities/
     ├── deal.yml
-    └── contact.yml     (one or more entity files)
+    └── contact.yml
 ```
 
 ### `solution.yml`
@@ -94,16 +115,16 @@ entities:
       - name: account
         type: lookup
         display_name: Account
-        related_table: account  # references another entity, no prefix
+        related_table: account  # no prefix
 
       - name: stage_choice
         type: choice
         display_name: Stage
-        option_set: deal_stage  # references an option set, no prefix
+        option_set: deal_stage  # no prefix
 
     relationships:
-      - related_table: account   # the "one" side entity
-        lookup_column: account   # the FK column on this entity
+      - related_table: account  # the "one" side entity
+        lookup_column: account  # the FK column on this entity
 ```
 
 **Column types:** `string`, `lookup`, `choice`
