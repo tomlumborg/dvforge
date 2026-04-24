@@ -79,7 +79,7 @@ def _primary_key(entity_name: str, prefix: str) -> tuple[str, dict]:
 
 def _custom_string(col: Column, prefix: str) -> tuple[str, dict]:
     full_name = prefixed(col.name, prefix)
-    is_name_field = col.name == 'name'
+    is_name_field = col.primary_name
     req_level = 'required' if col.required else 'none'
 
     mask = 'PrimaryName|ValidForAdvancedFind|ValidForForm|ValidForGrid' if is_name_field \

@@ -34,6 +34,7 @@ class Column(BaseModel):
     type: Literal["string", "lookup", "choice"]
     display_name: str
     required: bool = False
+    primary_name: bool = False
     max_length: Optional[int] = None    # string only
     option_set: Optional[str] = None    # choice only, without prefix
     related_table: Optional[str] = None # lookup only, without prefix
