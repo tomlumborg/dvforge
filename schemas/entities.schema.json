@@ -1,0 +1,165 @@
+{
+  "$defs": {
+    "Column": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "string",
+            "lookup",
+            "choice"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "required": {
+          "default": false,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "max_length": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Length"
+        },
+        "option_set": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Option Set"
+        },
+        "related_table": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Related Table"
+        }
+      },
+      "required": [
+        "name",
+        "type",
+        "display_name"
+      ],
+      "title": "Column",
+      "type": "object"
+    },
+    "Entity": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "display_name_plural": {
+          "title": "Display Name Plural",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "ownership": {
+          "default": "user",
+          "enum": [
+            "user",
+            "organization"
+          ],
+          "title": "Ownership",
+          "type": "string"
+        },
+        "columns": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Column"
+          },
+          "title": "Columns",
+          "type": "array"
+        },
+        "relationships": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Relationship"
+          },
+          "title": "Relationships",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "display_name",
+        "display_name_plural"
+      ],
+      "title": "Entity",
+      "type": "object"
+    },
+    "Relationship": {
+      "properties": {
+        "related_table": {
+          "title": "Related Table",
+          "type": "string"
+        },
+        "lookup_column": {
+          "title": "Lookup Column",
+          "type": "string"
+        }
+      },
+      "required": [
+        "related_table",
+        "lookup_column"
+      ],
+      "title": "Relationship",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "entities": {
+      "items": {
+        "$ref": "#/$defs/Entity"
+      },
+      "title": "Entities",
+      "type": "array"
+    }
+  },
+  "required": [
+    "entities"
+  ],
+  "title": "_EntitiesFile",
+  "type": "object"
+}

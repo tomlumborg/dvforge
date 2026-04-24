@@ -80,5 +80,20 @@ def test(
     sys.exit(0 if ok else 1)
 
 
+# ── schema ───────────────────────────────────────────────────────────────────
+
+@main.command()
+@click.option("--output", "output_dir", default=".", type=click.Path(file_okay=False, path_type=Path), help="Project root to write schemas into (default: current directory)")
+def schema(output_dir: Path) -> None:
+    """Generate JSON schemas for dvforge input YAML files and update .vscode/settings.json."""
+    from dvforge.schema_gen import generate
+
+    output_dir = output_dir.resolve()
+    written = generate(output_dir)
+    for path in written:
+        click.echo(f"  {path.relative_to(output_dir)}")
+    click.echo("\n.vscode/settings.json updated.")
+
+
 if __name__ == "__main__":
     main()
