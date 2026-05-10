@@ -112,8 +112,8 @@ def _custom_lookup(col: Column, prefix: str) -> tuple[str, dict]:
               update=1, read=1, create=1,
               is_custom=1, audit=0, version='1.0.0.0',
               display_mask='ValidForAdvancedFind|ValidForForm|ValidForGrid',
-              ime='')
-    del d['ImeMode']  # custom lookups have no ImeMode in the output
+              ime='auto')
+    d['ImeMode']  # custom lookups have no ImeMode in the output
     d['IsSearchable'] = 0
     d['IsFilterable'] = 0
     d['IsRetrievable'] = 0
@@ -291,7 +291,7 @@ def _system_attributes(entity: Entity, prefix: str) -> list[tuple[str, dict]]:
                     'IntroducedVersion': 1.0,
                     'IsCustomizable': 1,
                     'displaynames': _displayname('Status'),
-                    'Descriptions': _description(f"Status of the {entity.name}"),
+                    'Descriptions': _description(f"Status of the {entity.display_name}"),
                     'states': {
                         'state': [
                             {'@value': 0, '@defaultstatus': 1, '@invariantname': 'Active',
@@ -322,7 +322,7 @@ def _system_attributes(entity: Entity, prefix: str) -> list[tuple[str, dict]]:
                     'IntroducedVersion': 1.0,
                     'IsCustomizable': 1,
                     'displaynames': _displayname('Status Reason'),
-                    'Descriptions': _description(f"Reason for the status of the {entity.name}"),
+                    'Descriptions': _description(f"Reason for the status of the {entity.display_name}"),
                     'statuses': {
                         'status': [
                             {'@value': 1, '@state': 0,
