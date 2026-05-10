@@ -1,0 +1,11 @@
+RootComponents:
+  RootComponent:
+  - '@type': 1
+    '@schemaName': ts_account
+    '@behavior': 0
+  - '@type': 1
+    '@schemaName': ts_deal
+    '@behavior': 0
+  - '@type': 9
+    '@schemaName': ts_deal_stage
+    '@behavior': 0

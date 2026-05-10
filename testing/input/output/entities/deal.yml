@@ -1,0 +1,33 @@
+entities:
+  - name: deal                # no prefix — dvforge adds ts_
+    display_name: Deal
+    display_name_plural: Deals
+    description:
+    ownership: user           # user | organization
+    columns:
+      - name: name
+        type: string
+        display_name: Name
+        required: true
+        primary_name: true
+        max_length: 850
+
+      - name: old_name
+        type: string
+        display_name: Old Name
+        required: true
+        max_length: 850
+
+      - name: account
+        type: lookup
+        display_name: Account
+        related_table: account  # no prefix
+
+      - name: stage_choice
+        type: choice
+        display_name: Stage
+        option_set: deal_stage  # no prefix
+
+    relationships:
+      - related_table: account  # the "one" side entity
+        lookup_column: account  # the FK column on this entity

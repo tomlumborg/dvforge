@@ -1,0 +1,47 @@
+savedquery:
+  IsCustomizable: 1
+  CanBeDeleted: 0
+  isquickfindquery: 0
+  isprivate: 0
+  isdefault: 0
+  savedqueryid: '{bbecdd78-02be-59c1-8416-386d0718b011}'
+  layoutxml:
+    grid:
+      '@name': resultset
+      '@jump': ts_name
+      '@select': 1
+      '@icon': 1
+      '@preview': 1
+      row:
+        '@name': result
+        '@id': ts_dealid
+        cell:
+        - '@name': ts_name
+          '@width': 300
+        - '@name': createdon
+          '@width': 125
+  querytype: 0
+  fetchxml:
+    fetch:
+      '@version': 1.0
+      '@mapping': logical
+      entity:
+        '@name': ts_deal
+        attribute:
+        - '@name': ts_dealid
+        - '@name': ts_name
+        - '@name': createdon
+        order:
+          '@attribute': ts_name
+          '@descending': false
+        filter:
+          '@type': and
+          condition:
+            '@attribute': statecode
+            '@operator': eq
+            '@value': 1
+  IntroducedVersion: '1.0'
+  LocalizedNames:
+    LocalizedName:
+      '@description': Inactive Deals
+      '@languagecode': 1033

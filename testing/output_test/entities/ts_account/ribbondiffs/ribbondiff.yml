@@ -1,0 +1,11 @@
+RibbonDiffXml:
+  CustomActions: 
+  Templates:
+    RibbonTemplates:
+      '@Id': Mscrm.Templates
+  CommandDefinitions: 
+  RuleDefinitions:
+    TabDisplayRules: 
+    DisplayRules: 
+    EnableRules: 
+  LocLabels: 

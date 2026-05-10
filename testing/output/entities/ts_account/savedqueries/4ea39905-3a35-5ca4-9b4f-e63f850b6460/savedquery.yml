@@ -1,0 +1,47 @@
+savedquery:
+  IsCustomizable: 1
+  CanBeDeleted: 0
+  isquickfindquery: 0
+  isprivate: 0
+  isdefault: 1
+  savedqueryid: '{4ea39905-3a35-5ca4-9b4f-e63f850b6460}'
+  layoutxml:
+    grid:
+      '@name': ts_accounts
+      '@jump': ts_name
+      '@select': 1
+      '@icon': 1
+      '@preview': 1
+      row:
+        '@name': ts_account
+        '@id': ts_accountid
+        cell:
+        - '@name': ts_name
+          '@width': 300
+        - '@name': createdon
+          '@width': 125
+  querytype: 2
+  fetchxml:
+    fetch:
+      '@version': 1.0
+      '@mapping': logical
+      entity:
+        '@name': ts_account
+        attribute:
+        - '@name': ts_accountid
+        - '@name': ts_name
+        - '@name': createdon
+        order:
+          '@attribute': ts_name
+          '@descending': false
+        filter:
+          '@type': and
+          condition:
+            '@attribute': statecode
+            '@operator': eq
+            '@value': 0
+  IntroducedVersion: '1.0'
+  LocalizedNames:
+    LocalizedName:
+      '@description': Account Associated View
+      '@languagecode': 1033

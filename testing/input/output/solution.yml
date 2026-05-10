@@ -1,0 +1,9 @@
+solution:
+  name: output
+  display_name: output
+  version: 1.0.0.0
+  publisher:
+    name: TheSummit
+    display_name: TheSummit
+    prefix: ts
+    option_value_prefix: 12687

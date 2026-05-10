@@ -1,0 +1,31 @@
+EntityRelationship:
+  '@Name': ts_account__ts_deal_ts_account
+  EntityRelationshipType: OneToMany
+  IsCustomizable: 1
+  IntroducedVersion: 1.0.0.0
+  IsHierarchical: 0
+  ReferencingEntityName: ts_deal
+  ReferencedEntityName: ts_account
+  CascadeAssign: NoCascade
+  CascadeDelete: RemoveLink
+  CascadeArchive: RemoveLink
+  CascadeReparent: NoCascade
+  CascadeShare: NoCascade
+  CascadeUnshare: NoCascade
+  CascadeRollupView: NoCascade
+  IsValidForAdvancedFind: 1
+  ReferencingAttributeName: ts_account
+  RelationshipDescription:
+    Descriptions:
+      Description:
+        '@description': ''
+        '@languagecode': 1033
+  EntityRelationshipRoles:
+    EntityRelationshipRole:
+    - NavPaneDisplayOption: UseCollectionName
+      NavPaneArea: Details
+      NavPaneOrder: 10000
+      NavigationPropertyName: ts_account
+      RelationshipRoleType: 1
+    - NavigationPropertyName: ts_account__ts_deal_ts_account
+      RelationshipRoleType: 0

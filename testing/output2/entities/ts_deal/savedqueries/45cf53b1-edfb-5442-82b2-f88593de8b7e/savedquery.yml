@@ -1,0 +1,34 @@
+savedquery:
+  IsCustomizable: 1
+  CanBeDeleted: 1
+  isquickfindquery: 0
+  isprivate: 0
+  isdefault: 1
+  savedqueryid: '{45cf53b1-edfb-5442-82b2-f88593de8b7e}'
+  querytype: 8192
+  fetchxml:
+    fetch:
+      '@version': 1.0
+      '@mapping': logical
+      '@output-format': xml-platform
+      entity:
+        '@name': ts_deal
+        attribute:
+          '@name': ts_dealid
+        filter:
+          '@type': and
+          condition:
+          - '@attribute': statecode
+            '@operator': eq
+            '@value': 0
+          - '@attribute': ownerid
+            '@operator': eq-userid
+  IntroducedVersion: '1.0'
+  LocalizedNames:
+    LocalizedName:
+      '@description': My Deals
+      '@languagecode': 1033
+  Descriptions:
+    Description:
+      '@description': Active Deals owned by me
+      '@languagecode': 1033

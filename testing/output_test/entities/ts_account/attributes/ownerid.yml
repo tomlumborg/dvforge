@@ -1,0 +1,45 @@
+attribute:
+  '@PhysicalName': OwnerId
+  Type: owner
+  Name: ownerid
+  LogicalName: ownerid
+  RequiredLevel: systemrequired
+  DisplayMask: ValidForAdvancedFind|ValidForForm|ValidForGrid|RequiredForForm
+  ImeMode: auto
+  ValidForUpdateApi: 1
+  ValidForReadApi: 1
+  ValidForCreateApi: 1
+  IsCustomField: 0
+  IsAuditEnabled: 1
+  IsSecured: 0
+  IntroducedVersion: 1.0
+  IsCustomizable: 1
+  IsRenameable: 1
+  CanModifySearchSettings: 1
+  CanModifyRequirementLevelSettings: 1
+  CanModifyAdditionalSettings: 1
+  SourceType: 0
+  IsGlobalFilterEnabled: 0
+  IsSortableEnabled: 0
+  CanModifyGlobalFilterSettings: 1
+  CanModifyIsSortableSettings: 1
+  IsDataSourceSecret: 0
+  IsSearchable: 0
+  IsFilterable: 1
+  IsRetrievable: 0
+  IsLocalizable: 0
+  LookupStyle: single
+  LookupTypes:
+    LookupType:
+    - '@id': 00000000-0000-0000-0000-000000000000
+      '#text': 8
+    - '@id': 00000000-0000-0000-0000-000000000000
+      '#text': 9
+  displaynames:
+    displayname:
+      '@description': Owner
+      '@languagecode': 1033
+  Descriptions:
+    Description:
+      '@description': Owner Id
+      '@languagecode': 1033

@@ -1,0 +1,40 @@
+attribute:
+  '@PhysicalName': TimeZoneRuleVersionNumber
+  Type: int
+  Name: timezoneruleversionnumber
+  LogicalName: timezoneruleversionnumber
+  RequiredLevel: none
+  ImeMode: auto
+  ValidForUpdateApi: 1
+  ValidForReadApi: 1
+  ValidForCreateApi: 1
+  IsCustomField: 0
+  IsAuditEnabled: 0
+  IsSecured: 0
+  IntroducedVersion: 1.0
+  IsCustomizable: 1
+  IsRenameable: 1
+  CanModifySearchSettings: 1
+  CanModifyRequirementLevelSettings: 1
+  CanModifyAdditionalSettings: 1
+  SourceType: 0
+  IsGlobalFilterEnabled: 0
+  IsSortableEnabled: 0
+  CanModifyGlobalFilterSettings: 1
+  CanModifyIsSortableSettings: 1
+  IsDataSourceSecret: 0
+  IsSearchable: 0
+  IsFilterable: 0
+  IsRetrievable: 0
+  IsLocalizable: 0
+  Format: ''
+  MinValue: -1
+  MaxValue: 2147483647
+  displaynames:
+    displayname:
+      '@description': Time Zone Rule Version Number
+      '@languagecode': 1033
+  Descriptions:
+    Description:
+      '@description': For internal use only.
+      '@languagecode': 1033
