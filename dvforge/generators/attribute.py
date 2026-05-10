@@ -146,8 +146,8 @@ def _custom_choice(col: Column, prefix: str) -> tuple[str, dict]:
 
 # ── System attribute definitions ──────────────────────────────────────────────
 
-def _system_attributes(entity_name: str, prefix: str) -> list[tuple[str, dict]]:
-    full_entity = prefixed(entity_name, prefix)
+def _system_attributes(entity: Entity, prefix: str) -> list[tuple[str, dict]]:
+    full_entity = prefixed(entity.name, prefix)
 
     def _slookup(physical: str, name: str, display: str, desc: str,
                  mask: str = 'ValidForAdvancedFind|ValidForForm|ValidForGrid',
@@ -291,7 +291,7 @@ def _system_attributes(entity_name: str, prefix: str) -> list[tuple[str, dict]]:
                     'IntroducedVersion': 1.0,
                     'IsCustomizable': 1,
                     'displaynames': _displayname('Status'),
-                    'Descriptions': _description(f"Status of the {entity_name}"),
+                    'Descriptions': _description(f"Status of the {entity.name}"),
                     'states': {
                         'state': [
                             {'@value': 0, '@defaultstatus': 1, '@invariantname': 'Active',
@@ -302,7 +302,7 @@ def _system_attributes(entity_name: str, prefix: str) -> list[tuple[str, dict]]:
                     },
                 },
                 'displaynames': _displayname('Status'),
-                'Descriptions': _description(f"Status of the {entity_name}"),
+                'Descriptions': _description(f"Status of the {entity.name}"),
             }),
         ),
         (
@@ -322,7 +322,7 @@ def _system_attributes(entity_name: str, prefix: str) -> list[tuple[str, dict]]:
                     'IntroducedVersion': 1.0,
                     'IsCustomizable': 1,
                     'displaynames': _displayname('Status Reason'),
-                    'Descriptions': _description(f"Reason for the status of the {entity_name}"),
+                    'Descriptions': _description(f"Reason for the status of the {entity.name}"),
                     'statuses': {
                         'status': [
                             {'@value': 1, '@state': 0,
@@ -333,7 +333,7 @@ def _system_attributes(entity_name: str, prefix: str) -> list[tuple[str, dict]]:
                     },
                 },
                 'displaynames': _displayname('Status Reason'),
-                'Descriptions': _description(f"Reason for the status of the {entity_name}"),
+                'Descriptions': _description(f"Reason for the status of the {entity.name}"),
             }),
         ),
         _sint('TimeZoneRuleVersionNumber', 'timezoneruleversionnumber',
@@ -364,7 +364,7 @@ def generate(entity: Entity, prefix: str) -> dict[str, dict]:
             name, data = _custom_choice(col, prefix)
         files[f"{base}/{name}.yml"] = data
 
-    for sys_name, sys_data in _system_attributes(entity.name, prefix):
+    for sys_name, sys_data in _system_attributes(entity, prefix):
         files[f"{base}/{sys_name}.yml"] = sys_data
 
     return files
