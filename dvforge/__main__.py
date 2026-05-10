@@ -68,6 +68,8 @@ def test(
 
     from dvforge.tester import run
 
+    ignore = set(ignore_keys) | {'@version', 'Managed'}
+
     ok = run(
         input_dir=input_dir,
         actual=actual,
@@ -75,7 +77,7 @@ def test(
         sol_version=sol_version,
         unmanaged=unmanaged,
         skip_build=skip_build,
-        ignore=set(ignore_keys),
+        ignore=ignore,
     )
     sys.exit(0 if ok else 1)
 
