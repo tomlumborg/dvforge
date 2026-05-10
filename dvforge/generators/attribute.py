@@ -105,6 +105,52 @@ def _custom_string(col: Column, prefix: str) -> tuple[str, dict]:
     return full_name, _attr(d)
 
 
+def _custom_datetime(col: Column, prefix: str) -> tuple[str, dict]:
+    full_name = prefixed(col.name, prefix)
+    req_level = 'required' if col.required else 'none'
+    mask = 'ValidForAdvancedFind|ValidForForm|ValidForGrid'
+    if col.required:
+        mask += '|RequiredForForm'
+
+    d = _base(full_name, 'datetime', full_name, req_level,
+              update=1, read=1, create=1,
+              is_custom=1, audit=1, version=1.0,
+              display_mask=mask,
+              ime='auto')
+    d['IsSearchable'] = 0
+    d['IsFilterable'] = 0
+    d['IsRetrievable'] = 0
+    d['IsLocalizable'] = 0
+    d['Format'] = 'datetime'
+    d['Behavior'] = 1
+    d['displaynames'] = _displayname(col.display_name)
+    d['Descriptions'] = _description('')
+    return full_name, _attr(d)
+
+
+def _custom_dateonly(col: Column, prefix: str) -> tuple[str, dict]:
+    full_name = prefixed(col.name, prefix)
+    req_level = 'required' if col.required else 'none'
+    mask = 'ValidForAdvancedFind|ValidForForm|ValidForGrid'
+    if col.required:
+        mask += '|RequiredForForm'
+
+    d = _base(full_name, 'datetime', full_name, req_level,
+              update=1, read=1, create=1,
+              is_custom=1, audit=1, version=1.0,
+              display_mask=mask,
+              ime='auto')
+    d['IsSearchable'] = 0
+    d['IsFilterable'] = 0
+    d['IsRetrievable'] = 0
+    d['IsLocalizable'] = 0
+    d['Format'] = 'date'
+    d['Behavior'] = 1
+    d['displaynames'] = _displayname(col.display_name)
+    d['Descriptions'] = _description('')
+    return full_name, _attr(d)
+
+
 def _custom_lookup(col: Column, prefix: str) -> tuple[str, dict]:
     full_name = prefixed(col.name, prefix)
     req_level = 'required' if col.required else 'recommended'
@@ -360,8 +406,14 @@ def generate(entity: Entity, prefix: str) -> dict[str, dict]:
             name, data = _custom_string(col, prefix)
         elif col.type == 'lookup':
             name, data = _custom_lookup(col, prefix)
-        else:
+        elif col.type == 'datetime':
+            name, data = _custom_datetime(col, prefix)
+        elif col.type == 'dateonly':
+            name, data = _custom_dateonly(col, prefix)
+        elif col.type == 'choice':
             name, data = _custom_choice(col, prefix)
+        else:
+            raise ValueError(f"Unsupported column type: {col.type}")
         files[f"{base}/{name}.yml"] = data
 
     for sys_name, sys_data in _system_attributes(entity, prefix):

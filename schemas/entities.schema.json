@@ -10,7 +10,9 @@
           "enum": [
             "string",
             "lookup",
-            "choice"
+            "choice",
+            "datetime",
+            "dateonly"
           ],
           "title": "Type",
           "type": "string"
