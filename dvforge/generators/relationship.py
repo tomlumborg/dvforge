@@ -70,7 +70,7 @@ def _system_relationships(entity: Entity, prefix: str) -> dict[str, dict]:
         (
             f"business_unit_{full}",
             full, 'BusinessUnit', 'OwningBusinessUnit',
-            'Restrict', 'NoCascade',
+            'Restrict', 'Restrict',
             'Unique identifier for the business unit that owns the record',
         ),
         (

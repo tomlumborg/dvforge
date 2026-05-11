@@ -48,7 +48,7 @@ def _main_form(entity: Entity, prefix: str) -> tuple[str, dict]:
     data = {
         'systemform': {
             'formid': f'{{{form_uuid}}}',
-            'IntroducedVersion': '1.0',
+            'IntroducedVersion': 1.0,
             'FormPresentation': 1,
             'FormActivationState': 1,
             'form': {
@@ -101,7 +101,7 @@ def _quick_form(entity: Entity, prefix: str) -> tuple[str, dict]:
     data = {
         'systemform': {
             'formid': f'{{{form_uuid}}}',
-            'IntroducedVersion': '1.0',
+            'IntroducedVersion': 1.0,
             'FormPresentation': 1,
             'FormActivationState': 1,
             'form': {
@@ -262,7 +262,7 @@ def _card_form(entity: Entity, prefix: str) -> tuple[str, dict]:
     data = {
         'systemform': {
             'formid': f'{{{form_uuid}}}',
-            'IntroducedVersion': '1.0',
+            'IntroducedVersion': 1.0,
             'FormPresentation': 1,
             'FormActivationState': 1,
             'form': {

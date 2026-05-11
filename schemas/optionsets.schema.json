@@ -1,0 +1,62 @@
+{
+  "$defs": {
+    "OptionSet": {
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "options": {
+          "items": {
+            "$ref": "#/$defs/OptionValue"
+          },
+          "title": "Options",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "display_name",
+        "options"
+      ],
+      "title": "OptionSet",
+      "type": "object"
+    },
+    "OptionValue": {
+      "properties": {
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ],
+      "title": "OptionValue",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "optionsets": {
+      "items": {
+        "$ref": "#/$defs/OptionSet"
+      },
+      "title": "Optionsets",
+      "type": "array"
+    }
+  },
+  "required": [
+    "optionsets"
+  ],
+  "title": "_OptionSetsFile",
+  "type": "object"
+}

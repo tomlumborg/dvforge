@@ -74,6 +74,7 @@ def _parse_column(raw: dict) -> Column:
         type=raw["type"],
         display_name=raw["display_name"],
         required=raw.get("required", False),
+        primary_name=raw.get("primary_name", False),
         max_length=raw.get("max_length"),
         option_set=raw.get("option_set"),
         related_table=raw.get("related_table"),

@@ -76,7 +76,7 @@ def _active(entity: Entity, prefix: str) -> tuple[str, dict]:
             'layoutxml': _layout(id_field, name_field),
             'querytype': 0,
             'fetchxml': {'fetch': fetch},
-            'IntroducedVersion': '1.0',
+            'IntroducedVersion': 1.0,
             'LocalizedNames': {'LocalizedName': {'@description': f"Active {entity.display_name_plural}", '@languagecode': 1033}},
         }
     }
@@ -104,7 +104,7 @@ def _inactive(entity: Entity, prefix: str) -> tuple[str, dict]:
             'layoutxml': _layout(id_field, name_field),
             'querytype': 0,
             'fetchxml': {'fetch': fetch},
-            'IntroducedVersion': '1.0',
+            'IntroducedVersion': 1.0,
             'LocalizedNames': {'LocalizedName': {'@description': f"Inactive {entity.display_name_plural}", '@languagecode': 1033}},
         }
     }
@@ -143,7 +143,7 @@ def _my_records(entity: Entity, prefix: str) -> tuple[str, dict]:
             'savedqueryid': f'{{{uid}}}',
             'querytype': 8192,
             'fetchxml': {'fetch': fetch},
-            'IntroducedVersion': '1.0',
+            'IntroducedVersion': 1.0,
             'LocalizedNames': {'LocalizedName': {'@description': f"My {entity.display_name_plural}", '@languagecode': 1033}},
             'Descriptions': {'Description': {'@description': f"Active {entity.display_name_plural} owned by me", '@languagecode': 1033}},
         }
@@ -171,7 +171,7 @@ def _advanced_find(entity: Entity, prefix: str) -> tuple[str, dict]:
             'layoutxml': _layout(id_field, name_field),
             'querytype': 1,
             'fetchxml': {'fetch': fetch},
-            'IntroducedVersion': '1.0',
+            'IntroducedVersion': 1.0,
             'LocalizedNames': {'LocalizedName': {'@description': f"{entity.display_name} Advanced Find View", '@languagecode': 1033}},
         }
     }
@@ -199,7 +199,7 @@ def _associated(entity: Entity, prefix: str) -> tuple[str, dict]:
             'layoutxml': _layout(id_field, name_field, grid_name=f"{full}s", row_name=full),
             'querytype': 2,
             'fetchxml': {'fetch': fetch},
-            'IntroducedVersion': '1.0',
+            'IntroducedVersion': 1.0,
             'LocalizedNames': {'LocalizedName': {'@description': f"{entity.display_name} Associated View", '@languagecode': 1033}},
         }
     }
@@ -226,7 +226,7 @@ def _lookup_view(entity: Entity, prefix: str) -> tuple[str, dict]:
             'layoutxml': _layout(id_field, name_field, grid_name=f"{full}s", row_name=full, preview=0),
             'querytype': 64,
             'fetchxml': {'fetch': fetch},
-            'IntroducedVersion': '1.0',
+            'IntroducedVersion': 1.0,
             'LocalizedNames': {'LocalizedName': {'@description': f"{entity.display_name} Lookup View", '@languagecode': 1033}},
         }
     }
@@ -269,7 +269,7 @@ def _quick_find(entity: Entity, prefix: str) -> tuple[str, dict]:
             'layoutxml': _layout(id_field, name_field),
             'querytype': 4,
             'fetchxml': {'fetch': fetch},
-            'IntroducedVersion': '1.0',
+            'IntroducedVersion': 1.0,
             'LocalizedNames': {'LocalizedName': {'@description': f"Quick Find Active {entity.display_name_plural}", '@languagecode': 1033}},
         }
     }

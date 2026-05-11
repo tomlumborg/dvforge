@@ -65,7 +65,7 @@ def generate(config: Config, managed: bool, component_files: list[str]) -> dict[
     solution_data = {
         'ImportExportXml': {
             '@version': '9.2.26035.182',
-            '@SolutionPackageVersion': '9.2',
+            '@SolutionPackageVersion': 9.2,
             '@languagecode': 1033,
             '@generatedBy': 'CrmLive',
             '@xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',

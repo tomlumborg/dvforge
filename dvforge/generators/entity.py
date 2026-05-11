@@ -12,7 +12,7 @@ def generate(entity: Entity, prefix: str) -> dict[str, dict]:
         'Entity': {
             'Name': {
                 '@LocalizedName': entity.display_name,
-                '@OriginalName': entity.name,
+                '@OriginalName': entity.display_name,
                 '#text': full_name,
             },
             'EntityInfo': {

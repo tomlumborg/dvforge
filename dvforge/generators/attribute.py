@@ -79,7 +79,7 @@ def _primary_key(entity_name: str, prefix: str) -> tuple[str, dict]:
 
 def _custom_string(col: Column, prefix: str) -> tuple[str, dict]:
     full_name = prefixed(col.name, prefix)
-    is_name_field = col.name == 'name'
+    is_name_field = col.primary_name
     req_level = 'required' if col.required else 'none'
 
     mask = 'PrimaryName|ValidForAdvancedFind|ValidForForm|ValidForGrid' if is_name_field \
@@ -105,6 +105,76 @@ def _custom_string(col: Column, prefix: str) -> tuple[str, dict]:
     return full_name, _attr(d)
 
 
+def _custom_datetime(col: Column, prefix: str) -> tuple[str, dict]:
+    full_name = prefixed(col.name, prefix)
+    req_level = 'required' if col.required else 'none'
+    mask = 'ValidForAdvancedFind|ValidForForm|ValidForGrid'
+    if col.required:
+        mask += '|RequiredForForm'
+
+    d = _base(full_name, 'datetime', full_name, req_level,
+              update=1, read=1, create=1,
+              is_custom=1, audit=1, version=1.0,
+              display_mask=mask,
+              ime='auto')
+    d['IsSearchable'] = 0
+    d['IsFilterable'] = 0
+    d['IsRetrievable'] = 0
+    d['IsLocalizable'] = 0
+    d['Format'] = 'datetime'
+    d['Behavior'] = 1
+    d['displaynames'] = _displayname(col.display_name)
+    d['Descriptions'] = _description('')
+    return full_name, _attr(d)
+
+
+def _custom_dateonly(col: Column, prefix: str) -> tuple[str, dict]:
+    full_name = prefixed(col.name, prefix)
+    req_level = 'required' if col.required else 'none'
+    mask = 'ValidForAdvancedFind|ValidForForm|ValidForGrid'
+    if col.required:
+        mask += '|RequiredForForm'
+
+    d = _base(full_name, 'datetime', full_name, req_level,
+              update=1, read=1, create=1,
+              is_custom=1, audit=1, version=1.0,
+              display_mask=mask,
+              ime='auto')
+    d['IsSearchable'] = 0
+    d['IsFilterable'] = 0
+    d['IsRetrievable'] = 0
+    d['IsLocalizable'] = 0
+    d['Format'] = 'date'
+    d['Behavior'] = 1
+    d['displaynames'] = _displayname(col.display_name)
+    d['Descriptions'] = _description('')
+    return full_name, _attr(d)
+
+
+def _custom_int(col: Column, prefix: str) -> tuple[str, dict]:
+    full_name = prefixed(col.name, prefix)
+    req_level = 'required' if col.required else 'none'
+    mask = 'ValidForAdvancedFind|ValidForForm|ValidForGrid'
+    if col.required:
+        mask += '|RequiredForForm'
+
+    d = _base(full_name, 'int', full_name, req_level,
+              update=1, read=1, create=1,
+              is_custom=1, audit=1, version=1.0,
+              display_mask=mask,
+              ime='disabled')
+    d['IsSearchable'] = 0
+    d['IsFilterable'] = 0
+    d['IsRetrievable'] = 0
+    d['IsLocalizable'] = 0
+    d['Format'] = ''
+    d['MinValue'] = -2147483648
+    d['MaxValue'] = 2147483647
+    d['displaynames'] = _displayname(col.display_name)
+    d['Descriptions'] = _description('')
+    return full_name, _attr(d)
+
+
 def _custom_lookup(col: Column, prefix: str) -> tuple[str, dict]:
     full_name = prefixed(col.name, prefix)
     req_level = 'required' if col.required else 'recommended'
@@ -112,8 +182,8 @@ def _custom_lookup(col: Column, prefix: str) -> tuple[str, dict]:
               update=1, read=1, create=1,
               is_custom=1, audit=0, version='1.0.0.0',
               display_mask='ValidForAdvancedFind|ValidForForm|ValidForGrid',
-              ime='')
-    del d['ImeMode']  # custom lookups have no ImeMode in the output
+              ime='auto')
+    d['ImeMode']  # custom lookups have no ImeMode in the output
     d['IsSearchable'] = 0
     d['IsFilterable'] = 0
     d['IsRetrievable'] = 0
@@ -146,8 +216,8 @@ def _custom_choice(col: Column, prefix: str) -> tuple[str, dict]:
 
 # ── System attribute definitions ──────────────────────────────────────────────
 
-def _system_attributes(entity_name: str, prefix: str) -> list[tuple[str, dict]]:
-    full_entity = prefixed(entity_name, prefix)
+def _system_attributes(entity: Entity, prefix: str) -> list[tuple[str, dict]]:
+    full_entity = prefixed(entity.name, prefix)
 
     def _slookup(physical: str, name: str, display: str, desc: str,
                  mask: str = 'ValidForAdvancedFind|ValidForForm|ValidForGrid',
@@ -291,7 +361,7 @@ def _system_attributes(entity_name: str, prefix: str) -> list[tuple[str, dict]]:
                     'IntroducedVersion': 1.0,
                     'IsCustomizable': 1,
                     'displaynames': _displayname('Status'),
-                    'Descriptions': _description(f"Status of the {entity_name}"),
+                    'Descriptions': _description(f"Status of the {entity.display_name}"),
                     'states': {
                         'state': [
                             {'@value': 0, '@defaultstatus': 1, '@invariantname': 'Active',
@@ -302,7 +372,7 @@ def _system_attributes(entity_name: str, prefix: str) -> list[tuple[str, dict]]:
                     },
                 },
                 'displaynames': _displayname('Status'),
-                'Descriptions': _description(f"Status of the {entity_name}"),
+                'Descriptions': _description(f"Status of the {entity.name}"),
             }),
         ),
         (
@@ -322,7 +392,7 @@ def _system_attributes(entity_name: str, prefix: str) -> list[tuple[str, dict]]:
                     'IntroducedVersion': 1.0,
                     'IsCustomizable': 1,
                     'displaynames': _displayname('Status Reason'),
-                    'Descriptions': _description(f"Reason for the status of the {entity_name}"),
+                    'Descriptions': _description(f"Reason for the status of the {entity.display_name}"),
                     'statuses': {
                         'status': [
                             {'@value': 1, '@state': 0,
@@ -333,7 +403,7 @@ def _system_attributes(entity_name: str, prefix: str) -> list[tuple[str, dict]]:
                     },
                 },
                 'displaynames': _displayname('Status Reason'),
-                'Descriptions': _description(f"Reason for the status of the {entity_name}"),
+                'Descriptions': _description(f"Reason for the status of the {entity.name}"),
             }),
         ),
         _sint('TimeZoneRuleVersionNumber', 'timezoneruleversionnumber',
@@ -360,11 +430,19 @@ def generate(entity: Entity, prefix: str) -> dict[str, dict]:
             name, data = _custom_string(col, prefix)
         elif col.type == 'lookup':
             name, data = _custom_lookup(col, prefix)
-        else:
+        elif col.type == 'datetime':
+            name, data = _custom_datetime(col, prefix)
+        elif col.type == 'dateonly':
+            name, data = _custom_dateonly(col, prefix)
+        elif col.type == 'int':
+            name, data = _custom_int(col, prefix)
+        elif col.type == 'choice':
             name, data = _custom_choice(col, prefix)
+        else:
+            raise ValueError(f"Unsupported column type: {col.type}")
         files[f"{base}/{name}.yml"] = data
 
-    for sys_name, sys_data in _system_attributes(entity.name, prefix):
+    for sys_name, sys_data in _system_attributes(entity, prefix):
         files[f"{base}/{sys_name}.yml"] = sys_data
 
     return files
