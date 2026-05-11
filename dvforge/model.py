@@ -31,7 +31,7 @@ class OptionSet(BaseModel):
 
 class Column(BaseModel):
     name: str           # without prefix
-    type: Literal["string", "lookup", "choice", "datetime", "dateonly"]
+    type: Literal["string", "lookup", "choice", "datetime", "dateonly", "int"]
     display_name: str
     required: bool = False
     primary_name: bool = False
@@ -45,10 +45,10 @@ class Column(BaseModel):
             raise ValueError(f"Column '{self.name}': choice columns must specify option_set")
         if self.type == "lookup" and not self.related_table:
             raise ValueError(f"Column '{self.name}': lookup columns must specify related_table")
-        if self.type in ("datetime", "dateonly") and self.related_table:
-            raise ValueError(f"Column '{self.name}': datetime/dateonly columns cannot specify related_table")
-        if self.type in ("datetime", "dateonly") and self.option_set:
-            raise ValueError(f"Column '{self.name}': datetime/dateonly columns cannot specify option_set")
+        if self.type in ("datetime", "dateonly", "int") and self.related_table:
+            raise ValueError(f"Column '{self.name}': datetime/dateonly/int columns cannot specify related_table")
+        if self.type in ("datetime", "dateonly", "int") and self.option_set:
+            raise ValueError(f"Column '{self.name}': datetime/dateonly/int columns cannot specify option_set")
         return self
 
 

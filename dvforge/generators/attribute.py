@@ -151,6 +151,30 @@ def _custom_dateonly(col: Column, prefix: str) -> tuple[str, dict]:
     return full_name, _attr(d)
 
 
+def _custom_int(col: Column, prefix: str) -> tuple[str, dict]:
+    full_name = prefixed(col.name, prefix)
+    req_level = 'required' if col.required else 'none'
+    mask = 'ValidForAdvancedFind|ValidForForm|ValidForGrid'
+    if col.required:
+        mask += '|RequiredForForm'
+
+    d = _base(full_name, 'int', full_name, req_level,
+              update=1, read=1, create=1,
+              is_custom=1, audit=1, version=1.0,
+              display_mask=mask,
+              ime='disabled')
+    d['IsSearchable'] = 0
+    d['IsFilterable'] = 0
+    d['IsRetrievable'] = 0
+    d['IsLocalizable'] = 0
+    d['Format'] = ''
+    d['MinValue'] = -2147483648
+    d['MaxValue'] = 2147483647
+    d['displaynames'] = _displayname(col.display_name)
+    d['Descriptions'] = _description('')
+    return full_name, _attr(d)
+
+
 def _custom_lookup(col: Column, prefix: str) -> tuple[str, dict]:
     full_name = prefixed(col.name, prefix)
     req_level = 'required' if col.required else 'recommended'
@@ -410,6 +434,8 @@ def generate(entity: Entity, prefix: str) -> dict[str, dict]:
             name, data = _custom_datetime(col, prefix)
         elif col.type == 'dateonly':
             name, data = _custom_dateonly(col, prefix)
+        elif col.type == 'int':
+            name, data = _custom_int(col, prefix)
         elif col.type == 'choice':
             name, data = _custom_choice(col, prefix)
         else:

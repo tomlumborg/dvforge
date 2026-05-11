@@ -12,7 +12,8 @@
             "lookup",
             "choice",
             "datetime",
-            "dateonly"
+            "dateonly",
+            "int"
           ],
           "title": "Type",
           "type": "string"
