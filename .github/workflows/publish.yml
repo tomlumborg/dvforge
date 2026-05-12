@@ -8,6 +8,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src
     environment:
       name: npm
       url: https://www.npmjs.com/package/dvforge
