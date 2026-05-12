@@ -2,21 +2,21 @@
 
 ## Context
 
-`dvforge` compiles compact YAML into a Microsoft Dataverse solution tree. The Python package lives in `python/`. The repo was recently reorganised to clear the root for a new npm package. Goal: a TypeScript package in `src/` runnable via `npx dvforge` with identical CLI interface and identical YAML output.
+`dvforge` compiles compact YAML into a Microsoft Dataverse solution tree. The Python package lives in `python/`. The repo was recently reorganised to clear the root for a new npm package. Goal: a TypeScript package in `npx/` runnable via `npx dvforge` with identical CLI interface and identical YAML output.
 
 ---
 
 ## Step 1 — Scaffolding
 
-Create `src/` as the npm package root.
+Create `npx/` as the npm package root.
 
 **Files to create:**
 
-- `src/package.json`
-- `src/tsconfig.json`
-- `src/tsup.config.ts`
+- `npx/package.json`
+- `npx/tsconfig.json`
+- `npx/tsup.config.ts`
 
-**`src/package.json`** (key fields):
+**`npx/package.json`** (key fields):
 ```json
 {
   "name": "dvforge",
@@ -46,7 +46,7 @@ Create `src/` as the npm package root.
 }
 ```
 
-**`src/tsup.config.ts`**:
+**`npx/tsup.config.ts`**:
 ```ts
 import { defineConfig } from "tsup";
 export default defineConfig({
@@ -60,7 +60,7 @@ export default defineConfig({
 });
 ```
 
-**`src/tsconfig.json`**:
+**`npx/tsconfig.json`**:
 ```json
 {
   "compilerOptions": {
@@ -78,7 +78,7 @@ export default defineConfig({
 
 ---
 
-## Step 2 — Data Models (`src/model.ts`)
+## Step 2 — Data Models (`npx/model.ts`)
 
 Port `python/dvforge/model.py` (Pydantic → Zod).
 
@@ -96,7 +96,7 @@ Models to port: `Publisher`, `Solution`, `OptionValue`, `OptionSet`, `Column` (w
 
 ---
 
-## Step 3 — Utilities (`src/utils.ts`)
+## Step 3 — Utilities (`npx/utils.ts`)
 
 Port `python/dvforge/utils.py`.
 
@@ -139,7 +139,7 @@ export function readYaml(filePath: string): unknown {
 
 ---
 
-## Step 4 — Loader (`src/loader.ts`)
+## Step 4 — Loader (`npx/loader.ts`)
 
 Port `python/dvforge/loader.py`.
 
@@ -156,23 +156,23 @@ Use `fs.readdirSync(...).sort()` for sorted glob. Use `readYaml` + Zod parse for
 
 Port these four generators (all straightforward dict → object translations):
 
-### `src/generators/ribbondiff.ts`
+### `npx/generators/ribbondiff.ts`
 Port `python/dvforge/generators/ribbondiff.py`. Fixed structure, no float values.
 
-### `src/generators/publisher.ts`
+### `npx/generators/publisher.ts`
 Port `python/dvforge/generators/publisher.py`. Contains `_nil()` helper returning `{ '@xsi:nil': true, '@xmlns:xsi': '...' }` and an `_address()` builder.
 
-### `src/generators/optionset.ts`
+### `npx/generators/optionset.ts`
 Port `python/dvforge/generators/optionset.py`. Note: `IntroducedVersion: '1.0.0.0'` is a **string** here (not a float) — no `f()` needed.
 
-### `src/generators/entity.ts`
+### `npx/generators/entity.ts`
 Port `python/dvforge/generators/entity.py`. Note: `IntroducedVersion: f(1.0)` — this IS a float in the Python source.
 
 ---
 
-## Step 6 — Attribute Generator (`src/generators/attribute.ts`)
+## Step 6 — Attribute Generator (`npx/generators/attribute.ts`)
 
-Port `python/dvforge/generators/attribute.py` (the largest file, 448 lines).
+Port `python/dvforge/generators/attribute.py` (the largest file, 448 lines). Lives at `npx/generators/attribute.ts`.
 
 Key points:
 - `_base()` returns a plain object with fixed insertion order — maintain key order exactly
@@ -186,26 +186,26 @@ Key points:
 
 ## Step 7 — Remaining Generators
 
-### `src/generators/relationship.ts`
+### `npx/generators/relationship.ts`
 Port `python/dvforge/generators/relationship.py`.
 
 Key: `_rel()` conditionally inserts `CascadeRollupView` and `IsValidForAdvancedFind` between `CascadeUnshare` and `ReferencingAttributeName` when `is_custom=true`. Maintain this key order exactly.
 System relationships use `introduced_version=1.0` → `f(1.0)`. Custom relationships use `'1.0.0.0'` string.
 
-### `src/generators/formxml.ts`
+### `npx/generators/formxml.ts`
 Port `python/dvforge/generators/formxml.py`. Three form builders: main, quick, card. All use `detUuid()` for deterministic IDs. Use `f(1.0)` for `IntroducedVersion`.
 
-### `src/generators/savedquery.ts`
+### `npx/generators/savedquery.ts`
 Port `python/dvforge/generators/savedquery.py`. Seven view builders. Use `f(1.0)` for `IntroducedVersion` and `@version`.
 
-### `src/generators/solution.ts`
+### `npx/generators/solution.ts`
 Port `python/dvforge/generators/solution.py`. The `_component_paths()` sort logic must be ported exactly — it determines solution component ordering. `@SolutionPackageVersion` is `f(9.2)`.
 
 ---
 
-## Step 8 — Compiler (`src/compiler.ts`)
+## Step 8 — Compiler (`npx/compiler.ts`)
 
-Port `python/dvforge/compiler.py`. Orchestrates all generators, collects a `Map<string, unknown>`, then:
+Port `python/dvforge/compiler.py` into `npx/compiler.ts`. Orchestrates all generators, collects a `Map<string, unknown>`, then:
 1. `fs.rmSync(outputDir, { recursive: true, force: true })`
 2. `fs.mkdirSync(outputDir, { recursive: true })`
 3. Write each file via `writeYaml`
@@ -215,9 +215,9 @@ Generator call order must match Python exactly:
 
 ---
 
-## Step 9 — CLI (`src/cli.ts`)
+## Step 9 — CLI (`npx/cli.ts`)
 
-Port `python/dvforge/__main__.py` using `commander`.
+Port `python/dvforge/__main__.py` using `commander` into `npx/cli.ts`.
 
 Three subcommands:
 - `build` — `--input` (required), `--output` (required), `--version`, `--unmanaged`, `--dry-run`
@@ -231,7 +231,7 @@ Note: `--ignore-key` is repeatable in click (`multiple=True`). In commander use 
 
 ---
 
-## Step 10 — Tester (`src/tester.ts`)
+## Step 10 — Tester (`npx/tester.ts`)
 
 Port `python/dvforge/tester.py`.
 
@@ -243,11 +243,11 @@ Default ignored keys (always applied): `@version`, `Managed` — plus any `--ign
 
 ---
 
-## Step 11 — Schema Generator (`src/schemaGen.ts`)
+## Step 11 — Schema Generator (`npx/schemaGen.ts`)
 
 Port `python/dvforge/schema_gen.py`.
 
-Use `zod-to-json-schema` to convert Zod schemas to JSON Schema objects. Wrap each in an envelope schema matching the Python `_SolutionFile`, `_OptionSetsFile`, `_EntitiesFile` wrappers.
+Port `python/dvforge/schema_gen.py` into `npx/schemaGen.ts`. Use `zod-to-json-schema` to convert Zod schemas to JSON Schema objects. Wrap each in an envelope schema matching the Python `_SolutionFile`, `_OptionSetsFile`, `_EntitiesFile` wrappers.
 
 Write JSON with `JSON.stringify(..., null, 2)`. Read/merge `.vscode/settings.json` with graceful JSON parse failure.
 
@@ -256,7 +256,7 @@ Write JSON with `JSON.stringify(..., null, 2)`. Read/merge `.vscode/settings.jso
 ## Step 12 — Build & Verify
 
 ```bash
-cd src
+cd npx
 npm install
 npm run build      # tsup bundles to dist/cli.js
 npm run typecheck  # tsc --noEmit
@@ -294,7 +294,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: src
+        working-directory: npx
     permissions:
       contents: read
       id-token: write

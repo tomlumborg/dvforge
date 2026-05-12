@@ -4,7 +4,7 @@
 
 `dvforge` is a CLI tool that compiles compact, human-friendly YAML files into a complete Microsoft Dataverse-compatible solution tree. The output is ready to be packed with `pac solution pack` for deployment.
 
-The Python package lives in `python/`. This repo is mid-migration to a TypeScript npm package in `src/` that is runnable via `npx dvforge`. The Python code is the source of truth — the TypeScript must produce **byte-for-byte identical YAML output**.
+The Python package lives in `python/`. This repo is mid-migration to a TypeScript npm package in `npx/` that is runnable via `npx dvforge`. The Python code is the source of truth — the TypeScript must produce **byte-for-byte identical YAML output**.
 
 ---
 
@@ -33,7 +33,7 @@ python/                        ← existing Python package (do not modify)
   schemas/                     ← generated JSON schemas (solution, optionsets, entities)
   pyproject.toml
 
-src/                           ← new TypeScript npm package (being built)
+npx/                           ← new TypeScript npm package (being built)
   package.json
   tsconfig.json
   tsup.config.ts
@@ -164,7 +164,7 @@ V8 preserves object literal insertion order for string keys (ES2015+), so plain 
 
 JavaScript has no float/int distinction, so `1.0 === 1` and `yaml.stringify({v: 1.0})` outputs `v: 1` not `v: 1.0`. Python's ruamel.yaml outputs `v: 1.0` for Python `float` values.
 
-**Fix:** `src/utils.ts` exports a helper `f(n)` that wraps a number in a yaml `Scalar` with `type: 'FLOAT'`, forcing decimal output:
+**Fix:** `npx/utils.ts` exports a helper `f(n)` that wraps a number in a yaml `Scalar` with `type: 'FLOAT'`, forcing decimal output:
 
 ```ts
 import { Scalar } from "yaml";
@@ -234,7 +234,7 @@ Each step below is self-contained. Start by reading the referenced Python file(s
 
 Create these three files:
 
-**`src/package.json`**
+**`npx/package.json`**
 ```json
 {
   "name": "dvforge",
@@ -266,7 +266,7 @@ Create these three files:
 }
 ```
 
-**`src/tsconfig.json`**
+**`npx/tsconfig.json`**
 ```json
 {
   "compilerOptions": {
@@ -283,7 +283,7 @@ Create these three files:
 }
 ```
 
-**`src/tsup.config.ts`**
+**`npx/tsup.config.ts`**
 ```ts
 import { defineConfig } from "tsup";
 export default defineConfig({
@@ -297,11 +297,11 @@ export default defineConfig({
 });
 ```
 
-**Verify:** `cd src && npm install` should succeed with no errors.
+**Verify:** `cd npx && npm install` should succeed with no errors.
 
 ---
 
-### Step 2 — Data Models (`src/model.ts`)
+### Step 2 — Data Models (`npx/model.ts`)
 
 **Goal:** Port `python/dvforge/model.py` from Pydantic to Zod.
 
@@ -327,11 +327,11 @@ The `Column` cross-field validator checks:
 Export the inferred types: `Publisher`, `Solution`, `OptionValue`, `OptionSet`, `Column`, `Relationship`, `Entity`, `Config`.
 Also export the raw schemas for use in `schemaGen.ts`: `SolutionSchema`, `OptionSetSchema`, `EntitySchema`, etc.
 
-**Verify:** `cd src && npm run typecheck` passes (once all files exist; stub others as needed).
+**Verify:** `cd npx && npm run typecheck` passes (once all files exist; stub others as needed).
 
 ---
 
-### Step 3 — Utilities (`src/utils.ts`)
+### Step 3 — Utilities (`npx/utils.ts`)
 
 **Goal:** Port `python/dvforge/utils.py` and add the float helper.
 
@@ -385,7 +385,7 @@ python3 -c "import uuid; print(uuid.uuid5(uuid.NAMESPACE_URL, 'ts_deal:main'))"
 
 ---
 
-### Step 4 — Loader (`src/loader.ts`)
+### Step 4 — Loader (`npx/loader.ts`)
 
 **Goal:** Port `python/dvforge/loader.py`.
 
@@ -406,7 +406,7 @@ Export: `function load(inputDir: string): Config`
 
 **Goal:** Port four straightforward generators.
 
-#### `src/generators/ribbondiff.ts`
+#### `npx/generators/ribbondiff.ts`
 
 Read: `python/dvforge/generators/ribbondiff.py`
 
@@ -416,7 +416,7 @@ Fixed-structure object. No float values. Returns `Record<string, unknown>` keyed
 export function generate(entity: Entity, prefix: string): Record<string, unknown> { ... }
 ```
 
-#### `src/generators/publisher.ts`
+#### `npx/generators/publisher.ts`
 
 Read: `python/dvforge/generators/publisher.py`
 
@@ -425,13 +425,13 @@ Contains:
 - `address(number)` builder using spread of `_NIL_BEFORE` and `_NIL_AFTER` arrays
 - No float values (`CustomizationOptionValuePrefix` is an integer, not `1.0`)
 
-#### `src/generators/optionset.ts`
+#### `npx/generators/optionset.ts`
 
 Read: `python/dvforge/generators/optionset.py`
 
 Note: `IntroducedVersion: '1.0.0.0'` here is a **string** in the Python source — no `f()` needed.
 
-#### `src/generators/entity.ts`
+#### `npx/generators/entity.ts`
 
 Read: `python/dvforge/generators/entity.py`
 
@@ -439,7 +439,7 @@ Note: `IntroducedVersion: f(1.0)` — this IS a Python float in the source. Use 
 
 ---
 
-### Step 6 — Attribute Generator (`src/generators/attribute.ts`)
+### Step 6 — Attribute Generator (`npx/generators/attribute.ts`)
 
 **Goal:** Port `python/dvforge/generators/attribute.py` (448 lines, most complex file).
 
@@ -464,7 +464,7 @@ The return type for each generator is `tuple[fieldName: string, data: Record<str
 
 ---
 
-### Step 7 — Relationship Generator (`src/generators/relationship.ts`)
+### Step 7 — Relationship Generator (`npx/generators/relationship.ts`)
 
 **Goal:** Port `python/dvforge/generators/relationship.py`.
 
@@ -493,7 +493,7 @@ Float values:
 
 ---
 
-### Step 8 — Form Generator (`src/generators/formxml.ts`)
+### Step 8 — Form Generator (`npx/generators/formxml.ts`)
 
 **Goal:** Port `python/dvforge/generators/formxml.py`.
 
@@ -509,7 +509,7 @@ Export: `generate(entity: Entity, prefix: string): Record<string, unknown>`
 
 ---
 
-### Step 9 — Saved Query Generator (`src/generators/savedquery.ts`)
+### Step 9 — Saved Query Generator (`npx/generators/savedquery.ts`)
 
 **Goal:** Port `python/dvforge/generators/savedquery.py`.
 
@@ -523,7 +523,7 @@ Use `f(1.0)` for:
 
 ---
 
-### Step 10 — Solution Generator (`src/generators/solution.ts`)
+### Step 10 — Solution Generator (`npx/generators/solution.ts`)
 
 **Goal:** Port `python/dvforge/generators/solution.py`.
 
@@ -541,7 +541,7 @@ Outputs four files: `solution.yml`, `solutioncomponents.yml`, `rootcomponents.ym
 
 ---
 
-### Step 11 — Compiler (`src/compiler.ts`)
+### Step 11 — Compiler (`npx/compiler.ts`)
 
 **Goal:** Port `python/dvforge/compiler.py`.
 
@@ -594,7 +594,7 @@ export function compile(config: Config, outputDir: string, managed = true): void
 
 ---
 
-### Step 12 — CLI (`src/cli.ts`)
+### Step 12 — CLI (`npx/cli.ts`)
 
 **Goal:** Port `python/dvforge/__main__.py` using commander.
 
@@ -644,7 +644,7 @@ Mirror the Python console output exactly (the `click.echo` lines in `__main__.py
 
 ---
 
-### Step 13 — Tester (`src/tester.ts`)
+### Step 13 — Tester (`npx/tester.ts`)
 
 **Goal:** Port `python/dvforge/tester.py`.
 
@@ -691,7 +691,7 @@ Coloured output:
 
 ---
 
-### Step 14 — Schema Generator (`src/schemaGen.ts`)
+### Step 14 — Schema Generator (`npx/schemaGen.ts`)
 
 **Goal:** Port `python/dvforge/schema_gen.py`.
 
@@ -739,7 +739,7 @@ export function generate(projectDir: string): string[] {
 **Goal:** Confirm everything compiles.
 
 ```bash
-cd src
+cd npx
 npm install
 npm run build
 npm run typecheck
@@ -767,7 +767,7 @@ Create a minimal test fixture with one entity and one column of each type. Run b
 cd python && pip install -e . && dvforge build --input ../test-fixture --output /tmp/py-out
 
 # Build with TypeScript
-cd src && node dist/cli.js build --input ../test-fixture --output /tmp/ts-out
+cd npx && node dist/cli.js build --input ../test-fixture --output /tmp/ts-out
 
 # Diff
 diff -r /tmp/py-out /tmp/ts-out
@@ -793,7 +793,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: src
+        working-directory: npx
     permissions:
       contents: read
       id-token: write
@@ -817,20 +817,20 @@ The existing `python/.github/workflows/publish.yml` (PyPI) is unchanged.
 
 ## Completion checklist
 
-- [ ] Step 1: `src/package.json`, `src/tsconfig.json`, `src/tsup.config.ts`
-- [ ] Step 2: `src/model.ts`
-- [ ] Step 3: `src/utils.ts`
-- [ ] Step 4: `src/loader.ts`
-- [ ] Step 5: `src/generators/ribbondiff.ts`, `publisher.ts`, `optionset.ts`, `entity.ts`
-- [ ] Step 6: `src/generators/attribute.ts`
-- [ ] Step 7: `src/generators/relationship.ts`
-- [ ] Step 8: `src/generators/formxml.ts`
-- [ ] Step 9: `src/generators/savedquery.ts`
-- [ ] Step 10: `src/generators/solution.ts`
-- [ ] Step 11: `src/compiler.ts`
-- [ ] Step 12: `src/cli.ts`
-- [ ] Step 13: `src/tester.ts`
-- [ ] Step 14: `src/schemaGen.ts`
+- [ ] Step 1: `npx/package.json`, `npx/tsconfig.json`, `npx/tsup.config.ts`
+- [ ] Step 2: `npx/model.ts`
+- [ ] Step 3: `npx/utils.ts`
+- [ ] Step 4: `npx/loader.ts`
+- [ ] Step 5: `npx/generators/ribbondiff.ts`, `publisher.ts`, `optionset.ts`, `entity.ts`
+- [ ] Step 6: `npx/generators/attribute.ts`
+- [ ] Step 7: `npx/generators/relationship.ts`
+- [ ] Step 8: `npx/generators/formxml.ts`
+- [ ] Step 9: `npx/generators/savedquery.ts`
+- [ ] Step 10: `npx/generators/solution.ts`
+- [ ] Step 11: `npx/compiler.ts`
+- [ ] Step 12: `npx/cli.ts`
+- [ ] Step 13: `npx/tester.ts`
+- [ ] Step 14: `npx/schemaGen.ts`
 - [ ] Step 15: Build & typecheck pass
 - [ ] Step 16: Diff verification clean
 - [ ] Step 17: `.github/workflows/publish-npm.yml`
