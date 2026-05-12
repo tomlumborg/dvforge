@@ -1,3 +1,0 @@
-ruamel.yaml>=0.18
-pydantic>=2.0
-click>=8.0

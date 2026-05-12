@@ -2,14 +2,6 @@
 
 Compile compact, human-friendly YAML into a complete Microsoft Dataverse solution tree — ready to pack with `pac solution pack`.
 
-## Install
-
-```bash
-pip install -r requirements.txt
-```
-
-Requires Python 3.10+.
-
 ## Commands
 
 ### `dvforge build`
@@ -17,7 +9,7 @@ Requires Python 3.10+.
 Compile your input YAML into a Dataverse solution tree.
 
 ```bash
-python -m dvforge build --input ./my-solution --output ./output
+npx dvforge build --input ./my-solution --output ./output
 ```
 
 | Flag | Description |
@@ -28,10 +20,16 @@ python -m dvforge build --input ./my-solution --output ./output
 | `--unmanaged` | Generate an unmanaged solution (default: managed) |
 | `--dry-run` | Print output paths without writing any files |
 
-Then pack with PAC:
+Then pack with PAC [link_here](https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction):
 
 ```bash
 pac solution pack --zipfile MySolution.zip --folder .\output\.
+```
+
+And import
+
+```bash
+pac solution import -p MySolution.zip -env $(DV_ENV_URL) -up -pc
 ```
 
 ---
@@ -41,7 +39,7 @@ pac solution pack --zipfile MySolution.zip --folder .\output\.
 Build and compare the output against a real `pac solution unpack` directory to check for discrepancies.
 
 ```bash
-python -m dvforge test --input ./my-solution --actual ./pac-unpack
+npx dvforge test --input ./my-solution --actual ./pac-unpack
 ```
 
 | Flag | Description |
@@ -77,9 +75,9 @@ solution:
   display_name: My Solution
   version: 1.0.0.0
   publisher:
-    name: TheSummit
-    display_name: TheSummit
-    prefix: ts
+    name: TomLumborg
+    display_name: TomLumborg
+    prefix: tl
     option_value_prefix: 12687
 ```
 
@@ -87,7 +85,7 @@ solution:
 
 ```yaml
 optionsets:
-  - name: deal_stage          # no prefix — dvforge adds ts_
+  - name: deal_stage          # no prefix — dvforge adds tl_
     display_name: deal_stage
     options:
       - label: Talks Open
@@ -100,7 +98,7 @@ optionsets:
 
 ```yaml
 entities:
-  - name: deal                # no prefix — dvforge adds ts_
+  - name: deal                # no prefix — dvforge adds tl_
     display_name: Deal
     display_name_plural: Deals
     description:
@@ -147,4 +145,4 @@ For each entity:
 
 Globally: `publisher.yml`, option set files, `solution.yml`, `solutioncomponents.yml`, `rootcomponents.yml`, `missingdependencies.yml`.
 
-The output directory is wiped and recreated on every build — no stale files.
+The output directory is wiped and recreated on every build.
