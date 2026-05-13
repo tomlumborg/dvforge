@@ -1,4 +1,4 @@
-import { f, prefixed } from "../utils.js";
+import { floatScalar, prefixed } from "../utils.js";
 import type { Column, Entity } from "../model.js";
 
 const _MODIFIABLE: Record<string, unknown> = {
@@ -37,7 +37,7 @@ function _base(
   create: number,
   isCustom: number,
   audit: number,
-  version: string | ReturnType<typeof f>,
+  version: string | ReturnType<typeof floatScalar>,
   displayMask: string = "",
   ime: string = "auto"
 ): Record<string, unknown> {
@@ -75,7 +75,7 @@ function _primaryKey(entityName: string, prefix: string): [string, Record<string
     fieldName,
     "systemrequired",
     0, 1, 1,
-    0, 0, f(1.0),
+    0, 0, floatScalar(1.0),
     "ValidForAdvancedFind|RequiredForGrid"
   );
   d["CanModifyRequirementLevelSettings"] = 0;
@@ -104,7 +104,7 @@ function _customString(col: Column, prefix: string): [string, Record<string, unk
   const d = _base(
     fullName, "nvarchar", fullName, reqLevel,
     1, 1, 1,
-    1, 1, f(1.0),
+    1, 1, floatScalar(1.0),
     mask
   );
   d["AutoNumberFormat"] = "";
@@ -131,7 +131,7 @@ function _customDatetime(col: Column, prefix: string): [string, Record<string, u
   const d = _base(
     fullName, "datetime", fullName, reqLevel,
     1, 1, 1,
-    1, 1, f(1.0),
+    1, 1, floatScalar(1.0),
     mask,
     "auto"
   );
@@ -157,7 +157,7 @@ function _customDateonly(col: Column, prefix: string): [string, Record<string, u
   const d = _base(
     fullName, "datetime", fullName, reqLevel,
     1, 1, 1,
-    1, 1, f(1.0),
+    1, 1, floatScalar(1.0),
     mask,
     "auto"
   );
@@ -183,7 +183,7 @@ function _customInt(col: Column, prefix: string): [string, Record<string, unknow
   const d = _base(
     fullName, "int", fullName, reqLevel,
     1, 1, 1,
-    1, 1, f(1.0),
+    1, 1, floatScalar(1.0),
     mask,
     "disabled"
   );
@@ -191,7 +191,7 @@ function _customInt(col: Column, prefix: string): [string, Record<string, unknow
   d["IsFilterable"] = 0;
   d["IsRetrievable"] = 0;
   d["IsLocalizable"] = 0;
-  d["Format"] = "";
+  d["Format"] = "none";
   d["MinValue"] = -2147483648;
   d["MaxValue"] = 2147483647;
   d["displaynames"] = _displayname(col.display_name);
@@ -261,7 +261,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
     const d = _base(
       physical, "lookup", name, "none",
       0, 1, create,
-      0, audit, f(1.0),
+      0, audit, floatScalar(1.0),
       mask
     );
     d["IsSearchable"] = 0;
@@ -293,7 +293,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
     const d = _base(
       physical, "datetime", name, "none",
       0, 1, create,
-      0, audit, f(1.0),
+      0, audit, floatScalar(1.0),
       mask,
       "inactive"
     );
@@ -326,7 +326,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
     const d = _base(
       physical, "int", name, "none",
       update, 1, create,
-      0, audit, f(1.0),
+      0, audit, floatScalar(1.0),
       mask, ime
     );
     d["IsSearchable"] = 0;
@@ -353,7 +353,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
       "Import Sequence Number",
       "Sequence number of the import that created this record.",
       "", -2147483648, 2147483647,
-      0, 0, 1,
+      1, 0, 1,
       "ValidForAdvancedFind", "disabled"),
     _slookup("ModifiedBy", "modifiedby", "Modified By",
       "Unique identifier of the user who modified the record."),
@@ -372,7 +372,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
         ..._base(
           "OwnerId", "owner", "ownerid", "systemrequired",
           1, 1, 1,
-          0, 1, f(1.0),
+          0, 1, floatScalar(1.0),
           "ValidForAdvancedFind|ValidForForm|ValidForGrid|RequiredForForm"
         ),
         IsSearchable: 0,
@@ -405,7 +405,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
         ..._base(
           "statecode", "state", "statecode", "systemrequired",
           1, 1, 0,
-          0, 1, f(1.0),
+          0, 1, floatScalar(1.0),
           "ValidForAdvancedFind|ValidForForm|ValidForGrid"
         ),
         IsSearchable: 0,
@@ -415,7 +415,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
         optionset: {
           "@Name": `${fullEntity}_statecode`,
           OptionSetType: "state",
-          IntroducedVersion: f(1.0),
+          IntroducedVersion: floatScalar(1.0),
           IsCustomizable: 1,
           displaynames: _displayname("Status"),
           Descriptions: _description(`Status of the ${entity.display_name}`),
@@ -446,7 +446,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
         ..._base(
           "statuscode", "status", "statuscode", "none",
           1, 1, 1,
-          0, 1, f(1.0),
+          0, 1, floatScalar(1.0),
           "ValidForAdvancedFind|ValidForForm|ValidForGrid"
         ),
         IsSearchable: 0,
@@ -456,7 +456,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
         optionset: {
           "@Name": `${fullEntity}_statuscode`,
           OptionSetType: "status",
-          IntroducedVersion: f(1.0),
+          IntroducedVersion: floatScalar(1.0),
           IsCustomizable: 1,
           displaynames: _displayname("Status Reason"),
           Descriptions: _description(`Reason for the status of the ${entity.display_name}`),

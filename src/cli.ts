@@ -18,27 +18,32 @@ program
   .option("--unmanaged", "Generate an unmanaged solution (default: managed)", false)
   .option("--dry-run", "Print output paths without writing files", false)
   .action((opts: { input: string; output: string; version?: string; unmanaged: boolean; dryRun: boolean }) => {
-    const config = load(opts.input);
+    try {
+      const config = load(opts.input);
 
-    if (opts.version) {
-      config.solution.version = opts.version;
+      if (opts.version) {
+        config.solution.version = opts.version;
+      }
+
+      const managed = !opts.unmanaged;
+
+      console.log(`Solution : ${config.solution.name} v${config.solution.version} (${opts.unmanaged ? "unmanaged" : "managed"})`);
+      console.log(`Publisher: ${config.solution.publisher.name} (${config.solution.publisher.prefix}_)`);
+      console.log(`Entities : ${config.entities.map((e) => e.name).join(", ")}`);
+      console.log(`Input    : ${opts.input}`);
+      console.log(`Output   : ${opts.output}`);
+
+      if (opts.dryRun) {
+        console.log("\n[dry-run] No files written.");
+        return;
+      }
+
+      compile(config, opts.output, managed);
+      console.log("\nDone.");
+    } catch (err) {
+      console.error((err as Error).message);
+      process.exit(1);
     }
-
-    const managed = !opts.unmanaged;
-
-    console.log(`Solution : ${config.solution.name} v${config.solution.version} (${opts.unmanaged ? "unmanaged" : "managed"})`);
-    console.log(`Publisher: ${config.solution.publisher.name} (${config.solution.publisher.prefix}_)`);
-    console.log(`Entities : ${config.entities.map((e) => e.name).join(", ")}`);
-    console.log(`Input    : ${opts.input}`);
-    console.log(`Output   : ${opts.output}`);
-
-    if (opts.dryRun) {
-      console.log("\n[dry-run] No files written.");
-      return;
-    }
-
-    compile(config, opts.output, managed);
-    console.log("\nDone.");
   });
 
 // ── test ──────────────────────────────────────────────────────────────────────
@@ -67,25 +72,30 @@ program
       skipBuild: boolean;
       ignoreKey: string[];
     }) => {
-      if (opts.skipBuild && !opts.out) {
-        console.error("error: --skip-build requires --out <existing output directory>");
+      try {
+        if (opts.skipBuild && !opts.out) {
+          console.error("error: --skip-build requires --out <existing output directory>");
+          process.exit(1);
+        }
+
+        // known keys to ignore
+        const ignore = new Set([...opts.ignoreKey, "@version", "Managed"]);
+
+        const ok = await testerRun({
+          inputDir: opts.input,
+          actual: opts.actual,
+          outDir: opts.out ?? null,
+          solVersion: opts.version ?? null,
+          unmanaged: opts.unmanaged,
+          skipBuild: opts.skipBuild,
+          ignore,
+        });
+
+        process.exit(ok ? 0 : 1);
+      } catch (err) {
+        console.error((err as Error).message);
         process.exit(1);
       }
-
-      // known keys to ignore
-      const ignore = new Set([...opts.ignoreKey, "@version", "Managed"]);
-
-      const ok = await testerRun({
-        inputDir: opts.input,
-        actual: opts.actual,
-        outDir: opts.out ?? null,
-        solVersion: opts.version ?? null,
-        unmanaged: opts.unmanaged,
-        skipBuild: opts.skipBuild,
-        ignore,
-      });
-
-      process.exit(ok ? 0 : 1);
     }
   );
 

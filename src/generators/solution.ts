@@ -1,4 +1,4 @@
-import { f, prefixed } from "../utils.js";
+import { floatScalar, prefixed } from "../utils.js";
 import type { Config } from "../model.js";
 
 function componentPaths(config: Config, componentFiles: string[]): string[] {
@@ -68,7 +68,7 @@ export function generate(
   const solutionData = {
     ImportExportXml: {
       "@version": "9.2.26035.182",
-      "@SolutionPackageVersion": f(9.2),
+      "@SolutionPackageVersion": floatScalar(9.2),
       "@languagecode": 1033,
       "@generatedBy": "CrmLive",
       "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",

@@ -1,32 +1,37 @@
 import type { Publisher } from "../model.js";
 
-const _NIL_BEFORE = [
-  "City", "County", "Country", "Fax", "FreightTermsCode", "ImportSequenceNumber",
-  "Latitude", "Line1", "Line2", "Line3", "Longitude", "Name", "PostalCode",
-  "PostOfficeBox", "PrimaryContactName",
-];
-const _NIL_AFTER = [
-  "StateOrProvince", "Telephone1", "Telephone2", "Telephone3",
-  "TimeZoneRuleVersionNumber", "UPSZone", "UTCOffset", "UTCConversionTimeZoneCode",
-];
-
 function nil(): Record<string, unknown> {
   return { "@xsi:nil": true, "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance" };
 }
 
 function address(number: number): Record<string, unknown> {
-  const before: Record<string, unknown> = {};
-  for (const f of _NIL_BEFORE) before[f] = nil();
-
-  const after: Record<string, unknown> = {};
-  for (const f of _NIL_AFTER) after[f] = nil();
-
   return {
     AddressNumber: number,
     AddressTypeCode: 1,
-    ...before,
+    City: nil(),
+    County: nil(),
+    Country: nil(),
+    Fax: nil(),
+    FreightTermsCode: nil(),
+    ImportSequenceNumber: nil(),
+    Latitude: nil(),
+    Line1: nil(),
+    Line2: nil(),
+    Line3: nil(),
+    Longitude: nil(),
+    Name: nil(),
+    PostalCode: nil(),
+    PostOfficeBox: nil(),
+    PrimaryContactName: nil(),
     ShippingMethodCode: 1,
-    ...after,
+    StateOrProvince: nil(),
+    Telephone1: nil(),
+    Telephone2: nil(),
+    Telephone3: nil(),
+    TimeZoneRuleVersionNumber: nil(),
+    UPSZone: nil(),
+    UTCOffset: nil(),
+    UTCConversionTimeZoneCode: nil(),
   };
 }
 

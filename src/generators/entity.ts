@@ -1,5 +1,5 @@
 import type { Entity } from "../model.js";
-import { prefixed, f } from "../utils.js";
+import { prefixed, floatScalar } from "../utils.js";
 
 export function generate(entity: Entity, prefix: string): Record<string, unknown> {
   const fullName = prefixed(entity.name, prefix);
@@ -69,7 +69,7 @@ export function generate(entity: Entity, prefix: string): Record<string, unknown
           IsReadingPaneEnabled: 1,
           IsQuickCreateEnabled: 0,
           SyncToExternalSearchIndex: 0,
-          IntroducedVersion: f(1.0),
+          IntroducedVersion: floatScalar(1.0),
           IsCustomizable: 1,
           IsRenameable: 1,
           IsMappable: 1,

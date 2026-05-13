@@ -25,7 +25,7 @@ export function compile(config: Config, outputDir: string, managed = true): void
     for (const [k, v] of Object.entries(optionset.generate(os, publisherPrefix)))
       files.set(k, v);
 
-  // entity
+  // entities
   for (const ent of config.entities) {
     for (const gen of [entity, attribute, formxml, savedquery, ribbondiff, relationship])
       for (const [k, v] of Object.entries(gen.generate(ent, publisherPrefix)))
