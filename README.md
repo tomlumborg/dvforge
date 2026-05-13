@@ -75,6 +75,7 @@ optionsets:
 ```
 
 ### `entities/*.yml`
+One entity per file
 
 ```yaml
 entities:
@@ -109,7 +110,7 @@ entities:
 - `choice` requires `option_set`
 - `lookup` requires `related_table`
 
-**Prefixes:** never write the publisher prefix in your input files — dvforge stamps `{prefix}_` on all names at compile time.
+**Prefixes:** never write the publisher prefix in your input files - dvforge stamps `{prefix}_` on all names at compile time.
 
 **Relationships:** defined on the entity that holds the lookup column (the "many" side). Only one-to-many is supported.
 
