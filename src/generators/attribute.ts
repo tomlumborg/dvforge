@@ -191,7 +191,7 @@ function _customInt(col: Column, prefix: string): [string, Record<string, unknow
   d["IsFilterable"] = 0;
   d["IsRetrievable"] = 0;
   d["IsLocalizable"] = 0;
-  d["Format"] = "";
+  d["Format"] = "none";
   d["MinValue"] = -2147483648;
   d["MaxValue"] = 2147483647;
   d["displaynames"] = _displayname(col.display_name);
@@ -353,7 +353,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
       "Import Sequence Number",
       "Sequence number of the import that created this record.",
       "", -2147483648, 2147483647,
-      0, 0, 1,
+      1, 0, 1,
       "ValidForAdvancedFind", "disabled"),
     _slookup("ModifiedBy", "modifiedby", "Modified By",
       "Unique identifier of the user who modified the record."),
