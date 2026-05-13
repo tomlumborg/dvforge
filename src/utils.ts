@@ -11,11 +11,9 @@ export function detUuid(seed: string): string {
   return uuidv5(seed, uuidv5.URL);
 }
 
-// Wraps a number in a YAML Scalar so it serialises as e.g. 1.0 not 1.
-// Use this anywhere the Python source has a float literal like 1.0 or 9.2.
-export function f(n: number): Scalar {
+export function floatScalar(n: number, fractionDigits = 1): Scalar {
   const s = new Scalar(n);
-  s.minFractionDigits = 1;
+  s.minFractionDigits = fractionDigits;
   return s;
 }
 
