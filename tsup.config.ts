@@ -1,6 +1,6 @@
 import { defineConfig } from "tsup";
 export default defineConfig({
-  entry: ["cli.ts"],
+  entry: ["src/cli.ts"],
   format: ["cjs"],
   target: "node18",
   bundle: true,
