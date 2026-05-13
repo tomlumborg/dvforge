@@ -1,0 +1,12 @@
+*
+!*/**
+
+!src
+!package.json
+!package-lock.json
+!readme.md
+!tsconfig.json
+!tsup.config.ts
+
+!.github/
+!.gitignore
