@@ -1,7 +1,7 @@
 import { floatScalar, prefixed } from "../utils.js";
 import type { Column, Entity } from "../model.js";
 
-const _MODIFIABLE: Record<string, unknown> = {
+const _DEFAULTS: Record<string, unknown> = {
   IsCustomizable: 1,
   IsRenameable: 1,
   CanModifySearchSettings: 1,
@@ -13,7 +13,29 @@ const _MODIFIABLE: Record<string, unknown> = {
   CanModifyGlobalFilterSettings: 1,
   CanModifyIsSortableSettings: 1,
   IsDataSourceSecret: 0,
+  IsSecured: 0,
 };
+
+type AttrEntry = [string, Record<string, unknown>];
+
+interface BaseConfig {
+  physical: string;
+  type: string;
+  name: string;
+  required: string;
+  update: number;
+  read: number;
+  create: number;
+  isCustom: number;
+  audit: number;
+  version: string | ReturnType<typeof floatScalar>;
+  displayMask?: string;
+  ime?: string;
+  searchable?: number;
+  filterable?: number;
+  retrievable?: number;
+  localizable?: number;
+}
 
 function _displayname(description: string): Record<string, unknown> {
   return { displayname: { "@description": description, "@languagecode": 1033 } };
@@ -27,71 +49,60 @@ function _attr(data: Record<string, unknown>): Record<string, unknown> {
   return { attribute: data };
 }
 
-function _base(
-  physical: string,
-  attrType: string,
-  name: string,
-  required: string,
-  update: number,
-  read: number,
-  create: number,
-  isCustom: number,
-  audit: number,
-  version: string | ReturnType<typeof floatScalar>,
-  displayMask: string = "",
-  ime: string = "auto"
-): Record<string, unknown> {
+function _reqLevel(required: boolean): string {
+  return required ? "required" : "none";
+}
+
+function _base(cfg: BaseConfig): Record<string, unknown> {
   const d: Record<string, unknown> = {
-    "@PhysicalName": physical,
-    Type: attrType,
-    Name: name,
-    LogicalName: name,
-    RequiredLevel: required,
+    "@PhysicalName": cfg.physical,
+    Type: cfg.type,
+    Name: cfg.name,
+    LogicalName: cfg.name,
+    RequiredLevel: cfg.required,
   };
-  if (displayMask) {
-    d["DisplayMask"] = displayMask;
+  if (cfg.displayMask) {
+    d["DisplayMask"] = cfg.displayMask;
   }
-  d["ImeMode"] = ime;
-  d["ValidForUpdateApi"] = update;
-  d["ValidForReadApi"] = read;
-  d["ValidForCreateApi"] = create;
-  d["IsCustomField"] = isCustom;
-  d["IsAuditEnabled"] = audit;
-  d["IsSecured"] = 0;
-  d["IntroducedVersion"] = version;
-  Object.assign(d, _MODIFIABLE);
+  d["ImeMode"] = cfg.ime ?? "auto";
+  d["ValidForUpdateApi"] = cfg.update;
+  d["ValidForReadApi"] = cfg.read;
+  d["ValidForCreateApi"] = cfg.create;
+  d["IsCustomField"] = cfg.isCustom;
+  d["IsAuditEnabled"] = cfg.audit;
+  d["IsSearchable"] = cfg.searchable ?? 0;
+  d["IsFilterable"] = cfg.filterable ?? 0;
+  d["IsRetrievable"] = cfg.retrievable ?? 0;
+  d["IsLocalizable"] = cfg.localizable ?? 0;
+  d["IntroducedVersion"] = cfg.version;
+  Object.assign(d, _DEFAULTS);
   return d;
 }
 
-// ── Custom attribute generators ───────────────────────────────────────────────
+// ── Custom attributes ───────────────────────────────────────────────
 
-function _primaryKey(entityName: string, prefix: string): [string, Record<string, unknown>] {
+function _primaryKey(entityName: string, prefix: string): AttrEntry {
   const fullEntity = prefixed(entityName, prefix);
   const fieldName = `${fullEntity}id`;
   const physical = `${fullEntity}Id`;
-  const d = _base(
-    physical,
-    "primarykey",
-    fieldName,
-    "systemrequired",
-    0, 1, 1,
-    0, 0, floatScalar(1.0),
-    "ValidForAdvancedFind|RequiredForGrid"
-  );
+  const d = _base({
+    physical, type: "primarykey", name: fieldName, required: "systemrequired",
+    update: 0, read: 1, create: 1,
+    isCustom: 0, audit: 0,
+    version: floatScalar(1.0),
+    displayMask: "ValidForAdvancedFind|RequiredForGrid",
+    filterable: 1, retrievable: 1,
+  });
   d["CanModifyRequirementLevelSettings"] = 0;
-  d["IsSearchable"] = 0;
-  d["IsFilterable"] = 1;
-  d["IsRetrievable"] = 1;
-  d["IsLocalizable"] = 0;
   d["displaynames"] = _displayname(entityName);
   d["Descriptions"] = _description("Unique identifier for entity instances");
   return [fieldName, _attr(d)];
 }
 
-function _customString(col: Column, prefix: string): [string, Record<string, unknown>] {
+function _customString(col: Column, prefix: string): AttrEntry {
   const fullName = prefixed(col.name, prefix);
   const isNameField = col.primary_name;
-  const reqLevel = col.required ? "required" : "none";
+  const reqLevel = _reqLevel(col.required);
 
   let mask = isNameField
     ? "PrimaryName|ValidForAdvancedFind|ValidForForm|ValidForGrid"
@@ -101,17 +112,15 @@ function _customString(col: Column, prefix: string): [string, Record<string, unk
   }
 
   const maxLen = col.max_length ?? 100;
-  const d = _base(
-    fullName, "nvarchar", fullName, reqLevel,
-    1, 1, 1,
-    1, 1, floatScalar(1.0),
-    mask
-  );
+  const d = _base({
+    physical: fullName, type: "nvarchar", name: fullName, required: reqLevel,
+    update: 1, read: 1, create: 1,
+    isCustom: 1, audit: 1,
+    version: floatScalar(1.0),
+    displayMask: mask,
+    searchable: isNameField ? 1 : 0, retrievable: 1,
+  });
   d["AutoNumberFormat"] = "";
-  d["IsSearchable"] = isNameField ? 1 : 0;
-  d["IsFilterable"] = 0;
-  d["IsRetrievable"] = 1;
-  d["IsLocalizable"] = 0;
   d["Format"] = "text";
   d["MaxLength"] = maxLen;
   d["Length"] = maxLen * 2;
@@ -120,25 +129,21 @@ function _customString(col: Column, prefix: string): [string, Record<string, unk
   return [fullName, _attr(d)];
 }
 
-function _customDatetime(col: Column, prefix: string): [string, Record<string, unknown>] {
+function _customDatetime(col: Column, prefix: string): AttrEntry {
   const fullName = prefixed(col.name, prefix);
-  const reqLevel = col.required ? "required" : "none";
+  const reqLevel = _reqLevel(col.required);
   let mask = "ValidForAdvancedFind|ValidForForm|ValidForGrid";
   if (col.required) {
     mask += "|RequiredForForm";
   }
 
-  const d = _base(
-    fullName, "datetime", fullName, reqLevel,
-    1, 1, 1,
-    1, 1, floatScalar(1.0),
-    mask,
-    "auto"
-  );
-  d["IsSearchable"] = 0;
-  d["IsFilterable"] = 0;
-  d["IsRetrievable"] = 0;
-  d["IsLocalizable"] = 0;
+  const d = _base({
+    physical: fullName, type: "datetime", name: fullName, required: reqLevel,
+    update: 1, read: 1, create: 1,
+    isCustom: 1, audit: 1,
+    version: floatScalar(1.0),
+    displayMask: mask, ime: "auto",
+  });
   d["Format"] = "datetime";
   d["Behavior"] = 1;
   d["displaynames"] = _displayname(col.display_name);
@@ -146,25 +151,21 @@ function _customDatetime(col: Column, prefix: string): [string, Record<string, u
   return [fullName, _attr(d)];
 }
 
-function _customDateonly(col: Column, prefix: string): [string, Record<string, unknown>] {
+function _customDateonly(col: Column, prefix: string): AttrEntry {
   const fullName = prefixed(col.name, prefix);
-  const reqLevel = col.required ? "required" : "none";
+  const reqLevel = _reqLevel(col.required);
   let mask = "ValidForAdvancedFind|ValidForForm|ValidForGrid";
   if (col.required) {
     mask += "|RequiredForForm";
   }
 
-  const d = _base(
-    fullName, "datetime", fullName, reqLevel,
-    1, 1, 1,
-    1, 1, floatScalar(1.0),
-    mask,
-    "auto"
-  );
-  d["IsSearchable"] = 0;
-  d["IsFilterable"] = 0;
-  d["IsRetrievable"] = 0;
-  d["IsLocalizable"] = 0;
+  const d = _base({
+    physical: fullName, type: "datetime", name: fullName, required: reqLevel,
+    update: 1, read: 1, create: 1,
+    isCustom: 1, audit: 1,
+    version: floatScalar(1.0),
+    displayMask: mask, ime: "auto",
+  });
   d["Format"] = "date";
   d["Behavior"] = 1;
   d["displaynames"] = _displayname(col.display_name);
@@ -172,25 +173,21 @@ function _customDateonly(col: Column, prefix: string): [string, Record<string, u
   return [fullName, _attr(d)];
 }
 
-function _customInt(col: Column, prefix: string): [string, Record<string, unknown>] {
+function _customInt(col: Column, prefix: string): AttrEntry {
   const fullName = prefixed(col.name, prefix);
-  const reqLevel = col.required ? "required" : "none";
+  const reqLevel = _reqLevel(col.required);
   let mask = "ValidForAdvancedFind|ValidForForm|ValidForGrid";
   if (col.required) {
     mask += "|RequiredForForm";
   }
 
-  const d = _base(
-    fullName, "int", fullName, reqLevel,
-    1, 1, 1,
-    1, 1, floatScalar(1.0),
-    mask,
-    "disabled"
-  );
-  d["IsSearchable"] = 0;
-  d["IsFilterable"] = 0;
-  d["IsRetrievable"] = 0;
-  d["IsLocalizable"] = 0;
+  const d = _base({
+    physical: fullName, type: "int", name: fullName, required: reqLevel,
+    update: 1, read: 1, create: 1,
+    isCustom: 1, audit: 1,
+    version: floatScalar(1.0),
+    displayMask: mask, ime: "disabled",
+  });
   d["Format"] = "none";
   d["MinValue"] = -2147483648;
   d["MaxValue"] = 2147483647;
@@ -199,21 +196,16 @@ function _customInt(col: Column, prefix: string): [string, Record<string, unknow
   return [fullName, _attr(d)];
 }
 
-function _customLookup(col: Column, prefix: string): [string, Record<string, unknown>] {
+function _customLookup(col: Column, prefix: string): AttrEntry {
   const fullName = prefixed(col.name, prefix);
-  const reqLevel = col.required ? "required" : "recommended";
-  const d = _base(
-    fullName, "lookup", fullName, reqLevel,
-    1, 1, 1,
-    1, 0, "1.0.0.0",
-    "ValidForAdvancedFind|ValidForForm|ValidForGrid",
-    "auto"
-  );
-  // Python line 186 d['ImeMode'] is a no-op bare dict read — ImeMode stays in object
-  d["IsSearchable"] = 0;
-  d["IsFilterable"] = 0;
-  d["IsRetrievable"] = 0;
-  d["IsLocalizable"] = 0;
+  const reqLevel = _reqLevel(col.required);
+  const d = _base({
+    physical: fullName, type: "lookup", name: fullName, required: reqLevel,
+    update: 1, read: 1, create: 1,
+    isCustom: 1, audit: 0,
+    version: "1.0.0.0",
+    displayMask: "ValidForAdvancedFind|ValidForForm|ValidForGrid", ime: "auto",
+  });
   d["LookupStyle"] = "single";
   d["LookupTypes"] = null;
   d["displaynames"] = _displayname(col.display_name);
@@ -221,20 +213,17 @@ function _customLookup(col: Column, prefix: string): [string, Record<string, unk
   return [fullName, _attr(d)];
 }
 
-function _customChoice(col: Column, prefix: string): [string, Record<string, unknown>] {
+function _customChoice(col: Column, prefix: string): AttrEntry {
   const fullName = prefixed(col.name, prefix);
   const optionSetName = col.option_set ? prefixed(col.option_set, prefix) : "";
-  const reqLevel = col.required ? "required" : "none";
-  const d = _base(
-    fullName, "picklist", fullName, reqLevel,
-    1, 1, 1,
-    1, 1, "1.0.0.0",
-    "ValidForAdvancedFind|ValidForForm|ValidForGrid"
-  );
-  d["IsSearchable"] = 0;
-  d["IsFilterable"] = 0;
-  d["IsRetrievable"] = 0;
-  d["IsLocalizable"] = 0;
+  const reqLevel = _reqLevel(col.required);
+  const d = _base({
+    physical: fullName, type: "picklist", name: fullName, required: reqLevel,
+    update: 1, read: 1, create: 1,
+    isCustom: 1, audit: 1,
+    version: "1.0.0.0",
+    displayMask: "ValidForAdvancedFind|ValidForForm|ValidForGrid",
+  });
   d["AppDefaultValue"] = -1;
   d["OptionSetName"] = optionSetName;
   d["displaynames"] = _displayname(col.display_name);
@@ -242,9 +231,9 @@ function _customChoice(col: Column, prefix: string): [string, Record<string, unk
   return [fullName, _attr(d)];
 }
 
-// ── System attribute definitions ──────────────────────────────────────────────
+// ── System attributes ──────────────────────────────────────────────
 
-function _systemAttributes(entity: Entity, prefix: string): Array<[string, Record<string, unknown>]> {
+function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
   const fullEntity = prefixed(entity.name, prefix);
 
   function _slookup(
@@ -257,17 +246,15 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
     filterable: number = 0,
     logical: boolean = false,
     create: number = 0
-  ): [string, Record<string, unknown>] {
-    const d = _base(
-      physical, "lookup", name, "none",
-      0, 1, create,
-      0, audit, floatScalar(1.0),
-      mask
-    );
-    d["IsSearchable"] = 0;
-    d["IsFilterable"] = filterable;
-    d["IsRetrievable"] = 0;
-    d["IsLocalizable"] = 0;
+  ): AttrEntry {
+    const d = _base({
+      physical, type: "lookup", name, required: "none",
+      update: 0, read: 1, create,
+      isCustom: 0, audit,
+      version: floatScalar(1.0),
+      displayMask: mask,
+      filterable,
+    });
     if (logical) {
       d["IsLogical"] = 1;
     }
@@ -289,18 +276,15 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
     create: number = 0,
     audit: number = 0,
     mask: string = "ValidForAdvancedFind|ValidForForm|ValidForGrid"
-  ): [string, Record<string, unknown>] {
-    const d = _base(
-      physical, "datetime", name, "none",
-      0, 1, create,
-      0, audit, floatScalar(1.0),
-      mask,
-      "inactive"
-    );
-    d["IsSearchable"] = 0;
-    d["IsFilterable"] = filterable;
-    d["IsRetrievable"] = retrievable;
-    d["IsLocalizable"] = 0;
+  ): AttrEntry {
+    const d = _base({
+      physical, type: "datetime", name, required: "none",
+      update: 0, read: 1, create,
+      isCustom: 0, audit,
+      version: floatScalar(1.0),
+      displayMask: mask, ime: "inactive",
+      filterable, retrievable,
+    });
     d["Format"] = fmt;
     d["CanChangeDateTimeBehavior"] = 0;
     d["Behavior"] = 1;
@@ -322,17 +306,14 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
     audit: number = 0,
     mask: string = "",
     ime: string = "auto"
-  ): [string, Record<string, unknown>] {
-    const d = _base(
-      physical, "int", name, "none",
-      update, 1, create,
-      0, audit, floatScalar(1.0),
-      mask, ime
-    );
-    d["IsSearchable"] = 0;
-    d["IsFilterable"] = 0;
-    d["IsRetrievable"] = 0;
-    d["IsLocalizable"] = 0;
+  ): AttrEntry {
+    const d = _base({
+      physical, type: "int", name, required: "none",
+      update, read: 1, create,
+      isCustom: 0, audit,
+      version: floatScalar(1.0),
+      displayMask: mask, ime,
+    });
     d["Format"] = fmt;
     d["MinValue"] = minVal;
     d["MaxValue"] = maxVal;
@@ -341,7 +322,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
     return [name, _attr(d)];
   }
 
-  const attrs: Array<[string, Record<string, unknown>]> = [
+  const attrs: AttrEntry[] = [
     _slookup("CreatedBy", "createdby", "Created By",
       "Unique identifier of the user who created the record."),
     _sdatetime("CreatedOn", "createdon", "Created On",
@@ -369,16 +350,14 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
     [
       "ownerid",
       _attr({
-        ..._base(
-          "OwnerId", "owner", "ownerid", "systemrequired",
-          1, 1, 1,
-          0, 1, floatScalar(1.0),
-          "ValidForAdvancedFind|ValidForForm|ValidForGrid|RequiredForForm"
-        ),
-        IsSearchable: 0,
-        IsFilterable: 1,
-        IsRetrievable: 0,
-        IsLocalizable: 0,
+        ..._base({
+          physical: "OwnerId", type: "owner", name: "ownerid", required: "systemrequired",
+          update: 1, read: 1, create: 1,
+          isCustom: 0, audit: 1,
+          version: floatScalar(1.0),
+          displayMask: "ValidForAdvancedFind|ValidForForm|ValidForGrid|RequiredForForm",
+          filterable: 1,
+        }),
         LookupStyle: "single",
         LookupTypes: {
           LookupType: [
@@ -402,16 +381,14 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
     [
       "statecode",
       _attr({
-        ..._base(
-          "statecode", "state", "statecode", "systemrequired",
-          1, 1, 0,
-          0, 1, floatScalar(1.0),
-          "ValidForAdvancedFind|ValidForForm|ValidForGrid"
-        ),
-        IsSearchable: 0,
-        IsFilterable: 1,
-        IsRetrievable: 0,
-        IsLocalizable: 0,
+        ..._base({
+          physical: "statecode", type: "state", name: "statecode", required: "systemrequired",
+          update: 1, read: 1, create: 0,
+          isCustom: 0, audit: 1,
+          version: floatScalar(1.0),
+          displayMask: "ValidForAdvancedFind|ValidForForm|ValidForGrid",
+          filterable: 1,
+        }),
         optionset: {
           "@Name": `${fullEntity}_statecode`,
           OptionSetType: "state",
@@ -443,16 +420,13 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
     [
       "statuscode",
       _attr({
-        ..._base(
-          "statuscode", "status", "statuscode", "none",
-          1, 1, 1,
-          0, 1, floatScalar(1.0),
-          "ValidForAdvancedFind|ValidForForm|ValidForGrid"
-        ),
-        IsSearchable: 0,
-        IsFilterable: 0,
-        IsRetrievable: 0,
-        IsLocalizable: 0,
+        ..._base({
+          physical: "statuscode", type: "status", name: "statuscode", required: "none",
+          update: 1, read: 1, create: 1,
+          isCustom: 0, audit: 1,
+          version: floatScalar(1.0),
+          displayMask: "ValidForAdvancedFind|ValidForForm|ValidForGrid",
+        }),
         optionset: {
           "@Name": `${fullEntity}_statuscode`,
           OptionSetType: "status",
@@ -488,7 +462,7 @@ function _systemAttributes(entity: Entity, prefix: string): Array<[string, Recor
   return attrs;
 }
 
-// ── Public entry point ────────────────────────────────────────────────────────
+// ── Generator entry ────────────────────────────────────────────────────────
 
 export function generate(entity: Entity, prefix: string): Record<string, unknown> {
   const fullEntity = prefixed(entity.name, prefix);
@@ -498,24 +472,19 @@ export function generate(entity: Entity, prefix: string): Record<string, unknown
   const [pkName, pkData] = _primaryKey(entity.name, prefix);
   files[`${base}/${pkName}.yml`] = pkData;
 
+  const generators: Record<string, (col: Column, prefix: string) => AttrEntry> = {
+    string: _customString,
+    lookup: _customLookup,
+    datetime: _customDatetime,
+    dateonly: _customDateonly,
+    int: _customInt,
+    choice: _customChoice,
+  };
+
   for (const col of entity.columns) {
-    let name: string;
-    let data: Record<string, unknown>;
-    if (col.type === "string") {
-      [name, data] = _customString(col, prefix);
-    } else if (col.type === "lookup") {
-      [name, data] = _customLookup(col, prefix);
-    } else if (col.type === "datetime") {
-      [name, data] = _customDatetime(col, prefix);
-    } else if (col.type === "dateonly") {
-      [name, data] = _customDateonly(col, prefix);
-    } else if (col.type === "int") {
-      [name, data] = _customInt(col, prefix);
-    } else if (col.type === "choice") {
-      [name, data] = _customChoice(col, prefix);
-    } else {
-      throw new Error(`Unsupported column type: ${col.type}`);
-    }
+    const gen = generators[col.type];
+    if (!gen) throw new Error(`Unsupported column type: ${col.type}`);
+    const [name, data] = gen(col, prefix);
     files[`${base}/${name}.yml`] = data;
   }
 
