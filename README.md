@@ -20,7 +20,9 @@ npx dvforge build --input ./my-solution --output ./output
 | `--unmanaged` | Generate an unmanaged solution (default: managed) |
 | `--dry-run` | Print output paths without writing any files |
 
-Then pack with PAC [link_here](https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction):
+#### To get it into Dataverse
+
+Pack with PAC [link_here](https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction):
 
 ```bash
 pac solution pack --zipfile MySolution.zip --folder .\output\.
@@ -34,29 +36,7 @@ pac solution import -p MySolution.zip -env $(DV_ENV_URL) -up -pc
 
 ---
 
-### `dvforge test`
-
-Build and compare the output against a real `pac solution unpack` directory to check for discrepancies.
-
-```bash
-npx dvforge test --input ./my-solution --actual ./pac-unpack
-```
-
-| Flag | Description |
-|------|-------------|
-| `--input` | Path to your input YAML directory (required) |
-| `--actual` | Path to a `pac solution unpack` directory to compare against (required) |
-| `--out` | Save build output here instead of a temp dir (dir is kept after the run) |
-| `--version` | Override the solution version, e.g. `1.2.0.0` |
-| `--unmanaged` | Generate an unmanaged solution (default: managed) |
-| `--skip-build` | Skip building; compare existing `--out` directory against `--actual` |
-| `--ignore-key` | YAML key to exclude from comparison — repeatable, e.g. `--ignore-key IntroducedVersion` |
-
-Exits 0 if all files match, 1 if anything differs.
-
----
-
-## Input files
+## Schemas
 
 ```
 my-solution/
@@ -85,7 +65,7 @@ solution:
 
 ```yaml
 optionsets:
-  - name: deal_stage          # no prefix — dvforge adds tl_
+  - name: deal_stage          # no prefix needed — dvforge adds tl_
     display_name: deal_stage
     options:
       - label: Talks Open
@@ -98,7 +78,7 @@ optionsets:
 
 ```yaml
 entities:
-  - name: deal                # no prefix — dvforge adds tl_
+  - name: deal                # no prefix needed — dvforge adds tl_
     display_name: Deal
     display_name_plural: Deals
     description:
@@ -113,12 +93,12 @@ entities:
       - name: account
         type: lookup
         display_name: Account
-        related_table: account  # no prefix
+        related_table: account  # no prefix needed
 
       - name: stage_choice
         type: choice
         display_name: Stage
-        option_set: deal_stage  # no prefix
+        option_set: deal_stage  # no prefix needed
 
     relationships:
       - related_table: account  # the "one" side entity
