@@ -68,15 +68,25 @@ export const RelationshipSchema = z.object({
   lookup_column: z.string(),
 });
 
-export const EntitySchema = z.object({
-  name: z.string(),
-  display_name: z.string(),
-  display_name_plural: z.string(),
-  description: z.string().nullish(),
-  ownership: z.enum(["user", "organization"]).default("user"),
-  columns: z.array(ColumnSchema).default([]),
-  relationships: z.array(RelationshipSchema).default([]),
-});
+export const EntitySchema = z
+  .object({
+    name: z.string(),
+    display_name: z.string(),
+    display_name_plural: z.string(),
+    description: z.string().nullish(),
+    ownership: z.enum(["user", "organization"]).default("user"),
+    columns: z.array(ColumnSchema).default([]),
+    relationships: z.array(RelationshipSchema).default([]),
+  })
+  .superRefine((entity, ctx) => {
+    const primaryNameCount = entity.columns.filter((c) => c.primary_name).length;
+    if (primaryNameCount !== 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Entity '${entity.name}': exactly one column must have primary_name: true (found ${primaryNameCount})`,
+      });
+    }
+  });
 
 export const ConfigSchema = z.object({
   solution: SolutionSchema,
