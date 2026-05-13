@@ -4,11 +4,10 @@ import { z } from "zod";
 import { readYaml } from "./utils.js";
 import {
   Config,
-  Column,
   Entity,
+  EntitySchema,
   OptionSet,
   OptionSetSchema,
-  Relationship,
   Solution,
   SolutionSchema,
 } from "./model.js";
@@ -50,49 +49,9 @@ function loadEntities(entitiesDir: string): Entity[] {
   const entities: Entity[] = [];
   for (const file of files) {
     if (!file.endsWith(".yml")) continue;
-    const raw = readYaml(path.join(entitiesDir, file)) as Record<string, unknown>;
-    const list = (raw["entities"] as unknown[] | undefined) ?? [];
-    for (const ent of list) {
-      entities.push(parseEntity(ent as Record<string, unknown>));
-    }
+    const raw = readYaml(path.join(entitiesDir, file));
+    const parsed = z.object({ entities: z.array(EntitySchema).default([]) }).parse(raw);
+    entities.push(...parsed.entities);
   }
   return entities;
-}
-
-function parseEntity(raw: Record<string, unknown>): Entity {
-  const columns = ((raw["columns"] as unknown[] | null | undefined) ?? []).map((c) =>
-    parseColumn(c as Record<string, unknown>)
-  );
-  const relationships = ((raw["relationships"] as unknown[] | null | undefined) ?? []).map(
-    (r) => parseRelationship(r as Record<string, unknown>)
-  );
-  return {
-    name: raw["name"] as string,
-    display_name: raw["display_name"] as string,
-    display_name_plural: raw["display_name_plural"] as string,
-    description: (raw["description"] as string | null | undefined) ?? null,
-    ownership: (raw["ownership"] as "user" | "organization" | undefined) ?? "user",
-    columns,
-    relationships,
-  } satisfies Entity;
-}
-
-function parseColumn(raw: Record<string, unknown>): Column {
-  return {
-    name: raw["name"] as string,
-    type: raw["type"] as Column["type"],
-    display_name: raw["display_name"] as string,
-    required: (raw["required"] as boolean | undefined) ?? false,
-    primary_name: (raw["primary_name"] as boolean | undefined) ?? false,
-    max_length: (raw["max_length"] as number | null | undefined) ?? null,
-    option_set: (raw["option_set"] as string | null | undefined) ?? null,
-    related_table: (raw["related_table"] as string | null | undefined) ?? null,
-  } satisfies Column;
-}
-
-function parseRelationship(raw: Record<string, unknown>): Relationship {
-  return {
-    related_table: raw["related_table"] as string,
-    lookup_column: raw["lookup_column"] as string,
-  } satisfies Relationship;
 }
