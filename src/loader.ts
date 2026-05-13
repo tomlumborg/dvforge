@@ -1,56 +1,47 @@
 import fs from "fs";
 import path from "path";
+import { z } from "zod";
 import { readYaml } from "./utils.js";
 import {
   Config,
   Column,
   Entity,
   OptionSet,
-  Publisher,
+  OptionSetSchema,
   Relationship,
   Solution,
+  SolutionSchema,
 } from "./model.js";
 
 export function load(inputDir: string): Config {
-  const solution = loadSolution(path.join(inputDir, "solution.yml"));
-  const optionSets = loadOptionSets(path.join(inputDir, "optionsets.yml"));
-  const entities = loadEntities(path.join(inputDir, "entities"));
-  return { solution, option_sets: optionSets, entities };
+  try {
+    const solution = loadSolution(path.join(inputDir, "solution.yml"));
+    const optionSets = loadOptionSets(path.join(inputDir, "optionsets.yml"));
+    const entities = loadEntities(path.join(inputDir, "entities"));
+    return { solution, option_sets: optionSets, entities };
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      const issues = err.issues.map(i => `  ${i.path.join(".")}: ${i.message}`).join("\n");
+      throw new Error(`Invalid configuration:\n${issues}`);
+    }
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+      throw new Error(`File not found: ${(err as NodeJS.ErrnoException).path}`);
+    }
+    throw err;
+  }
 }
 
 function loadSolution(filePath: string): Solution {
-  const raw = readYaml(filePath) as Record<string, unknown>;
-  const sol = raw["solution"] as Record<string, unknown>;
-  const pub = sol["publisher"] as Record<string, unknown>;
-  return {
-    name: sol["name"] as string,
-    display_name: sol["display_name"] as string,
-    version: sol["version"] as string,
-    publisher: {
-      name: pub["name"] as string,
-      display_name: pub["display_name"] as string,
-      prefix: pub["prefix"] as string,
-      option_value_prefix: pub["option_value_prefix"] as number,
-    } satisfies Publisher,
-  } satisfies Solution;
+  const raw = readYaml(filePath);
+  const parsed = z.object({ solution: SolutionSchema }).parse(raw);
+  return parsed.solution;
 }
 
 function loadOptionSets(filePath: string): OptionSet[] {
   if (!fs.existsSync(filePath)) return [];
-  const raw = readYaml(filePath) as Record<string, unknown>;
-  const list = (raw["optionsets"] as unknown[] | null | undefined) ?? [];
-  return list.map((os) => {
-    const o = os as Record<string, unknown>;
-    const options = ((o["options"] as unknown[] | undefined) ?? []).map((opt) => {
-      const v = opt as Record<string, unknown>;
-      return { label: v["label"] as string, value: v["value"] as number };
-    });
-    return {
-      name: o["name"] as string,
-      display_name: o["display_name"] as string,
-      options,
-    } satisfies OptionSet;
-  });
+  const raw = readYaml(filePath);
+  const parsed = z.object({ optionsets: z.array(OptionSetSchema).default([]) }).parse(raw);
+  return parsed.optionsets;
 }
 
 function loadEntities(entitiesDir: string): Entity[] {
