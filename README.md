@@ -2,6 +2,9 @@
 
 Compile compact, human-friendly YAML into a complete Microsoft Dataverse solution tree — ready to pack with `pac solution pack`.
 
+> [!WARNING]
+> This is pre-production. Breaking changes between minor versions to be expected.
+
 ## Commands
 
 ### `dvforge build`
