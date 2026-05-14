@@ -86,6 +86,24 @@ export const EntitySchema = z
         message: `Entity '${entity.name}': exactly one column must have primary_name: true (found ${primaryNameCount})`,
       });
     }
+
+    const columnNames = entity.columns.map((c) => c.name);
+    const duplicateColumns = columnNames.filter((n, i) => columnNames.indexOf(n) !== i);
+    for (const name of [...new Set(duplicateColumns)]) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Entity '${entity.name}': duplicate column name '${name}'`,
+      });
+    }
+
+    const lookupColumns = entity.relationships.map((r) => r.lookup_column);
+    const duplicateLookups = lookupColumns.filter((n, i) => lookupColumns.indexOf(n) !== i);
+    for (const name of [...new Set(duplicateLookups)]) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Entity '${entity.name}': lookup_column '${name}' is used in more than one relationship`,
+      });
+    }
   });
 
 export const ConfigSchema = z.object({
