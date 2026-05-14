@@ -26,7 +26,7 @@ npx dvforge build --input ./my-solution --output ./output
 
 #### To get it into Dataverse
 
-Pack with PAC [link_here](https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction):
+Pack with the [PAC CLI](https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction):
 
 ```bash
 pac solution pack -z MySolution.zip -f ./output -p Managed
