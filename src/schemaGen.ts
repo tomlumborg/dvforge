@@ -44,9 +44,11 @@ function updateVscodeSettings(projectDir: string, schemasDir: string): void {
   }
 
   const rel = path.relative(projectDir, schemasDir).replace(/\\/g, "/");
-  settings["yaml.schemas"] = Object.fromEntries(
-    SCHEMAS.map(({ filename, glob }) => [`./${rel}/${filename}`, glob])
-  );
+  const existing = (settings["yaml.schemas"] as Record<string, unknown>) ?? {};
+  settings["yaml.schemas"] = {
+    ...existing,
+    ...Object.fromEntries(SCHEMAS.map(({ filename, glob }) => [`./${rel}/${filename}`, glob])),
+  };
 
   fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 4));
 }
