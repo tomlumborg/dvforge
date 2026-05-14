@@ -63,7 +63,9 @@ function _baseQuery(
 function _active(entity: Entity, prefix: string): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
-  const nameField = prefixed("name", prefix);
+  const nameCol = entity.columns.find(c => c.primary_name);
+  if (!nameCol) throw new Error(`Entity ${entity.name}: no primary_name column`);
+  const nameField = prefixed(nameCol.name, prefix);
   const uid = detUuid(`${full}:sq:active`);
 
   const fetch = _baseQuery(full, idField, nameField) as Record<string, unknown>;
@@ -99,7 +101,9 @@ function _active(entity: Entity, prefix: string): [string, Record<string, unknow
 function _inactive(entity: Entity, prefix: string): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
-  const nameField = prefixed("name", prefix);
+  const nameCol = entity.columns.find(c => c.primary_name);
+  if (!nameCol) throw new Error(`Entity ${entity.name}: no primary_name column`);
+  const nameField = prefixed(nameCol.name, prefix);
   const uid = detUuid(`${full}:sq:inactive`);
 
   const fetch = _baseQuery(full, idField, nameField) as Record<string, unknown>;
@@ -185,7 +189,9 @@ function _myRecords(entity: Entity, prefix: string): [string, Record<string, unk
 function _advancedFind(entity: Entity, prefix: string): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
-  const nameField = prefixed("name", prefix);
+  const nameCol = entity.columns.find(c => c.primary_name);
+  if (!nameCol) throw new Error(`Entity ${entity.name}: no primary_name column`);
+  const nameField = prefixed(nameCol.name, prefix);
   const uid = detUuid(`${full}:sq:advanced`);
 
   const fetch = _baseQuery(full, idField, nameField) as Record<string, unknown>;
@@ -220,7 +226,9 @@ function _advancedFind(entity: Entity, prefix: string): [string, Record<string, 
 function _associated(entity: Entity, prefix: string): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
-  const nameField = prefixed("name", prefix);
+  const nameCol = entity.columns.find(c => c.primary_name);
+  if (!nameCol) throw new Error(`Entity ${entity.name}: no primary_name column`);
+  const nameField = prefixed(nameCol.name, prefix);
   const uid = detUuid(`${full}:sq:associated`);
 
   const fetch = _baseQuery(full, idField, nameField) as Record<string, unknown>;
@@ -256,7 +264,9 @@ function _associated(entity: Entity, prefix: string): [string, Record<string, un
 function _lookupView(entity: Entity, prefix: string): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
-  const nameField = prefixed("name", prefix);
+  const nameCol = entity.columns.find(c => c.primary_name);
+  if (!nameCol) throw new Error(`Entity ${entity.name}: no primary_name column`);
+  const nameField = prefixed(nameCol.name, prefix);
   const uid = detUuid(`${full}:sq:lookup`);
 
   const fetch = _baseQuery(full, idField, nameField) as Record<string, unknown>;
@@ -288,7 +298,9 @@ function _lookupView(entity: Entity, prefix: string): [string, Record<string, un
 function _quickFind(entity: Entity, prefix: string): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
-  const nameField = prefixed("name", prefix);
+  const nameCol = entity.columns.find(c => c.primary_name);
+  if (!nameCol) throw new Error(`Entity ${entity.name}: no primary_name column`);
+  const nameField = prefixed(nameCol.name, prefix);
   const uid = detUuid(`${full}:sq:quickfind`);
 
   const fetch = {

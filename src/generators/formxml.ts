@@ -39,7 +39,9 @@ function _emptyCell(uid: string): Record<string, unknown> {
 
 function _mainForm(entity: Entity, prefix: string): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
-  const nameField = prefixed("name", prefix);
+  const nameCol = entity.columns.find(c => c.primary_name);
+  if (!nameCol) throw new Error(`Entity ${entity.name}: no primary_name column`);
+  const nameField = prefixed(nameCol.name, prefix);
   const formUuid = detUuid(`${full}:main`);
   const tabUuid = detUuid(`${full}:main:tab`);
   const secUuid = detUuid(`${full}:main:section`);
@@ -93,7 +95,9 @@ function _mainForm(entity: Entity, prefix: string): [string, Record<string, unkn
 
 function _quickForm(entity: Entity, prefix: string): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
-  const nameField = prefixed("name", prefix);
+  const nameCol = entity.columns.find(c => c.primary_name);
+  if (!nameCol) throw new Error(`Entity ${entity.name}: no primary_name column`);
+  const nameField = prefixed(nameCol.name, prefix);
   const formUuid = detUuid(`${full}:quick`);
   const tabUuid = detUuid(`${full}:quick:tab`);
   const secUuid = detUuid(`${full}:quick:section`);
@@ -146,7 +150,9 @@ function _quickForm(entity: Entity, prefix: string): [string, Record<string, unk
 
 function _cardForm(entity: Entity, prefix: string): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
-  const nameField = prefixed("name", prefix);
+  const nameCol = entity.columns.find(c => c.primary_name);
+  if (!nameCol) throw new Error(`Entity ${entity.name}: no primary_name column`);
+  const nameField = prefixed(nameCol.name, prefix);
   const formUuid = detUuid(`${full}:card`);
   const tabUuid = detUuid(`${full}:card:tab`);
 
