@@ -2,6 +2,8 @@
   "name": "dvforge",
   "version": "0.1.1",
   "description": "Compile compact YAML into a Dataverse solution tree",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "keywords": ["dataverse", "dv", "powerapps"],
   "bin": {
     "dvforge": "./dist/cli.js"
   },
