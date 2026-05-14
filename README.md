@@ -23,18 +23,20 @@ npx dvforge build --input ./my-solution --output ./output
 | `--unmanaged` | Generate an unmanaged solution (default: managed) |
 | `--dry-run` | Print output paths without writing any files |
 
+
 #### To get it into Dataverse
 
 Pack with PAC [link_here](https://learn.microsoft.com/en-us/power-platform/developer/cli/introduction):
 
 ```bash
-pac solution pack --zipfile MySolution.zip --folder .\output\.
+pac solution pack -z MySolution.zip -f ./output -p Managed
 ```
 
 And import
 
 ```bash
 pac solution import -p MySolution.zip -env $(DV_ENV_URL) -up -pc
+# where DV_ENV_URL = https://your-dynamics-url.crm.dynamics.com
 ```
 
 ---
