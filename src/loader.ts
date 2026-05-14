@@ -11,6 +11,7 @@ import {
   Solution,
   SolutionSchema,
 } from "./model.js";
+import { validateRefs } from "./validate.js";
 
 function formatZodError(filePath: string, err: z.ZodError): Error {
   const issues = err.issues.map((i) => `  ${i.path.join(".")}: ${i.message}`).join("\n");
@@ -22,7 +23,9 @@ export function load(inputDir: string): Config {
     const solution = loadSolution(path.join(inputDir, "solution.yml"));
     const optionSets = loadOptionSets(path.join(inputDir, "optionsets.yml"));
     const entities = loadEntities(path.join(inputDir, "entities"));
-    return { solution, option_sets: optionSets, entities };
+    const config: Config = { solution, option_sets: optionSets, entities };
+    validateRefs(config);
+    return config;
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
       throw new Error(`File not found: ${(err as NodeJS.ErrnoException).path}`);
