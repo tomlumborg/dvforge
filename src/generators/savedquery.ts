@@ -1,4 +1,4 @@
-import { floatScalar, prefixed, detUuid } from "../utils.js";
+import { prefixed, detUuid } from "../utils.js";
 import type { Entity } from "../model.js";
 
 function _layout(
@@ -47,7 +47,7 @@ function _baseQuery(
   nameField: string
 ): Record<string, unknown> {
   return {
-    "@version": floatScalar(1.0),
+    "@version": "1.0.0",
     "@mapping": "logical",
     entity: {
       "@name": entityName,
@@ -86,7 +86,7 @@ function _active(entity: Entity, prefix: string): [string, Record<string, unknow
       layoutxml: _layout(idField, nameField),
       querytype: 0,
       fetchxml: { fetch },
-      IntroducedVersion: floatScalar(1.0),
+      IntroducedVersion: "1.0.0",
       LocalizedNames: {
         LocalizedName: {
           "@description": `Active ${entity.display_name_plural}`,
@@ -124,7 +124,7 @@ function _inactive(entity: Entity, prefix: string): [string, Record<string, unkn
       layoutxml: _layout(idField, nameField),
       querytype: 0,
       fetchxml: { fetch },
-      IntroducedVersion: floatScalar(1.0),
+      IntroducedVersion: "1.0.0",
       LocalizedNames: {
         LocalizedName: {
           "@description": `Inactive ${entity.display_name_plural}`,
@@ -142,7 +142,7 @@ function _myRecords(entity: Entity, prefix: string): [string, Record<string, unk
   const uid = detUuid(`${full}:sq:my`);
 
   const fetch = {
-    "@version": floatScalar(1.0),
+    "@version": "1.0.0",
     "@mapping": "logical",
     "@output-format": "xml-platform",
     entity: {
@@ -168,7 +168,7 @@ function _myRecords(entity: Entity, prefix: string): [string, Record<string, unk
       savedqueryid: `{${uid}}`,
       querytype: 8192,
       fetchxml: { fetch },
-      IntroducedVersion: floatScalar(1.0),
+      IntroducedVersion: "1.0.0",
       LocalizedNames: {
         LocalizedName: {
           "@description": `My ${entity.display_name_plural}`,
@@ -211,7 +211,7 @@ function _advancedFind(entity: Entity, prefix: string): [string, Record<string, 
       layoutxml: _layout(idField, nameField),
       querytype: 1,
       fetchxml: { fetch },
-      IntroducedVersion: floatScalar(1.0),
+      IntroducedVersion: "1.0.0",
       LocalizedNames: {
         LocalizedName: {
           "@description": `${entity.display_name} Advanced Find View`,
@@ -249,7 +249,7 @@ function _associated(entity: Entity, prefix: string): [string, Record<string, un
       layoutxml: _layout(idField, nameField, `${full}s`, full),
       querytype: 2,
       fetchxml: { fetch },
-      IntroducedVersion: floatScalar(1.0),
+      IntroducedVersion: "1.0.0",
       LocalizedNames: {
         LocalizedName: {
           "@description": `${entity.display_name} Associated View`,
@@ -283,7 +283,7 @@ function _lookupView(entity: Entity, prefix: string): [string, Record<string, un
       layoutxml: _layout(idField, nameField, `${full}s`, full, 0),
       querytype: 64,
       fetchxml: { fetch },
-      IntroducedVersion: floatScalar(1.0),
+      IntroducedVersion: "1.0.0",
       LocalizedNames: {
         LocalizedName: {
           "@description": `${entity.display_name} Lookup View`,
@@ -304,7 +304,7 @@ function _quickFind(entity: Entity, prefix: string): [string, Record<string, unk
   const uid = detUuid(`${full}:sq:quickfind`);
 
   const fetch = {
-    "@version": floatScalar(1.0),
+    "@version": "1.0.0",
     "@mapping": "logical",
     entity: {
       "@name": full,
@@ -339,7 +339,7 @@ function _quickFind(entity: Entity, prefix: string): [string, Record<string, unk
       layoutxml: _layout(idField, nameField),
       querytype: 4,
       fetchxml: { fetch },
-      IntroducedVersion: floatScalar(1.0),
+      IntroducedVersion: "1.0.0",
       LocalizedNames: {
         LocalizedName: {
           "@description": `Quick Find Active ${entity.display_name_plural}`,

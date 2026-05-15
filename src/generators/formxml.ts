@@ -1,4 +1,4 @@
-import { floatScalar, prefixed, detUuid } from "../utils.js";
+import { prefixed, detUuid } from "../utils.js";
 import type { Entity } from "../model.js";
 
 // classid for standard controls
@@ -54,7 +54,7 @@ function _mainForm(entity: Entity, prefix: string): [string, Record<string, unkn
   const data = {
     systemform: {
       formid: `{${formUuid}}`,
-      IntroducedVersion: floatScalar(1.0),
+      IntroducedVersion: "1.0.0",
       FormPresentation: 1,
       FormActivationState: 1,
       form: {
@@ -110,7 +110,7 @@ function _quickForm(entity: Entity, prefix: string): [string, Record<string, unk
   const data = {
     systemform: {
       formid: `{${formUuid}}`,
-      IntroducedVersion: floatScalar(1.0),
+      IntroducedVersion: "1.0.0",
       FormPresentation: 1,
       FormActivationState: 1,
       form: {
@@ -277,7 +277,7 @@ function _cardForm(entity: Entity, prefix: string): [string, Record<string, unkn
   const data = {
     systemform: {
       formid: `{${formUuid}}`,
-      IntroducedVersion: floatScalar(1.0),
+      IntroducedVersion: "1.0.0",
       FormPresentation: 1,
       FormActivationState: 1,
       form: {

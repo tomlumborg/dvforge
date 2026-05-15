@@ -9,7 +9,7 @@ export function generate(optionset: OptionSet, prefix: string): Record<string, u
       "@localizedName": optionset.display_name,
       OptionSetType: "picklist",
       IsGlobal: 1,
-      IntroducedVersion: "1.0.0.0",
+      IntroducedVersion: "1.0.0",
       IsCustomizable: 1,
       ExternalTypeName: "",
       displaynames: {

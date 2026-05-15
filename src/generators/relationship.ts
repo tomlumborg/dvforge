@@ -1,4 +1,4 @@
-import { floatScalar, prefixed } from "../utils.js";
+import { prefixed } from "../utils.js";
 import type { Entity, Relationship } from "../model.js";
 
 function _rel(
@@ -11,7 +11,7 @@ function _rel(
   description: string = "",
   navProperty: string | null = null,
   includeRoles: boolean = false,
-  introducedVersion: string | ReturnType<typeof floatScalar> = "1.0",
+  introducedVersion: string = "1.0.0",
   isCustom: boolean = false
 ): Record<string, unknown> {
   const er: Record<string, unknown> = {
@@ -154,7 +154,7 @@ function _systemRelationships(
       desc,
       null,
       false,
-      floatScalar(1.0)
+      "1.0.0"
     );
   }
 
@@ -181,7 +181,7 @@ function _customRelationship(
     "",
     fullAttr,
     true,
-    "1.0.0.0",
+    "1.0.0",
     true
   );
 
