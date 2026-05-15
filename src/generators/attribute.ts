@@ -1,4 +1,4 @@
-import { floatScalar, prefixed } from "../utils.js";
+import { prefixed } from "../utils.js";
 import type { Column, Entity } from "../model.js";
 
 const _DEFAULTS: Record<string, unknown> = {
@@ -28,7 +28,7 @@ interface BaseConfig {
   create: number;
   isCustom: number;
   audit: number;
-  version: string | ReturnType<typeof floatScalar>;
+  version: string;
   displayMask?: string;
   ime?: string;
   searchable?: number;
@@ -89,7 +89,7 @@ function _primaryKey(entityName: string, prefix: string): AttrEntry {
     physical, type: "primarykey", name: fieldName, required: "systemrequired",
     update: 0, read: 1, create: 1,
     isCustom: 0, audit: 0,
-    version: floatScalar(1.0),
+    version: "1.0.0",
     displayMask: "ValidForAdvancedFind|RequiredForGrid",
     filterable: 1, retrievable: 1,
   });
@@ -116,7 +116,7 @@ function _customString(col: Column, prefix: string): AttrEntry {
     physical: fullName, type: "nvarchar", name: fullName, required: reqLevel,
     update: 1, read: 1, create: 1,
     isCustom: 1, audit: 1,
-    version: floatScalar(1.0),
+    version: "1.0.0",
     displayMask: mask,
     searchable: isNameField ? 1 : 0, retrievable: 1,
   });
@@ -141,7 +141,7 @@ function _customDatetime(col: Column, prefix: string): AttrEntry {
     physical: fullName, type: "datetime", name: fullName, required: reqLevel,
     update: 1, read: 1, create: 1,
     isCustom: 1, audit: 1,
-    version: floatScalar(1.0),
+    version: "1.0.0",
     displayMask: mask, ime: "auto",
   });
   d["Format"] = "datetime";
@@ -163,7 +163,7 @@ function _customDateonly(col: Column, prefix: string): AttrEntry {
     physical: fullName, type: "datetime", name: fullName, required: reqLevel,
     update: 1, read: 1, create: 1,
     isCustom: 1, audit: 1,
-    version: floatScalar(1.0),
+    version: "1.0.0",
     displayMask: mask, ime: "auto",
   });
   d["Format"] = "date";
@@ -185,7 +185,7 @@ function _customInt(col: Column, prefix: string): AttrEntry {
     physical: fullName, type: "int", name: fullName, required: reqLevel,
     update: 1, read: 1, create: 1,
     isCustom: 1, audit: 1,
-    version: floatScalar(1.0),
+    version: "1.0.0",
     displayMask: mask, ime: "disabled",
   });
   d["Format"] = "none";
@@ -203,7 +203,7 @@ function _customLookup(col: Column, prefix: string): AttrEntry {
     physical: fullName, type: "lookup", name: fullName, required: reqLevel,
     update: 1, read: 1, create: 1,
     isCustom: 1, audit: 0,
-    version: "1.0.0.0",
+    version: "1.0.0",
     displayMask: "ValidForAdvancedFind|ValidForForm|ValidForGrid", ime: "auto",
   });
   d["LookupStyle"] = "single";
@@ -221,7 +221,7 @@ function _customChoice(col: Column, prefix: string): AttrEntry {
     physical: fullName, type: "picklist", name: fullName, required: reqLevel,
     update: 1, read: 1, create: 1,
     isCustom: 1, audit: 1,
-    version: "1.0.0.0",
+    version: "1.0.0",
     displayMask: "ValidForAdvancedFind|ValidForForm|ValidForGrid",
   });
   d["AppDefaultValue"] = -1;
@@ -251,7 +251,7 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
       physical, type: "lookup", name, required: "none",
       update: 0, read: 1, create,
       isCustom: 0, audit,
-      version: floatScalar(1.0),
+      version: "1.0.0",
       displayMask: mask,
       filterable,
     });
@@ -281,7 +281,7 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
       physical, type: "datetime", name, required: "none",
       update: 0, read: 1, create,
       isCustom: 0, audit,
-      version: floatScalar(1.0),
+      version: "1.0.0",
       displayMask: mask, ime: "inactive",
       filterable, retrievable,
     });
@@ -311,7 +311,7 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
       physical, type: "int", name, required: "none",
       update, read: 1, create,
       isCustom: 0, audit,
-      version: floatScalar(1.0),
+      version: "1.0.0",
       displayMask: mask, ime,
     });
     d["Format"] = fmt;
@@ -354,7 +354,7 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
           physical: "OwnerId", type: "owner", name: "ownerid", required: "systemrequired",
           update: 1, read: 1, create: 1,
           isCustom: 0, audit: 1,
-          version: floatScalar(1.0),
+          version: "1.0.0",
           displayMask: "ValidForAdvancedFind|ValidForForm|ValidForGrid|RequiredForForm",
           filterable: 1,
         }),
@@ -385,14 +385,14 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
           physical: "statecode", type: "state", name: "statecode", required: "systemrequired",
           update: 1, read: 1, create: 0,
           isCustom: 0, audit: 1,
-          version: floatScalar(1.0),
+          version: "1.0.0",
           displayMask: "ValidForAdvancedFind|ValidForForm|ValidForGrid",
           filterable: 1,
         }),
         optionset: {
           "@Name": `${fullEntity}_statecode`,
           OptionSetType: "state",
-          IntroducedVersion: floatScalar(1.0),
+          IntroducedVersion: "1.0.0",
           IsCustomizable: 1,
           displaynames: _displayname("Status"),
           Descriptions: _description(`Status of the ${entity.display_name}`),
@@ -424,13 +424,13 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
           physical: "statuscode", type: "status", name: "statuscode", required: "none",
           update: 1, read: 1, create: 1,
           isCustom: 0, audit: 1,
-          version: floatScalar(1.0),
+          version: "1.0.0",
           displayMask: "ValidForAdvancedFind|ValidForForm|ValidForGrid",
         }),
         optionset: {
           "@Name": `${fullEntity}_statuscode`,
           OptionSetType: "status",
-          IntroducedVersion: floatScalar(1.0),
+          IntroducedVersion: "1.0.0",
           IsCustomizable: 1,
           displaynames: _displayname("Status Reason"),
           Descriptions: _description(`Reason for the status of the ${entity.display_name}`),
