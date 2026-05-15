@@ -3,13 +3,18 @@
   "version": "0.1.1",
   "description": "YAML → pac-ready Dataverse table solutions.",
   "license": "SEE LICENSE IN LICENSE.md",
-  "keywords": ["dataverse", "dv", "powerapps"],
+  "keywords": [
+    "dataverse",
+    "dv",
+    "powerapps"
+  ],
   "bin": {
     "dvforge": "./dist/cli.js"
   },
   "files": [
     "dist"
   ],
+  "type": "module",
   "engines": {
     "node": ">=18"
   },
@@ -22,14 +27,13 @@
   "dependencies": {
     "chalk": "^5",
     "commander": "^12",
-    "uuid": "^10",
+    "uuid": "^14.0.0",
     "yaml": "^2",
     "zod": "^3",
     "zod-to-json-schema": "^3"
   },
   "devDependencies": {
     "@types/node": "^22",
-    "@types/uuid": "^10",
     "tsup": "^8",
     "typescript": "^5"
   }
