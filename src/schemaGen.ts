@@ -15,7 +15,7 @@ const SCHEMAS = [
 ];
 
 export function generate(projectDir: string): string[] {
-  const schemasDir = path.join(projectDir, "schemas");
+  const schemasDir = path.join(projectDir, ".dvforge");
   fs.mkdirSync(schemasDir, { recursive: true });
 
   const written: string[] = [];
