@@ -113,13 +113,15 @@ entities:
         lookup_column: account  # the FK column on this entity
 ```
 
-**Column types:** `string`, `lookup`, `choice`
+**Column types:** `string`, `lookup`, `choice`, `datetime`, `dateonly`, `int`
 - `choice` requires `option_set`
-- `lookup` requires `related_table`
+- `lookup` requires `related_table` and a `relationship`
 
 **Prefixes:** never write the publisher prefix in your input files - dvforge stamps `{prefix}_` on all names at compile time.
 
 **Relationships:** defined on the entity that holds the lookup column (the "many" side). Only one-to-many is supported.
+
+**YAML Schemas:** run `npx dvforge schema` from your project root to generate and configure schemas for your dvforge input files. This enables inline validation, field suggestions, and autocompletion in VS Code.
 
 ## What gets generated
 
