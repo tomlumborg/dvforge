@@ -49,16 +49,16 @@ export const ColumnSchema = z
         message: `Column '${col.name}': lookup columns must specify related_table`,
       });
     }
-    if (["datetime", "dateonly", "int"].includes(col.type) && col.related_table) {
+    if (col.type !== "lookup" && col.related_table) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: `Column '${col.name}': datetime/dateonly/int columns cannot specify related_table`,
+        message: `Column '${col.name}': only lookup columns can specify related_table`,
       });
     }
-    if (["datetime", "dateonly", "int"].includes(col.type) && col.option_set) {
+    if (col.type !== "choice" && col.option_set) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: `Column '${col.name}': datetime/dateonly/int columns cannot specify option_set`,
+        message: `Column '${col.name}': only choice columns can specify option_set`,
       });
     }
   });
