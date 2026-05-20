@@ -12,6 +12,8 @@
 !vitest.config.ts
 
 !readme.md
+!contributing.md
+!license.md
 
 !.github/
 !.gitignore
