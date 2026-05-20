@@ -2,11 +2,16 @@
 !*/**
 
 !src
+!tests
+
 !package.json
 !package-lock.json
-!readme.md
+
 !tsconfig.json
 !tsup.config.ts
+!vitest.config.ts
+
+!readme.md
 
 !.github/
 !.gitignore

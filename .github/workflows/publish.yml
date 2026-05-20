@@ -23,5 +23,6 @@ jobs:
           package-manager-cache: false  # never use caching in release builds
       - run: npm version --no-git-tag-version "${GITHUB_REF_NAME#v}"
       - run: npm ci
+      - run: npm test
       - run: npm run build --if-present
       - run: npm publish
