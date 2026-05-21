@@ -241,6 +241,93 @@ describe("validateRefs", () => {
     );
   });
 
+  it("passes when column related_table references an existing_table entity", () => {
+    const config = makeConfig({
+      entities: [
+        {
+          name: "deal",
+          display_name: "Deal",
+          display_name_plural: "Deals",
+          ownership: "user",
+          columns: [
+            col({ name: "name", type: "string", display_name: "Name", primary_name: true }),
+            col({ name: "account_id", type: "lookup", display_name: "Account", related_table: "account" }),
+          ],
+          relationships: [],
+        },
+        {
+          name: "account",
+          display_name: "Account",
+          display_name_plural: "Accounts",
+          ownership: "user",
+          existing_table: true,
+          columns: [],
+          relationships: [],
+        },
+      ],
+    });
+    expect(() => validateRefs(config)).not.toThrow();
+  });
+
+  it("passes when relationship related_table references an existing_table entity", () => {
+    const config = makeConfig({
+      entities: [
+        {
+          name: "deal",
+          display_name: "Deal",
+          display_name_plural: "Deals",
+          ownership: "user",
+          columns: [
+            col({ name: "name", type: "string", display_name: "Name", primary_name: true }),
+            col({ name: "account_id", type: "lookup", display_name: "Account", related_table: "account" }),
+          ],
+          relationships: [
+            { related_table: "account", lookup_column: "account_id" },
+          ],
+        },
+        {
+          name: "account",
+          display_name: "Account",
+          display_name_plural: "Accounts",
+          ownership: "user",
+          existing_table: true,
+          columns: [],
+          relationships: [],
+        },
+      ],
+    });
+    expect(() => validateRefs(config)).not.toThrow();
+  });
+
+  it("errors when a name is declared as both a custom entity and an existing table", () => {
+    const config = makeConfig({
+      entities: [
+        {
+          name: "account",
+          display_name: "Account",
+          display_name_plural: "Accounts",
+          ownership: "user",
+          columns: [
+            col({ name: "name", type: "string", display_name: "Name", primary_name: true }),
+          ],
+          relationships: [],
+        },
+        {
+          name: "account",
+          display_name: "Account",
+          display_name_plural: "Accounts",
+          ownership: "user",
+          existing_table: true,
+          columns: [],
+          relationships: [],
+        },
+      ],
+    });
+    expect(() => validateRefs(config)).toThrow(
+      "Entity name 'account' is declared as both a custom entity and an existing table",
+    );
+  });
+
   it("accumulates multiple errors and throws them together", () => {
     const config = makeConfig({
       entities: [
@@ -282,13 +369,13 @@ describe("validateRefs", () => {
       thrownMessage = (e as Error).message;
     }
     expect(thrownMessage).toContain(
-      "related_table 'unknown_entity' does not match any entity",
+      "related_table 'unknown_entity' does not match any entity or existing table",
     );
     expect(thrownMessage).toContain(
       "option_set 'unknown_set' does not match any option set",
     );
     expect(thrownMessage).toContain(
-      "related_table 'also_unknown' does not match any entity",
+      "related_table 'also_unknown' does not match any entity or existing table",
     );
   });
 });

@@ -26,10 +26,15 @@ export function compile(config: Config, outputDir: string, managed = true): void
       files.set(k, v);
 
   // entities
-  for (const ent of config.entities) {
-    for (const gen of [entity, attribute, formxml, savedquery, ribbondiff, relationship])
+  const customEntities = config.entities.filter((e) => e.existing_table !== true);
+  const systemTableNames = new Set(config.entities.filter((e) => e.existing_table === true).map((e) => e.name));
+
+  for (const ent of customEntities) {
+    for (const gen of [entity, attribute, formxml, savedquery, ribbondiff])
       for (const [k, v] of Object.entries(gen.generate(ent, publisherPrefix)))
         files.set(k, v);
+    for (const [k, v] of Object.entries(relationship.generate(ent, publisherPrefix, systemTableNames)))
+      files.set(k, v);
   }
 
   // solution

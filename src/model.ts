@@ -71,20 +71,35 @@ export const RelationshipSchema = z.object({
 export const EntitySchema = z
   .object({
     name: z.string(),
-    display_name: z.string(),
-    display_name_plural: z.string(),
+    display_name: z.string().optional(),
+    display_name_plural: z.string().optional(),
     description: z.string().nullish(),
     ownership: z.enum(["user", "organization"]).default("user"),
+    existing_table: z.boolean().optional(),
     columns: z.array(ColumnSchema).default([]),
     relationships: z.array(RelationshipSchema).default([]),
   })
   .superRefine((entity, ctx) => {
-    const primaryNameCount = entity.columns.filter((c) => c.primary_name).length;
-    if (primaryNameCount !== 1) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `Entity '${entity.name}': exactly one column must have primary_name: true (found ${primaryNameCount})`,
-      });
+    if (entity.existing_table !== true) {
+      if (!entity.display_name) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Entity '${entity.name}': display_name is required`,
+        });
+      }
+      if (!entity.display_name_plural) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Entity '${entity.name}': display_name_plural is required`,
+        });
+      }
+      const primaryNameCount = entity.columns.filter((c) => c.primary_name).length;
+      if (primaryNameCount !== 1) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `Entity '${entity.name}': exactly one column must have primary_name: true (found ${primaryNameCount})`,
+        });
+      }
     }
 
     const columnNames = entity.columns.map((c) => c.name);
@@ -104,7 +119,12 @@ export const EntitySchema = z
         message: `Entity '${entity.name}': lookup_column '${name}' is used in more than one relationship`,
       });
     }
-  });
+  })
+  .transform((entity) => ({
+    ...entity,
+    display_name: entity.display_name ?? "",
+    display_name_plural: entity.display_name_plural ?? "",
+  }));
 
 export const ConfigSchema = z.object({
   solution: SolutionSchema,

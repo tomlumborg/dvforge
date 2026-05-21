@@ -164,10 +164,13 @@ function _systemRelationships(
 function _customRelationship(
   entity: Entity,
   rel: Relationship,
-  prefix: string
+  prefix: string,
+  systemTableNames: Set<string>
 ): Record<string, unknown> {
   const fullReferencing = prefixed(entity.name, prefix);
-  const fullReferenced = prefixed(rel.related_table, prefix);
+  const fullReferenced = systemTableNames.has(rel.related_table)
+    ? rel.related_table
+    : prefixed(rel.related_table, prefix);
   const fullAttr = prefixed(rel.lookup_column, prefix);
   const name = `${fullReferenced}__${fullReferencing}_${fullAttr}`;
 
@@ -190,14 +193,15 @@ function _customRelationship(
 
 export function generate(
   entity: Entity,
-  prefix: string
+  prefix: string,
+  systemTableNames: Set<string> = new Set()
 ): Record<string, unknown> {
   const files: Record<string, unknown> = {};
 
   Object.assign(files, _systemRelationships(entity, prefix));
 
   for (const rel of entity.relationships) {
-    Object.assign(files, _customRelationship(entity, rel, prefix));
+    Object.assign(files, _customRelationship(entity, rel, prefix, systemTableNames));
   }
 
   return files;
