@@ -5,7 +5,20 @@ function componentPaths(config: Config, componentFiles: string[]): string[] {
   const prefix = config.solution.publisher.prefix;
   const paths: string[] = [];
 
-  for (const entity of config.entities) {
+  const sortedEntities = [...config.entities].sort((a, b) => {
+    const nameA = a.existing_table === true ? a.name : prefixed(a.name, prefix);
+    const nameB = b.existing_table === true ? b.name : prefixed(b.name, prefix);
+    return nameA.localeCompare(nameB);
+  });
+
+  for (const entity of sortedEntities) {
+    if (entity.existing_table === true) {
+      const entityBase = `/entities/${entity.name}`;
+      paths.push(entityBase);
+      paths.push(`${entityBase}/ribbondiffs`);
+      continue;
+    }
+
     const full = prefixed(entity.name, prefix);
     const entityBase = `/entities/${full}`;
 
@@ -45,15 +58,18 @@ function componentPaths(config: Config, componentFiles: string[]): string[] {
     .sort();
   paths.push(...relPaths);
 
-  // option sets
-  for (const os of config.option_sets) {
+  // option sets — sorted alphabetically
+  const sortedOptionSets = [...config.option_sets].sort((a, b) =>
+    prefixed(a.name, prefix).localeCompare(prefixed(b.name, prefix))
+  );
+  for (const os of sortedOptionSets) {
     paths.push(`/optionsets/${prefixed(os.name, prefix)}`);
   }
 
   // publisher
   paths.push(`/publishers/${config.solution.publisher.name}`);
 
-  return paths;
+  return paths.map((p) => p.toLowerCase());
 }
 
 export function generate(
@@ -98,21 +114,28 @@ export function generate(
   };
 
   const prefix = sol.publisher.prefix;
-  const rootComponents: Record<string, unknown>[] = [];
-  for (const entity of config.entities) {
-    rootComponents.push({
-      "@type": 1,
-      "@schemaName": prefixed(entity.name, prefix),
-      "@behavior": 0,
+  const entityBehavior = new Map(
+    config.entities.map((e) => [
+      (e.existing_table === true ? e.name : prefixed(e.name, prefix)).toLowerCase(),
+      e.existing_table === true ? 2 : 0,
+    ])
+  );
+  const rootComponents = paths
+    .filter((p) => {
+      const parts = p.split("/").filter(Boolean);
+      return parts.length === 2 && (parts[0] === "entities" || parts[0] === "optionsets");
+    })
+    .map((p) => {
+      const [section, schemaName] = p.split("/").filter(Boolean);
+      return section === "entities"
+        ? { "@type": 1, "@schemaName": schemaName, "@behavior": entityBehavior.get(schemaName) ?? 0 }
+        : { "@type": 9, "@schemaName": schemaName, "@behavior": 0 };
+    })
+    .sort((a, b) => {
+      const typeDiff = a["@type"] - b["@type"];
+      if (typeDiff !== 0) return typeDiff;
+      return a["@schemaName"].localeCompare(b["@schemaName"]);
     });
-  }
-  for (const os of config.option_sets) {
-    rootComponents.push({
-      "@type": 9,
-      "@schemaName": prefixed(os.name, prefix),
-      "@behavior": 0,
-    });
-  }
 
   const rootData = { RootComponents: { RootComponent: rootComponents } };
   const missingData = { MissingDependencies: null };

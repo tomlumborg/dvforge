@@ -1,9 +1,8 @@
 import type { Entity } from "../model.js";
 import { prefixed } from "../utils.js";
 
-export function generate(entity: Entity, prefix: string): Record<string, unknown> {
-  const full = prefixed(entity.name, prefix);
-  const data = {
+function _data(): Record<string, unknown> {
+  return {
     RibbonDiffXml: {
       CustomActions: null,
       Templates: {
@@ -18,5 +17,13 @@ export function generate(entity: Entity, prefix: string): Record<string, unknown
       LocLabels: null,
     },
   };
-  return { [`entities/${full}/ribbondiffs/ribbondiff.yml`]: data };
+}
+
+export function generate(entity: Entity, prefix: string): Record<string, unknown> {
+  const full = prefixed(entity.name, prefix);
+  return { [`entities/${full}/ribbondiffs/ribbondiff.yml`]: _data() };
+}
+
+export function generateSystemTable(entity: Entity): Record<string, unknown> {
+  return { [`entities/${entity.name}/ribbondiffs/ribbondiff.yml`]: _data() };
 }

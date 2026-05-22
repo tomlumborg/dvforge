@@ -317,3 +317,30 @@ describe("EntitySchema", () => {
     }
   });
 });
+
+describe("EntitySchema existing_table", () => {
+  it("passes with existing_table: true and no columns", () => {
+    const result = EntitySchema.safeParse({
+      name: "account",
+      existing_table: true,
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("does not require primary_name column when existing_table is true", () => {
+    const result = EntitySchema.safeParse({
+      name: "account",
+      existing_table: true,
+      columns: [{ name: "name", type: "string", display_name: "Name" }],
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("existing_table defaults to undefined (falsy) when not set", () => {
+    const result = EntitySchema.safeParse(baseEntity());
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.existing_table).toBeUndefined();
+    }
+  });
+});

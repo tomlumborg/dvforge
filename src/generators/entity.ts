@@ -104,3 +104,24 @@ export function generate(entity: Entity, prefix: string): Record<string, unknown
   };
   return { [`entities/${fullName}/entity.yml`]: data };
 }
+
+export function generateSystemTable(entity: Entity): Record<string, unknown> {
+  const name = entity.name;
+  const displayName = entity.display_name || name;
+  const data = {
+    Entity: {
+      Name: {
+        "@LocalizedName": displayName,
+        "@OriginalName": "",
+        "#text": name,
+      },
+      EntityInfo: {
+        entity: {
+          "@Name": name,
+          "@unmodified": 1,
+        },
+      },
+    },
+  };
+  return { [`entities/${name}/entity.yml`]: data };
+}

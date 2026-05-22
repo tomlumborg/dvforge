@@ -6,17 +6,24 @@ type Relationship = Config["entities"][number]["relationships"][number];
 // Cross-reference checks run after all files are loaded — Zod validates each file in isolation
 // so these references can only be verified once the full config is assembled.
 export function validateRefs(config: Config): void {
-  const entityNames = new Set(config.entities.map((e) => e.name));
+  const customEntityNames = new Set(config.entities.filter((e) => e.existing_table !== true).map((e) => e.name));
+  const systemTableNames = new Set(config.entities.filter((e) => e.existing_table === true).map((e) => e.name));
   const optionSetNames = new Set(config.option_sets.map((o) => o.name));
   const errors: string[] = [];
 
-  for (const entity of config.entities) {
+  for (const name of systemTableNames) {
+    if (customEntityNames.has(name)) {
+      errors.push(`Entity name '${name}' is declared as both a custom entity and an existing table`);
+    }
+  }
+
+  for (const entity of config.entities.filter((e) => e.existing_table !== true)) {
     for (const col of entity.columns) {
-      errors.push(...columnRelatedTableMatchesEntity(entity.name, col, entityNames));
+      errors.push(...columnRelatedTableMatchesEntity(entity.name, col, customEntityNames, systemTableNames));
       errors.push(...columnOptionSetMatchesOptionSet(entity.name, col, optionSetNames));
     }
     for (const rel of entity.relationships) {
-      errors.push(...relationshipTableMatchesEntity(entity.name, rel, entityNames));
+      errors.push(...relationshipTableMatchesEntity(entity.name, rel, customEntityNames, systemTableNames));
       errors.push(...relationshipLookupColumnExistsAndIsLookupType(entity.name, rel, entity.columns));
     }
   }
@@ -26,9 +33,9 @@ export function validateRefs(config: Config): void {
   }
 }
 
-function columnRelatedTableMatchesEntity(entityName: string, col: Column, entityNames: Set<string>): string[] {
-  if (col.related_table && !entityNames.has(col.related_table)) {
-    return [`Entity '${entityName}', column '${col.name}': related_table '${col.related_table}' does not match any entity`];
+function columnRelatedTableMatchesEntity(entityName: string, col: Column, customEntityNames: Set<string>, systemTableNames: Set<string>): string[] {
+  if (col.related_table && !customEntityNames.has(col.related_table) && !systemTableNames.has(col.related_table)) {
+    return [`Entity '${entityName}', column '${col.name}': related_table '${col.related_table}' does not match any entity or existing table`];
   }
   return [];
 }
@@ -40,9 +47,9 @@ function columnOptionSetMatchesOptionSet(entityName: string, col: Column, option
   return [];
 }
 
-function relationshipTableMatchesEntity(entityName: string, rel: Relationship, entityNames: Set<string>): string[] {
-  if (!entityNames.has(rel.related_table)) {
-    return [`Entity '${entityName}', relationship: related_table '${rel.related_table}' does not match any entity`];
+function relationshipTableMatchesEntity(entityName: string, rel: Relationship, customEntityNames: Set<string>, systemTableNames: Set<string>): string[] {
+  if (!customEntityNames.has(rel.related_table) && !systemTableNames.has(rel.related_table)) {
+    return [`Entity '${entityName}', relationship: related_table '${rel.related_table}' does not match any entity or existing table`];
   }
   return [];
 }
