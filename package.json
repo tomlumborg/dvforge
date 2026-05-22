@@ -20,7 +20,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "postbuild": "chmod +x dist/cli.js",
+    "postbuild": "node -e \"import('fs').then(fs=>fs.chmodSync('dist/cli.js',0o755))\"",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build",
     "test": "vitest run",
