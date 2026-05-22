@@ -51,7 +51,8 @@ my-solution/
 ├── optionsets.yml      (optional)
 └── entities/
     ├── deal.yml
-    └── contact.yml
+    ├── contact.yml
+    └── transactioncurrency.yml
 ```
 
 ### `solution.yml`
@@ -111,6 +112,18 @@ entities:
     relationships:
       - related_table: account  # the "one" side entity
         lookup_column: account  # the FK column on this entity
+```
+
+### Existing (system) Entity
+To reference system or built-in entities, add them to the entity list and mark them as an existing table. Use the logical name and display name exactly as they appear in Dataverse. You can also reference custom tables from other solutions by including their prefix.
+
+Once declared, these tables can be used as lookup targets on other tables.
+
+```yaml
+entities:
+  - name: TransactionCurrency
+    existing_table: true
+    display_name: Currency
 ```
 
 **Column types:** `string`, `lookup`, `choice`, `datetime`, `dateonly`, `int`
