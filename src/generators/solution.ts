@@ -6,6 +6,13 @@ function componentPaths(config: Config, componentFiles: string[]): string[] {
   const paths: string[] = [];
 
   for (const entity of config.entities) {
+    if (entity.existing_table === true) {
+      const entityBase = `/entities/${entity.name}`;
+      paths.push(entityBase);
+      paths.push(`${entityBase}/ribbondiffs`);
+      continue;
+    }
+
     const full = prefixed(entity.name, prefix);
     const entityBase = `/entities/${full}`;
 
@@ -102,8 +109,8 @@ export function generate(
   for (const entity of config.entities) {
     rootComponents.push({
       "@type": 1,
-      "@schemaName": prefixed(entity.name, prefix),
-      "@behavior": 0,
+      "@schemaName": entity.existing_table === true ? entity.name : prefixed(entity.name, prefix),
+      "@behavior": entity.existing_table === true ? 2 : 0,
     });
   }
   for (const os of config.option_sets) {
@@ -113,6 +120,11 @@ export function generate(
       "@behavior": 0,
     });
   }
+  rootComponents.sort((a, b) => {
+    const typeDiff = Number(a["@type"]) - Number(b["@type"]);
+    if (typeDiff !== 0) return typeDiff;
+    return String(a["@schemaName"]).localeCompare(String(b["@schemaName"]));
+  });
 
   const rootData = { RootComponents: { RootComponent: rootComponents } };
   const missingData = { MissingDependencies: null };

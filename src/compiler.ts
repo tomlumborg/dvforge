@@ -27,7 +27,13 @@ export function compile(config: Config, outputDir: string, managed = true): void
 
   // entities
   const customEntities = config.entities.filter((e) => e.existing_table !== true);
-  const systemTableNames = new Set(config.entities.filter((e) => e.existing_table === true).map((e) => e.name));
+  const systemEntities = config.entities.filter((e) => e.existing_table === true);
+  const systemTableNames = new Set(systemEntities.map((e) => e.name));
+
+  for (const ent of systemEntities)
+    for (const gen of [entity, ribbondiff])
+      for (const [k, v] of Object.entries(gen.generateSystemTable(ent)))
+        files.set(k, v);
 
   for (const ent of customEntities) {
     for (const gen of [entity, attribute, formxml, savedquery, ribbondiff])
