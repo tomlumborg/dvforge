@@ -1,0 +1,285 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`solution generator > generates expected output for managed solution with no components 1`] = `
+{
+  "solutions/my_solution/missingdependencies.yml": {
+    "MissingDependencies": null,
+  },
+  "solutions/my_solution/rootcomponents.yml": {
+    "RootComponents": {
+      "RootComponent": [],
+    },
+  },
+  "solutions/my_solution/solution.yml": {
+    "ImportExportXml": {
+      "@SolutionPackageVersion": 9.2,
+      "@generatedBy": "CrmLive",
+      "@languagecode": 1033,
+      "@version": "9.2.26035.182",
+      "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "SolutionManifest": {
+        "Descriptions": null,
+        "LocalizedNames": {
+          "LocalizedName": {
+            "@description": "My Solution",
+            "@languagecode": 1033,
+          },
+        },
+        "Managed": 1,
+        "Publisher": {
+          "UniqueName": "contoso",
+        },
+        "UniqueName": "my_solution",
+        "Version": "1.0.0",
+      },
+    },
+  },
+  "solutions/my_solution/solutioncomponents.yml": {
+    "SolutionComponents": {
+      "Component": [
+        {
+          "@path": "/publishers/contoso",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`solution generator > generates expected output for unmanaged solution with no components 1`] = `
+{
+  "solutions/my_solution/missingdependencies.yml": {
+    "MissingDependencies": null,
+  },
+  "solutions/my_solution/rootcomponents.yml": {
+    "RootComponents": {
+      "RootComponent": [],
+    },
+  },
+  "solutions/my_solution/solution.yml": {
+    "ImportExportXml": {
+      "@SolutionPackageVersion": 9.2,
+      "@generatedBy": "CrmLive",
+      "@languagecode": 1033,
+      "@version": "9.2.26035.182",
+      "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "SolutionManifest": {
+        "Descriptions": null,
+        "LocalizedNames": {
+          "LocalizedName": {
+            "@description": "My Solution",
+            "@languagecode": 1033,
+          },
+        },
+        "Managed": 0,
+        "Publisher": {
+          "UniqueName": "contoso",
+        },
+        "UniqueName": "my_solution",
+        "Version": "1.0.0",
+      },
+    },
+  },
+  "solutions/my_solution/solutioncomponents.yml": {
+    "SolutionComponents": {
+      "Component": [
+        {
+          "@path": "/publishers/contoso",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`solution generator > generates expected output with component files and custom entity 1`] = `
+{
+  "solutions/my_solution/missingdependencies.yml": {
+    "MissingDependencies": null,
+  },
+  "solutions/my_solution/rootcomponents.yml": {
+    "RootComponents": {
+      "RootComponent": [
+        {
+          "@behavior": 0,
+          "@schemaName": "con_order",
+          "@type": 1,
+        },
+      ],
+    },
+  },
+  "solutions/my_solution/solution.yml": {
+    "ImportExportXml": {
+      "@SolutionPackageVersion": 9.2,
+      "@generatedBy": "CrmLive",
+      "@languagecode": 1033,
+      "@version": "9.2.26035.182",
+      "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "SolutionManifest": {
+        "Descriptions": null,
+        "LocalizedNames": {
+          "LocalizedName": {
+            "@description": "My Solution",
+            "@languagecode": 1033,
+          },
+        },
+        "Managed": 0,
+        "Publisher": {
+          "UniqueName": "contoso",
+        },
+        "UniqueName": "my_solution",
+        "Version": "1.0.0",
+      },
+    },
+  },
+  "solutions/my_solution/solutioncomponents.yml": {
+    "SolutionComponents": {
+      "Component": [
+        {
+          "@path": "/entities/con_order",
+        },
+        {
+          "@path": "/entities/con_order/attributes/con_name.yml",
+        },
+        {
+          "@path": "/entities/con_order/attributes/con_orderid.yml",
+        },
+        {
+          "@path": "/entities/con_order/formxml/card/some-uuid",
+        },
+        {
+          "@path": "/entities/con_order/formxml/main/some-uuid",
+        },
+        {
+          "@path": "/entities/con_order/formxml/quick/some-uuid",
+        },
+        {
+          "@path": "/entities/con_order/ribbondiffs",
+        },
+        {
+          "@path": "/entities/con_order/savedqueries/uuid-1",
+        },
+        {
+          "@path": "/entityrelationships/owner_con_order",
+        },
+        {
+          "@path": "/publishers/contoso",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`solution generator > generates expected output with existing table entity 1`] = `
+{
+  "solutions/my_solution/missingdependencies.yml": {
+    "MissingDependencies": null,
+  },
+  "solutions/my_solution/rootcomponents.yml": {
+    "RootComponents": {
+      "RootComponent": [
+        {
+          "@behavior": 2,
+          "@schemaName": "account",
+          "@type": 1,
+        },
+      ],
+    },
+  },
+  "solutions/my_solution/solution.yml": {
+    "ImportExportXml": {
+      "@SolutionPackageVersion": 9.2,
+      "@generatedBy": "CrmLive",
+      "@languagecode": 1033,
+      "@version": "9.2.26035.182",
+      "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "SolutionManifest": {
+        "Descriptions": null,
+        "LocalizedNames": {
+          "LocalizedName": {
+            "@description": "My Solution",
+            "@languagecode": 1033,
+          },
+        },
+        "Managed": 0,
+        "Publisher": {
+          "UniqueName": "contoso",
+        },
+        "UniqueName": "my_solution",
+        "Version": "1.0.0",
+      },
+    },
+  },
+  "solutions/my_solution/solutioncomponents.yml": {
+    "SolutionComponents": {
+      "Component": [
+        {
+          "@path": "/entities/account",
+        },
+        {
+          "@path": "/entities/account/ribbondiffs",
+        },
+        {
+          "@path": "/publishers/contoso",
+        },
+      ],
+    },
+  },
+}
+`;
+
+exports[`solution generator > generates expected output with option sets 1`] = `
+{
+  "solutions/my_solution/missingdependencies.yml": {
+    "MissingDependencies": null,
+  },
+  "solutions/my_solution/rootcomponents.yml": {
+    "RootComponents": {
+      "RootComponent": [
+        {
+          "@behavior": 0,
+          "@schemaName": "con_status_type",
+          "@type": 9,
+        },
+      ],
+    },
+  },
+  "solutions/my_solution/solution.yml": {
+    "ImportExportXml": {
+      "@SolutionPackageVersion": 9.2,
+      "@generatedBy": "CrmLive",
+      "@languagecode": 1033,
+      "@version": "9.2.26035.182",
+      "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+      "SolutionManifest": {
+        "Descriptions": null,
+        "LocalizedNames": {
+          "LocalizedName": {
+            "@description": "My Solution",
+            "@languagecode": 1033,
+          },
+        },
+        "Managed": 0,
+        "Publisher": {
+          "UniqueName": "contoso",
+        },
+        "UniqueName": "my_solution",
+        "Version": "1.0.0",
+      },
+    },
+  },
+  "solutions/my_solution/solutioncomponents.yml": {
+    "SolutionComponents": {
+      "Component": [
+        {
+          "@path": "/optionsets/con_status_type",
+        },
+        {
+          "@path": "/publishers/contoso",
+        },
+      ],
+    },
+  },
+}
+`;

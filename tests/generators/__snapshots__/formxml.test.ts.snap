@@ -1,0 +1,422 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`formxml generator > generates expected output for minimal valid input 1`] = `
+{
+  "entities/pfx_order/formxml/card/d1fba18a-e3b7-5e75-a9f9-78b06734792d/systemform.yml": {
+    "systemform": {
+      "CanBeDeleted": 1,
+      "Descriptions": {
+        "Description": {
+          "@description": "A card form for this entity.",
+          "@languagecode": 1033,
+        },
+      },
+      "FormActivationState": 1,
+      "FormPresentation": 1,
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "Information",
+          "@languagecode": 1033,
+        },
+      },
+      "form": {
+        "tabs": {
+          "tab": {
+            "@IsUserDefined": 0,
+            "@id": "{cce299e4-c08f-52eb-ab3f-fe12b38db56b}",
+            "@name": "general",
+            "@verticallayout": true,
+            "columns": {
+              "column": [
+                {
+                  "@width": "25%",
+                  "sections": {
+                    "section": {
+                      "@IsUserDefined": 0,
+                      "@columns": 1,
+                      "@id": "{46391015-1164-5849-9c4f-8e01bac6ae82}",
+                      "@name": "ColorStrip",
+                      "@showbar": false,
+                      "@showlabel": false,
+                      "labels": {
+                        "label": {
+                          "@description": "ColorStrip",
+                          "@languagecode": 1033,
+                        },
+                      },
+                    },
+                  },
+                },
+                {
+                  "@width": "75%",
+                  "sections": {
+                    "section": [
+                      {
+                        "@IsUserDefined": 0,
+                        "@columns": 111,
+                        "@id": "{e102e7be-fd35-5f2a-9dac-ca4efc1cc1ea}",
+                        "@name": "CardHeader",
+                        "@showbar": false,
+                        "@showlabel": false,
+                        "labels": {
+                          "label": {
+                            "@description": "Header",
+                            "@languagecode": 1033,
+                          },
+                        },
+                        "rows": {
+                          "row": {
+                            "cell": [
+                              {
+                                "@id": "{fe6902e9-4d79-561b-9cbe-0f7d9df58ae3}",
+                                "@locklevel": 0,
+                                "@showlabel": true,
+                                "control": {
+                                  "@classid": "{5D68B988-0661-4db2-BC3E-17598AD3BE6C}",
+                                  "@datafieldname": "statuscode",
+                                  "@disabled": false,
+                                  "@id": "statuscode",
+                                },
+                                "labels": {
+                                  "label": {
+                                    "@description": "Status Reason",
+                                    "@languagecode": 1033,
+                                  },
+                                },
+                              },
+                              {
+                                "@id": "{a6acca6b-bda8-5b6a-a693-da8dbdd0aa85}",
+                                "@locklevel": 0,
+                                "@showlabel": true,
+                                "labels": {
+                                  "label": {
+                                    "@description": "",
+                                    "@languagecode": 1033,
+                                  },
+                                },
+                              },
+                              {
+                                "@id": "{3a3c4ff1-7eba-5ced-a692-f12b652d4649}",
+                                "@locklevel": 0,
+                                "@showlabel": true,
+                                "labels": {
+                                  "label": {
+                                    "@description": "",
+                                    "@languagecode": 1033,
+                                  },
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      },
+                      {
+                        "@IsUserDefined": 0,
+                        "@columns": 1,
+                        "@id": "{a6a5e58d-d4fd-54cf-87b8-94c170044c79}",
+                        "@name": "CardDetails",
+                        "@showbar": false,
+                        "@showlabel": false,
+                        "labels": {
+                          "label": {
+                            "@description": "Details",
+                            "@languagecode": 1033,
+                          },
+                        },
+                        "rows": {
+                          "row": {
+                            "cell": {
+                              "@id": "{da5c9112-5488-55a3-9e59-6a879a55b136}",
+                              "@locklevel": 0,
+                              "@showlabel": true,
+                              "control": {
+                                "@classid": "{4273EDBD-AC1D-40d3-9FB2-095C621B552D}",
+                                "@datafieldname": "pfx_name",
+                                "@disabled": false,
+                                "@id": "pfx_name",
+                              },
+                              "labels": {
+                                "label": {
+                                  "@description": "Name",
+                                  "@languagecode": 1033,
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                      {
+                        "@IsUserDefined": 0,
+                        "@columns": 1111,
+                        "@id": "{641a0c70-c10b-510b-90c9-bf9da9536fc1}",
+                        "@name": "CardFooter",
+                        "@showbar": false,
+                        "@showlabel": false,
+                        "labels": {
+                          "label": {
+                            "@description": "Footer",
+                            "@languagecode": 1033,
+                          },
+                        },
+                        "rows": {
+                          "row": {
+                            "cell": [
+                              {
+                                "@id": "{0151785f-68f4-552e-899d-4a90ad45362e}",
+                                "@locklevel": 0,
+                                "@showlabel": true,
+                                "control": {
+                                  "@classid": "{270BD3DB-D9AF-4782-9025-509E298DEC0A}",
+                                  "@datafieldname": "ownerid",
+                                  "@disabled": false,
+                                  "@id": "ownerid",
+                                },
+                                "labels": {
+                                  "label": {
+                                    "@description": "Owner",
+                                    "@languagecode": 1033,
+                                  },
+                                },
+                              },
+                              {
+                                "@id": "{e9d54bb0-5b4a-5bf5-acb2-ff52bdef5464}",
+                                "@locklevel": 0,
+                                "@showlabel": true,
+                                "control": {
+                                  "@classid": "{270BD3DB-D9AF-4782-9025-509E298DEC0A}",
+                                  "@datafieldname": "createdon",
+                                  "@disabled": false,
+                                  "@id": "createdon",
+                                },
+                                "labels": {
+                                  "label": {
+                                    "@description": "Created On",
+                                    "@languagecode": 1033,
+                                  },
+                                },
+                              },
+                              {
+                                "@id": "{92e56365-b41f-5536-a599-507612062a5f}",
+                                "@locklevel": 0,
+                                "@showlabel": true,
+                                "labels": {
+                                  "label": {
+                                    "@description": "",
+                                    "@languagecode": 1033,
+                                  },
+                                },
+                              },
+                              {
+                                "@id": "{6f9ef31f-50a8-5ebc-8377-2376da5e62bc}",
+                                "@locklevel": 0,
+                                "@showlabel": true,
+                                "labels": {
+                                  "label": {
+                                    "@description": "",
+                                    "@languagecode": 1033,
+                                  },
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+            "labels": {
+              "label": {
+                "@description": "",
+                "@languagecode": 1033,
+              },
+            },
+          },
+        },
+      },
+      "formid": "{d1fba18a-e3b7-5e75-a9f9-78b06734792d}",
+    },
+  },
+  "entities/pfx_order/formxml/main/1ee25bea-6785-5c4d-b45b-8a955c885b18/systemform.yml": {
+    "systemform": {
+      "CanBeDeleted": 1,
+      "Descriptions": {
+        "Description": {
+          "@description": "A form for this entity.",
+          "@languagecode": 1033,
+        },
+      },
+      "FormActivationState": 1,
+      "FormPresentation": 1,
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "Information",
+          "@languagecode": 1033,
+        },
+      },
+      "form": {
+        "tabs": {
+          "tab": {
+            "@IsUserDefined": 1,
+            "@id": "{196aee6e-85df-5eac-afff-217539503ade}",
+            "@verticallayout": true,
+            "columns": {
+              "column": {
+                "@width": "100%",
+                "sections": {
+                  "section": {
+                    "@IsUserDefined": 0,
+                    "@id": "{2675074e-7767-542c-92f2-832585e4f1e5}",
+                    "@showbar": false,
+                    "@showlabel": false,
+                    "labels": {
+                      "label": {
+                        "@description": "General",
+                        "@languagecode": 1033,
+                      },
+                    },
+                    "rows": {
+                      "row": [
+                        {
+                          "cell": {
+                            "@id": "{c1088ca5-5269-551d-b18b-2d4941e73294}",
+                            "control": {
+                              "@classid": "{4273EDBD-AC1D-40d3-9FB2-095C621B552D}",
+                              "@datafieldname": "pfx_name",
+                              "@id": "pfx_name",
+                            },
+                            "labels": {
+                              "label": {
+                                "@description": "Name",
+                                "@languagecode": 1033,
+                              },
+                            },
+                          },
+                        },
+                        {
+                          "cell": {
+                            "@id": "{6a012f15-5f4b-57d1-84cc-c9461e5c8a12}",
+                            "control": {
+                              "@classid": "{270BD3DB-D9AF-4782-9025-509E298DEC0A}",
+                              "@datafieldname": "ownerid",
+                              "@id": "ownerid",
+                            },
+                            "labels": {
+                              "label": {
+                                "@description": "Owner",
+                                "@languagecode": 1033,
+                              },
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+            "labels": {
+              "label": {
+                "@description": "General",
+                "@languagecode": 1033,
+              },
+            },
+          },
+        },
+      },
+      "formid": "{1ee25bea-6785-5c4d-b45b-8a955c885b18}",
+    },
+  },
+  "entities/pfx_order/formxml/quick/bf903dca-22d0-55fe-b946-fce38d969796/systemform.yml": {
+    "systemform": {
+      "CanBeDeleted": 1,
+      "FormActivationState": 1,
+      "FormPresentation": 1,
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "Information",
+          "@languagecode": 1033,
+        },
+      },
+      "form": {
+        "tabs": {
+          "tab": {
+            "@IsUserDefined": 1,
+            "@id": "{76dc2920-1640-572c-8158-8572ed11afe3}",
+            "@verticallayout": true,
+            "columns": {
+              "column": {
+                "@width": "100%",
+                "sections": {
+                  "section": {
+                    "@IsUserDefined": 0,
+                    "@id": "{705c4daa-b5cc-56c5-bdb9-980724a0a93d}",
+                    "@showbar": false,
+                    "@showlabel": false,
+                    "labels": {
+                      "label": {
+                        "@description": "GENERAL",
+                        "@languagecode": 1033,
+                      },
+                    },
+                    "rows": {
+                      "row": [
+                        {
+                          "cell": {
+                            "@id": "{47c02741-57b2-58cf-b770-7742636c4d77}",
+                            "control": {
+                              "@classid": "{4273EDBD-AC1D-40d3-9FB2-095C621B552D}",
+                              "@datafieldname": "pfx_name",
+                              "@id": "pfx_name",
+                            },
+                            "labels": {
+                              "label": {
+                                "@description": "Name",
+                                "@languagecode": 1033,
+                              },
+                            },
+                          },
+                        },
+                        {
+                          "cell": {
+                            "@id": "{40789f39-8458-5be3-9586-2f3478e152bf}",
+                            "control": {
+                              "@classid": "{270BD3DB-D9AF-4782-9025-509E298DEC0A}",
+                              "@datafieldname": "ownerid",
+                              "@id": "ownerid",
+                            },
+                            "labels": {
+                              "label": {
+                                "@description": "Owner",
+                                "@languagecode": 1033,
+                              },
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+            "labels": {
+              "label": {
+                "@description": "",
+                "@languagecode": 1033,
+              },
+            },
+          },
+        },
+      },
+      "formid": "{bf903dca-22d0-55fe-b946-fce38d969796}",
+    },
+  },
+}
+`;

@@ -1,0 +1,133 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`optionset generator > generates expected output for a single-option set 1`] = `
+{
+  "optionsets/pfx_flag/optionset.yml": {
+    "optionset": {
+      "@Name": "pfx_flag",
+      "@localizedName": "Flag",
+      "Descriptions": {
+        "Description": {
+          "@description": "",
+          "@languagecode": 1033,
+        },
+      },
+      "ExternalTypeName": "",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsGlobal": 1,
+      "OptionSetType": "picklist",
+      "displaynames": {
+        "displayname": {
+          "@description": "Flag",
+          "@languagecode": 1033,
+        },
+      },
+      "options": {
+        "option": [
+          {
+            "@ExternalValue": "",
+            "@IsHidden": 0,
+            "@value": 100000,
+            "Descriptions": {
+              "Description": {
+                "@description": "",
+                "@languagecode": 1033,
+              },
+            },
+            "labels": {
+              "label": {
+                "@description": "Yes",
+                "@languagecode": 1033,
+              },
+            },
+          },
+        ],
+      },
+    },
+  },
+}
+`;
+
+exports[`optionset generator > generates expected output for minimal valid input 1`] = `
+{
+  "optionsets/pfx_order_status/optionset.yml": {
+    "optionset": {
+      "@Name": "pfx_order_status",
+      "@localizedName": "Order Status",
+      "Descriptions": {
+        "Description": {
+          "@description": "",
+          "@languagecode": 1033,
+        },
+      },
+      "ExternalTypeName": "",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsGlobal": 1,
+      "OptionSetType": "picklist",
+      "displaynames": {
+        "displayname": {
+          "@description": "Order Status",
+          "@languagecode": 1033,
+        },
+      },
+      "options": {
+        "option": [
+          {
+            "@ExternalValue": "",
+            "@IsHidden": 0,
+            "@value": 100000,
+            "Descriptions": {
+              "Description": {
+                "@description": "",
+                "@languagecode": 1033,
+              },
+            },
+            "labels": {
+              "label": {
+                "@description": "Pending",
+                "@languagecode": 1033,
+              },
+            },
+          },
+          {
+            "@ExternalValue": "",
+            "@IsHidden": 0,
+            "@value": 100001,
+            "Descriptions": {
+              "Description": {
+                "@description": "",
+                "@languagecode": 1033,
+              },
+            },
+            "labels": {
+              "label": {
+                "@description": "Active",
+                "@languagecode": 1033,
+              },
+            },
+          },
+          {
+            "@ExternalValue": "",
+            "@IsHidden": 0,
+            "@value": 100002,
+            "Descriptions": {
+              "Description": {
+                "@description": "",
+                "@languagecode": 1033,
+              },
+            },
+            "labels": {
+              "label": {
+                "@description": "Closed",
+                "@languagecode": 1033,
+              },
+            },
+          },
+        ],
+      },
+    },
+  },
+}
+`;

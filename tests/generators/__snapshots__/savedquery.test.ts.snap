@@ -1,0 +1,494 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`savedquery generator > generates expected output for minimal valid input 1`] = `
+{
+  "entities/pfx_order/savedqueries/1ed0b757-19c0-55e6-8400-1604581838c0/savedquery.yml": {
+    "savedquery": {
+      "CanBeDeleted": 0,
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "Order Associated View",
+          "@languagecode": 1033,
+        },
+      },
+      "fetchxml": {
+        "fetch": {
+          "@mapping": "logical",
+          "@version": "1.0.0",
+          "entity": {
+            "@name": "pfx_order",
+            "attribute": [
+              {
+                "@name": "pfx_orderid",
+              },
+              {
+                "@name": "pfx_name",
+              },
+              {
+                "@name": "createdon",
+              },
+            ],
+            "filter": {
+              "@type": "and",
+              "condition": {
+                "@attribute": "statecode",
+                "@operator": "eq",
+                "@value": 0,
+              },
+            },
+            "order": {
+              "@attribute": "pfx_name",
+              "@descending": false,
+            },
+          },
+        },
+      },
+      "isdefault": 1,
+      "isprivate": 0,
+      "isquickfindquery": 0,
+      "layoutxml": {
+        "grid": {
+          "@icon": 1,
+          "@jump": "pfx_name",
+          "@name": "pfx_orders",
+          "@preview": 1,
+          "@select": 1,
+          "row": {
+            "@id": "pfx_orderid",
+            "@name": "pfx_order",
+            "cell": [
+              {
+                "@name": "pfx_name",
+                "@width": 300,
+              },
+              {
+                "@name": "createdon",
+                "@width": 125,
+              },
+            ],
+          },
+        },
+      },
+      "querytype": 2,
+      "savedqueryid": "{1ed0b757-19c0-55e6-8400-1604581838c0}",
+    },
+  },
+  "entities/pfx_order/savedqueries/4e42cd06-80c5-512b-81be-15542fd58859/savedquery.yml": {
+    "savedquery": {
+      "CanBeDeleted": 0,
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "Quick Find Active Orders",
+          "@languagecode": 1033,
+        },
+      },
+      "fetchxml": {
+        "fetch": {
+          "@mapping": "logical",
+          "@version": "1.0.0",
+          "entity": {
+            "@name": "pfx_order",
+            "attribute": [
+              {
+                "@name": "pfx_orderid",
+              },
+              {
+                "@name": "pfx_name",
+              },
+              {
+                "@name": "createdon",
+              },
+            ],
+            "filter": [
+              {
+                "@type": "and",
+                "condition": {
+                  "@attribute": "statecode",
+                  "@operator": "eq",
+                  "@value": 0,
+                },
+              },
+              {
+                "@isquickfindfields": 1,
+                "@type": "or",
+                "condition": {
+                  "@attribute": "pfx_name",
+                  "@operator": "like",
+                  "@value": "{0}",
+                },
+              },
+            ],
+            "order": {
+              "@attribute": "pfx_name",
+              "@descending": false,
+            },
+          },
+        },
+      },
+      "isdefault": 1,
+      "isprivate": 0,
+      "isquickfindquery": 1,
+      "layoutxml": {
+        "grid": {
+          "@icon": 1,
+          "@jump": "pfx_name",
+          "@name": "resultset",
+          "@preview": 1,
+          "@select": 1,
+          "row": {
+            "@id": "pfx_orderid",
+            "@name": "result",
+            "cell": [
+              {
+                "@name": "pfx_name",
+                "@width": 300,
+              },
+              {
+                "@name": "createdon",
+                "@width": 125,
+              },
+            ],
+          },
+        },
+      },
+      "querytype": 4,
+      "savedqueryid": "{4e42cd06-80c5-512b-81be-15542fd58859}",
+    },
+  },
+  "entities/pfx_order/savedqueries/5d93e78a-c743-54bb-b6a9-b8abb516eef7/savedquery.yml": {
+    "savedquery": {
+      "CanBeDeleted": 0,
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "Active Orders",
+          "@languagecode": 1033,
+        },
+      },
+      "fetchxml": {
+        "fetch": {
+          "@mapping": "logical",
+          "@version": "1.0.0",
+          "entity": {
+            "@name": "pfx_order",
+            "attribute": [
+              {
+                "@name": "pfx_orderid",
+              },
+              {
+                "@name": "pfx_name",
+              },
+              {
+                "@name": "createdon",
+              },
+            ],
+            "filter": {
+              "@type": "and",
+              "condition": {
+                "@attribute": "statecode",
+                "@operator": "eq",
+                "@value": 0,
+              },
+            },
+            "order": {
+              "@attribute": "pfx_name",
+              "@descending": false,
+            },
+          },
+        },
+      },
+      "isdefault": 1,
+      "isprivate": 0,
+      "isquickfindquery": 0,
+      "layoutxml": {
+        "grid": {
+          "@icon": 1,
+          "@jump": "pfx_name",
+          "@name": "resultset",
+          "@preview": 1,
+          "@select": 1,
+          "row": {
+            "@id": "pfx_orderid",
+            "@name": "result",
+            "cell": [
+              {
+                "@name": "pfx_name",
+                "@width": 300,
+              },
+              {
+                "@name": "createdon",
+                "@width": 125,
+              },
+            ],
+          },
+        },
+      },
+      "querytype": 0,
+      "savedqueryid": "{5d93e78a-c743-54bb-b6a9-b8abb516eef7}",
+    },
+  },
+  "entities/pfx_order/savedqueries/9df487f6-bd11-5fb0-87bb-2d8f42e2c23a/savedquery.yml": {
+    "savedquery": {
+      "CanBeDeleted": 0,
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "Order Lookup View",
+          "@languagecode": 1033,
+        },
+      },
+      "fetchxml": {
+        "fetch": {
+          "@mapping": "logical",
+          "@version": "1.0.0",
+          "entity": {
+            "@name": "pfx_order",
+            "attribute": [
+              {
+                "@name": "pfx_orderid",
+              },
+              {
+                "@name": "pfx_name",
+              },
+              {
+                "@name": "createdon",
+              },
+            ],
+            "filter": {
+              "@type": "and",
+              "condition": {
+                "@attribute": "statecode",
+                "@operator": "eq",
+                "@value": 0,
+              },
+            },
+          },
+        },
+      },
+      "isdefault": 1,
+      "isprivate": 0,
+      "isquickfindquery": 0,
+      "layoutxml": {
+        "grid": {
+          "@icon": 1,
+          "@jump": "pfx_name",
+          "@name": "pfx_orders",
+          "@preview": 0,
+          "@select": 1,
+          "row": {
+            "@id": "pfx_orderid",
+            "@name": "pfx_order",
+            "cell": [
+              {
+                "@name": "pfx_name",
+                "@width": 300,
+              },
+              {
+                "@name": "createdon",
+                "@width": 125,
+              },
+            ],
+          },
+        },
+      },
+      "querytype": 64,
+      "savedqueryid": "{9df487f6-bd11-5fb0-87bb-2d8f42e2c23a}",
+    },
+  },
+  "entities/pfx_order/savedqueries/aa719d3b-80ba-5736-b8b1-480ae1839953/savedquery.yml": {
+    "savedquery": {
+      "CanBeDeleted": 0,
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "Order Advanced Find View",
+          "@languagecode": 1033,
+        },
+      },
+      "fetchxml": {
+        "fetch": {
+          "@mapping": "logical",
+          "@version": "1.0.0",
+          "entity": {
+            "@name": "pfx_order",
+            "attribute": [
+              {
+                "@name": "pfx_orderid",
+              },
+              {
+                "@name": "pfx_name",
+              },
+              {
+                "@name": "createdon",
+              },
+            ],
+            "order": {
+              "@attribute": "pfx_name",
+              "@descending": false,
+            },
+          },
+        },
+      },
+      "isdefault": 1,
+      "isprivate": 0,
+      "isquickfindquery": 0,
+      "layoutxml": {
+        "grid": {
+          "@icon": 1,
+          "@jump": "pfx_name",
+          "@name": "resultset",
+          "@preview": 1,
+          "@select": 1,
+          "row": {
+            "@id": "pfx_orderid",
+            "@name": "result",
+            "cell": [
+              {
+                "@name": "pfx_name",
+                "@width": 300,
+              },
+              {
+                "@name": "createdon",
+                "@width": 125,
+              },
+            ],
+          },
+        },
+      },
+      "querytype": 1,
+      "savedqueryid": "{aa719d3b-80ba-5736-b8b1-480ae1839953}",
+    },
+  },
+  "entities/pfx_order/savedqueries/da343e96-355f-54f8-969d-6e755b40d9f0/savedquery.yml": {
+    "savedquery": {
+      "CanBeDeleted": 0,
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "Inactive Orders",
+          "@languagecode": 1033,
+        },
+      },
+      "fetchxml": {
+        "fetch": {
+          "@mapping": "logical",
+          "@version": "1.0.0",
+          "entity": {
+            "@name": "pfx_order",
+            "attribute": [
+              {
+                "@name": "pfx_orderid",
+              },
+              {
+                "@name": "pfx_name",
+              },
+              {
+                "@name": "createdon",
+              },
+            ],
+            "filter": {
+              "@type": "and",
+              "condition": {
+                "@attribute": "statecode",
+                "@operator": "eq",
+                "@value": 1,
+              },
+            },
+            "order": {
+              "@attribute": "pfx_name",
+              "@descending": false,
+            },
+          },
+        },
+      },
+      "isdefault": 0,
+      "isprivate": 0,
+      "isquickfindquery": 0,
+      "layoutxml": {
+        "grid": {
+          "@icon": 1,
+          "@jump": "pfx_name",
+          "@name": "resultset",
+          "@preview": 1,
+          "@select": 1,
+          "row": {
+            "@id": "pfx_orderid",
+            "@name": "result",
+            "cell": [
+              {
+                "@name": "pfx_name",
+                "@width": 300,
+              },
+              {
+                "@name": "createdon",
+                "@width": 125,
+              },
+            ],
+          },
+        },
+      },
+      "querytype": 0,
+      "savedqueryid": "{da343e96-355f-54f8-969d-6e755b40d9f0}",
+    },
+  },
+  "entities/pfx_order/savedqueries/e9ead6a9-3dc6-53ff-9eeb-87edf7b0d7cb/savedquery.yml": {
+    "savedquery": {
+      "CanBeDeleted": 1,
+      "Descriptions": {
+        "Description": {
+          "@description": "Active Orders owned by me",
+          "@languagecode": 1033,
+        },
+      },
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "My Orders",
+          "@languagecode": 1033,
+        },
+      },
+      "fetchxml": {
+        "fetch": {
+          "@mapping": "logical",
+          "@output-format": "xml-platform",
+          "@version": "1.0.0",
+          "entity": {
+            "@name": "pfx_order",
+            "attribute": {
+              "@name": "pfx_orderid",
+            },
+            "filter": {
+              "@type": "and",
+              "condition": [
+                {
+                  "@attribute": "statecode",
+                  "@operator": "eq",
+                  "@value": 0,
+                },
+                {
+                  "@attribute": "ownerid",
+                  "@operator": "eq-userid",
+                },
+              ],
+            },
+          },
+        },
+      },
+      "isdefault": 1,
+      "isprivate": 0,
+      "isquickfindquery": 0,
+      "querytype": 8192,
+      "savedqueryid": "{e9ead6a9-3dc6-53ff-9eeb-87edf7b0d7cb}",
+    },
+  },
+}
+`;

@@ -1,0 +1,226 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`publisher generator > generates expected output for minimal valid input 1`] = `
+{
+  "publishers/contoso/publisher.yml": {
+    "Publisher": {
+      "Addresses": {
+        "Address": [
+          {
+            "AddressNumber": 1,
+            "AddressTypeCode": 1,
+            "City": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Country": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "County": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Fax": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "FreightTermsCode": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "ImportSequenceNumber": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Latitude": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Line1": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Line2": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Line3": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Longitude": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Name": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "PostOfficeBox": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "PostalCode": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "PrimaryContactName": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "ShippingMethodCode": 1,
+            "StateOrProvince": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Telephone1": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Telephone2": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Telephone3": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "TimeZoneRuleVersionNumber": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "UPSZone": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "UTCConversionTimeZoneCode": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "UTCOffset": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+          },
+          {
+            "AddressNumber": 2,
+            "AddressTypeCode": 1,
+            "City": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Country": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "County": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Fax": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "FreightTermsCode": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "ImportSequenceNumber": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Latitude": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Line1": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Line2": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Line3": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Longitude": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Name": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "PostOfficeBox": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "PostalCode": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "PrimaryContactName": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "ShippingMethodCode": 1,
+            "StateOrProvince": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Telephone1": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Telephone2": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "Telephone3": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "TimeZoneRuleVersionNumber": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "UPSZone": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "UTCConversionTimeZoneCode": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+            "UTCOffset": {
+              "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+              "@xsi:nil": true,
+            },
+          },
+        ],
+      },
+      "CustomizationOptionValuePrefix": 10000,
+      "CustomizationPrefix": "con",
+      "Descriptions": null,
+      "EMailAddress": {
+        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "@xsi:nil": true,
+      },
+      "LocalizedNames": {
+        "LocalizedName": {
+          "@description": "Contoso",
+          "@languagecode": 1033,
+        },
+      },
+      "SupportingWebsiteUrl": {
+        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+        "@xsi:nil": true,
+      },
+      "UniqueName": "contoso",
+    },
+  },
+}
+`;

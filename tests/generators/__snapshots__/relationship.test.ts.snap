@@ -1,0 +1,570 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`relationship generator > generates expected output for entity with a custom relationship to another custom entity 1`] = `
+{
+  "entityrelationships/business_unit_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "business_unit_pfx_order",
+      "CascadeArchive": "Restrict",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "Restrict",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "BusinessUnit",
+      "ReferencingAttributeName": "OwningBusinessUnit",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier for the business unit that owns the record",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/lk_pfx_order_createdby/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "lk_pfx_order_createdby",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "SystemUser",
+      "ReferencingAttributeName": "CreatedBy",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier of the user who created the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/lk_pfx_order_modifiedby/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "lk_pfx_order_modifiedby",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "SystemUser",
+      "ReferencingAttributeName": "ModifiedBy",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier of the user who modified the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/owner_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "owner_pfx_order",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "Owner",
+      "ReferencingAttributeName": "OwnerId",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Owner Id",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/pfx_product__pfx_order_pfx_product_id/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "pfx_product__pfx_order_pfx_product_id",
+      "CascadeArchive": "RemoveLink",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "RemoveLink",
+      "CascadeReparent": "NoCascade",
+      "CascadeRollupView": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipRoles": {
+        "EntityRelationshipRole": [
+          {
+            "NavPaneArea": "Details",
+            "NavPaneDisplayOption": "UseCollectionName",
+            "NavPaneOrder": 10000,
+            "NavigationPropertyName": "pfx_product_id",
+            "RelationshipRoleType": 1,
+          },
+          {
+            "NavigationPropertyName": "pfx_product__pfx_order_pfx_product_id",
+            "RelationshipRoleType": 0,
+          },
+        ],
+      },
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "IsValidForAdvancedFind": 1,
+      "ReferencedEntityName": "pfx_product",
+      "ReferencingAttributeName": "pfx_product_id",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/team_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "team_pfx_order",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "Team",
+      "ReferencingAttributeName": "OwningTeam",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier for the team that owns the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/user_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "user_pfx_order",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "SystemUser",
+      "ReferencingAttributeName": "OwningUser",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier for the user that owns the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`relationship generator > generates expected output for entity with a relationship to a system table 1`] = `
+{
+  "entityrelationships/account__pfx_order_pfx_account_id/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "account__pfx_order_pfx_account_id",
+      "CascadeArchive": "RemoveLink",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "RemoveLink",
+      "CascadeReparent": "NoCascade",
+      "CascadeRollupView": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipRoles": {
+        "EntityRelationshipRole": [
+          {
+            "NavPaneArea": "Details",
+            "NavPaneDisplayOption": "UseCollectionName",
+            "NavPaneOrder": 10000,
+            "NavigationPropertyName": "pfx_account_id",
+            "RelationshipRoleType": 1,
+          },
+          {
+            "NavigationPropertyName": "account__pfx_order_pfx_account_id",
+            "RelationshipRoleType": 0,
+          },
+        ],
+      },
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "IsValidForAdvancedFind": 1,
+      "ReferencedEntityName": "account",
+      "ReferencingAttributeName": "pfx_account_id",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/business_unit_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "business_unit_pfx_order",
+      "CascadeArchive": "Restrict",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "Restrict",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "BusinessUnit",
+      "ReferencingAttributeName": "OwningBusinessUnit",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier for the business unit that owns the record",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/lk_pfx_order_createdby/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "lk_pfx_order_createdby",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "SystemUser",
+      "ReferencingAttributeName": "CreatedBy",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier of the user who created the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/lk_pfx_order_modifiedby/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "lk_pfx_order_modifiedby",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "SystemUser",
+      "ReferencingAttributeName": "ModifiedBy",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier of the user who modified the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/owner_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "owner_pfx_order",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "Owner",
+      "ReferencingAttributeName": "OwnerId",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Owner Id",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/team_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "team_pfx_order",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "Team",
+      "ReferencingAttributeName": "OwningTeam",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier for the team that owns the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/user_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "user_pfx_order",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "SystemUser",
+      "ReferencingAttributeName": "OwningUser",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier for the user that owns the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`relationship generator > generates expected output for entity with no custom relationships 1`] = `
+{
+  "entityrelationships/business_unit_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "business_unit_pfx_order",
+      "CascadeArchive": "Restrict",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "Restrict",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "BusinessUnit",
+      "ReferencingAttributeName": "OwningBusinessUnit",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier for the business unit that owns the record",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/lk_pfx_order_createdby/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "lk_pfx_order_createdby",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "SystemUser",
+      "ReferencingAttributeName": "CreatedBy",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier of the user who created the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/lk_pfx_order_modifiedby/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "lk_pfx_order_modifiedby",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "SystemUser",
+      "ReferencingAttributeName": "ModifiedBy",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier of the user who modified the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/owner_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "owner_pfx_order",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "Owner",
+      "ReferencingAttributeName": "OwnerId",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Owner Id",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/team_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "team_pfx_order",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "Team",
+      "ReferencingAttributeName": "OwningTeam",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier for the team that owns the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+  "entityrelationships/user_pfx_order/entityrelationship.yml": {
+    "EntityRelationship": {
+      "@Name": "user_pfx_order",
+      "CascadeArchive": "NoCascade",
+      "CascadeAssign": "NoCascade",
+      "CascadeDelete": "NoCascade",
+      "CascadeReparent": "NoCascade",
+      "CascadeShare": "NoCascade",
+      "CascadeUnshare": "NoCascade",
+      "EntityRelationshipType": "OneToMany",
+      "IntroducedVersion": "1.0.0",
+      "IsCustomizable": 1,
+      "IsHierarchical": 0,
+      "ReferencedEntityName": "SystemUser",
+      "ReferencingAttributeName": "OwningUser",
+      "ReferencingEntityName": "pfx_order",
+      "RelationshipDescription": {
+        "Descriptions": {
+          "Description": {
+            "@description": "Unique identifier for the user that owns the record.",
+            "@languagecode": 1033,
+          },
+        },
+      },
+    },
+  },
+}
+`;

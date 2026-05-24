@@ -1,0 +1,45 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ribbondiff generator > generates expected output for a custom entity 1`] = `
+{
+  "entities/pfx_order/ribbondiffs/ribbondiff.yml": {
+    "RibbonDiffXml": {
+      "CommandDefinitions": null,
+      "CustomActions": null,
+      "LocLabels": null,
+      "RuleDefinitions": {
+        "DisplayRules": null,
+        "EnableRules": null,
+        "TabDisplayRules": null,
+      },
+      "Templates": {
+        "RibbonTemplates": {
+          "@Id": "Mscrm.Templates",
+        },
+      },
+    },
+  },
+}
+`;
+
+exports[`ribbondiff generator > generates expected output for a system table entity 1`] = `
+{
+  "entities/account/ribbondiffs/ribbondiff.yml": {
+    "RibbonDiffXml": {
+      "CommandDefinitions": null,
+      "CustomActions": null,
+      "LocLabels": null,
+      "RuleDefinitions": {
+        "DisplayRules": null,
+        "EnableRules": null,
+        "TabDisplayRules": null,
+      },
+      "Templates": {
+        "RibbonTemplates": {
+          "@Id": "Mscrm.Templates",
+        },
+      },
+    },
+  },
+}
+`;
