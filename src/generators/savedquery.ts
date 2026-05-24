@@ -60,7 +60,7 @@ function _baseQuery(
   };
 }
 
-function _active(entity: Entity, prefix: string): [string, Record<string, unknown>] {
+function _active(entity: Entity, prefix: string, langCode: number): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
   const nameCol = entity.columns.find(c => c.primary_name);
@@ -90,7 +90,7 @@ function _active(entity: Entity, prefix: string): [string, Record<string, unknow
       LocalizedNames: {
         LocalizedName: {
           "@description": `Active ${entity.display_name_plural}`,
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
     },
@@ -98,7 +98,7 @@ function _active(entity: Entity, prefix: string): [string, Record<string, unknow
   return [`entities/${full}/savedqueries/${uid}/savedquery.yml`, data];
 }
 
-function _inactive(entity: Entity, prefix: string): [string, Record<string, unknown>] {
+function _inactive(entity: Entity, prefix: string, langCode: number): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
   const nameCol = entity.columns.find(c => c.primary_name);
@@ -128,7 +128,7 @@ function _inactive(entity: Entity, prefix: string): [string, Record<string, unkn
       LocalizedNames: {
         LocalizedName: {
           "@description": `Inactive ${entity.display_name_plural}`,
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
     },
@@ -136,7 +136,7 @@ function _inactive(entity: Entity, prefix: string): [string, Record<string, unkn
   return [`entities/${full}/savedqueries/${uid}/savedquery.yml`, data];
 }
 
-function _myRecords(entity: Entity, prefix: string): [string, Record<string, unknown>] {
+function _myRecords(entity: Entity, prefix: string, langCode: number): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
   const uid = detUuid(`${full}:sq:my`);
@@ -172,13 +172,13 @@ function _myRecords(entity: Entity, prefix: string): [string, Record<string, unk
       LocalizedNames: {
         LocalizedName: {
           "@description": `My ${entity.display_name_plural}`,
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
       Descriptions: {
         Description: {
           "@description": `Active ${entity.display_name_plural} owned by me`,
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
     },
@@ -186,7 +186,7 @@ function _myRecords(entity: Entity, prefix: string): [string, Record<string, unk
   return [`entities/${full}/savedqueries/${uid}/savedquery.yml`, data];
 }
 
-function _advancedFind(entity: Entity, prefix: string): [string, Record<string, unknown>] {
+function _advancedFind(entity: Entity, prefix: string, langCode: number): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
   const nameCol = entity.columns.find(c => c.primary_name);
@@ -215,7 +215,7 @@ function _advancedFind(entity: Entity, prefix: string): [string, Record<string, 
       LocalizedNames: {
         LocalizedName: {
           "@description": `${entity.display_name} Advanced Find View`,
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
     },
@@ -223,7 +223,7 @@ function _advancedFind(entity: Entity, prefix: string): [string, Record<string, 
   return [`entities/${full}/savedqueries/${uid}/savedquery.yml`, data];
 }
 
-function _associated(entity: Entity, prefix: string): [string, Record<string, unknown>] {
+function _associated(entity: Entity, prefix: string, langCode: number): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
   const nameCol = entity.columns.find(c => c.primary_name);
@@ -253,7 +253,7 @@ function _associated(entity: Entity, prefix: string): [string, Record<string, un
       LocalizedNames: {
         LocalizedName: {
           "@description": `${entity.display_name} Associated View`,
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
     },
@@ -261,7 +261,7 @@ function _associated(entity: Entity, prefix: string): [string, Record<string, un
   return [`entities/${full}/savedqueries/${uid}/savedquery.yml`, data];
 }
 
-function _lookupView(entity: Entity, prefix: string): [string, Record<string, unknown>] {
+function _lookupView(entity: Entity, prefix: string, langCode: number): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
   const nameCol = entity.columns.find(c => c.primary_name);
@@ -287,7 +287,7 @@ function _lookupView(entity: Entity, prefix: string): [string, Record<string, un
       LocalizedNames: {
         LocalizedName: {
           "@description": `${entity.display_name} Lookup View`,
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
     },
@@ -295,7 +295,7 @@ function _lookupView(entity: Entity, prefix: string): [string, Record<string, un
   return [`entities/${full}/savedqueries/${uid}/savedquery.yml`, data];
 }
 
-function _quickFind(entity: Entity, prefix: string): [string, Record<string, unknown>] {
+function _quickFind(entity: Entity, prefix: string, langCode: number): [string, Record<string, unknown>] {
   const full = prefixed(entity.name, prefix);
   const idField = `${full}id`;
   const nameCol = entity.columns.find(c => c.primary_name);
@@ -343,7 +343,7 @@ function _quickFind(entity: Entity, prefix: string): [string, Record<string, unk
       LocalizedNames: {
         LocalizedName: {
           "@description": `Quick Find Active ${entity.display_name_plural}`,
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
     },
@@ -351,16 +351,16 @@ function _quickFind(entity: Entity, prefix: string): [string, Record<string, unk
   return [`entities/${full}/savedqueries/${uid}/savedquery.yml`, data];
 }
 
-export function generate(entity: Entity, prefix: string): Record<string, unknown> {
+export function generate(entity: Entity, prefix: string, langCode: number): Record<string, unknown> {
   const files: Record<string, unknown> = {};
   for (const [filePath, data] of [
-    _active(entity, prefix),
-    _inactive(entity, prefix),
-    _myRecords(entity, prefix),
-    _advancedFind(entity, prefix),
-    _associated(entity, prefix),
-    _lookupView(entity, prefix),
-    _quickFind(entity, prefix),
+    _active(entity, prefix, langCode),
+    _inactive(entity, prefix, langCode),
+    _myRecords(entity, prefix, langCode),
+    _advancedFind(entity, prefix, langCode),
+    _associated(entity, prefix, langCode),
+    _lookupView(entity, prefix, langCode),
+    _quickFind(entity, prefix, langCode),
   ]) {
     files[filePath] = data;
   }

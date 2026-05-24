@@ -1,7 +1,7 @@
 import type { OptionSet } from "../model.js";
 import { prefixed } from "../utils.js";
 
-export function generate(optionset: OptionSet, prefix: string): Record<string, unknown> {
+export function generate(optionset: OptionSet, prefix: string, langCode: number): Record<string, unknown> {
   const fullName = prefixed(optionset.name, prefix);
   const data = {
     optionset: {
@@ -15,13 +15,13 @@ export function generate(optionset: OptionSet, prefix: string): Record<string, u
       displaynames: {
         displayname: {
           "@description": optionset.display_name,
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
       Descriptions: {
         Description: {
           "@description": "",
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
       options: {
@@ -32,13 +32,13 @@ export function generate(optionset: OptionSet, prefix: string): Record<string, u
           labels: {
             label: {
               "@description": opt.label,
-              "@languagecode": 1033,
+              "@languagecode": langCode,
             },
           },
           Descriptions: {
             Description: {
               "@description": "",
-              "@languagecode": 1033,
+              "@languagecode": langCode,
             },
           },
         })),

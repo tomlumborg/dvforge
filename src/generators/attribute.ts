@@ -37,12 +37,12 @@ interface BaseConfig {
   localizable?: number;
 }
 
-function _displayname(description: string): Record<string, unknown> {
-  return { displayname: { "@description": description, "@languagecode": 1033 } };
+function _displayname(description: string, langCode: number): Record<string, unknown> {
+  return { displayname: { "@description": description, "@languagecode": langCode } };
 }
 
-function _description(text: string): Record<string, unknown> {
-  return { Description: { "@description": text, "@languagecode": 1033 } };
+function _description(text: string, langCode: number): Record<string, unknown> {
+  return { Description: { "@description": text, "@languagecode": langCode } };
 }
 
 function _attr(data: Record<string, unknown>): Record<string, unknown> {
@@ -81,7 +81,7 @@ function _base(cfg: BaseConfig): Record<string, unknown> {
 
 // ── Custom attributes ───────────────────────────────────────────────
 
-function _primaryKey(entityName: string, prefix: string): AttrEntry {
+function _primaryKey(entityName: string, prefix: string, langCode: number): AttrEntry {
   const fullEntity = prefixed(entityName, prefix);
   const fieldName = `${fullEntity}id`;
   const physical = `${fullEntity}Id`;
@@ -94,12 +94,12 @@ function _primaryKey(entityName: string, prefix: string): AttrEntry {
     filterable: 1, retrievable: 1,
   });
   d["CanModifyRequirementLevelSettings"] = 0;
-  d["displaynames"] = _displayname(entityName);
-  d["Descriptions"] = _description("Unique identifier for entity instances");
+  d["displaynames"] = _displayname(entityName, langCode);
+  d["Descriptions"] = _description("Unique identifier for entity instances", langCode);
   return [fieldName, _attr(d)];
 }
 
-function _customString(col: Column, prefix: string): AttrEntry {
+function _customString(col: Column, prefix: string, langCode: number): AttrEntry {
   const fullName = prefixed(col.name, prefix);
   const isNameField = col.primary_name;
   const reqLevel = _reqLevel(col.required);
@@ -124,12 +124,12 @@ function _customString(col: Column, prefix: string): AttrEntry {
   d["Format"] = "text";
   d["MaxLength"] = maxLen;
   d["Length"] = maxLen * 2;
-  d["displaynames"] = _displayname(col.display_name);
-  d["Descriptions"] = _description("");
+  d["displaynames"] = _displayname(col.display_name, langCode);
+  d["Descriptions"] = _description("", langCode);
   return [fullName, _attr(d)];
 }
 
-function _customDatetime(col: Column, prefix: string): AttrEntry {
+function _customDatetime(col: Column, prefix: string, langCode: number): AttrEntry {
   const fullName = prefixed(col.name, prefix);
   const reqLevel = _reqLevel(col.required);
   let mask = "ValidForAdvancedFind|ValidForForm|ValidForGrid";
@@ -146,12 +146,12 @@ function _customDatetime(col: Column, prefix: string): AttrEntry {
   });
   d["Format"] = "datetime";
   d["Behavior"] = 1;
-  d["displaynames"] = _displayname(col.display_name);
-  d["Descriptions"] = _description("");
+  d["displaynames"] = _displayname(col.display_name, langCode);
+  d["Descriptions"] = _description("", langCode);
   return [fullName, _attr(d)];
 }
 
-function _customDateonly(col: Column, prefix: string): AttrEntry {
+function _customDateonly(col: Column, prefix: string, langCode: number): AttrEntry {
   const fullName = prefixed(col.name, prefix);
   const reqLevel = _reqLevel(col.required);
   let mask = "ValidForAdvancedFind|ValidForForm|ValidForGrid";
@@ -168,12 +168,12 @@ function _customDateonly(col: Column, prefix: string): AttrEntry {
   });
   d["Format"] = "date";
   d["Behavior"] = 1;
-  d["displaynames"] = _displayname(col.display_name);
-  d["Descriptions"] = _description("");
+  d["displaynames"] = _displayname(col.display_name, langCode);
+  d["Descriptions"] = _description("", langCode);
   return [fullName, _attr(d)];
 }
 
-function _customInt(col: Column, prefix: string): AttrEntry {
+function _customInt(col: Column, prefix: string, langCode: number): AttrEntry {
   const fullName = prefixed(col.name, prefix);
   const reqLevel = _reqLevel(col.required);
   let mask = "ValidForAdvancedFind|ValidForForm|ValidForGrid";
@@ -191,12 +191,12 @@ function _customInt(col: Column, prefix: string): AttrEntry {
   d["Format"] = "none";
   d["MinValue"] = -2147483648;
   d["MaxValue"] = 2147483647;
-  d["displaynames"] = _displayname(col.display_name);
-  d["Descriptions"] = _description("");
+  d["displaynames"] = _displayname(col.display_name, langCode);
+  d["Descriptions"] = _description("", langCode);
   return [fullName, _attr(d)];
 }
 
-function _customLookup(col: Column, prefix: string): AttrEntry {
+function _customLookup(col: Column, prefix: string, langCode: number): AttrEntry {
   const fullName = prefixed(col.name, prefix);
   const reqLevel = _reqLevel(col.required);
   const d = _base({
@@ -208,12 +208,12 @@ function _customLookup(col: Column, prefix: string): AttrEntry {
   });
   d["LookupStyle"] = "single";
   d["LookupTypes"] = null;
-  d["displaynames"] = _displayname(col.display_name);
-  d["Descriptions"] = _description("");
+  d["displaynames"] = _displayname(col.display_name, langCode);
+  d["Descriptions"] = _description("", langCode);
   return [fullName, _attr(d)];
 }
 
-function _customChoice(col: Column, prefix: string): AttrEntry {
+function _customChoice(col: Column, prefix: string, langCode: number): AttrEntry {
   const fullName = prefixed(col.name, prefix);
   const optionSetName = col.option_set ? prefixed(col.option_set, prefix) : "";
   const reqLevel = _reqLevel(col.required);
@@ -226,14 +226,14 @@ function _customChoice(col: Column, prefix: string): AttrEntry {
   });
   d["AppDefaultValue"] = -1;
   d["OptionSetName"] = optionSetName;
-  d["displaynames"] = _displayname(col.display_name);
-  d["Descriptions"] = _description("");
+  d["displaynames"] = _displayname(col.display_name, langCode);
+  d["Descriptions"] = _description("", langCode);
   return [fullName, _attr(d)];
 }
 
 // ── System attributes ──────────────────────────────────────────────
 
-function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
+function _systemAttributes(entity: Entity, prefix: string, langCode: number): AttrEntry[] {
   const fullEntity = prefixed(entity.name, prefix);
 
   function _slookup(
@@ -260,8 +260,8 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
     }
     d["LookupStyle"] = "single";
     d["LookupTypes"] = null;
-    d["displaynames"] = _displayname(display);
-    d["Descriptions"] = _description(desc);
+    d["displaynames"] = _displayname(display, langCode);
+    d["Descriptions"] = _description(desc, langCode);
     return [name, _attr(d)];
   }
 
@@ -288,8 +288,8 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
     d["Format"] = fmt;
     d["CanChangeDateTimeBehavior"] = 0;
     d["Behavior"] = 1;
-    d["displaynames"] = _displayname(display);
-    d["Descriptions"] = _description(desc);
+    d["displaynames"] = _displayname(display, langCode);
+    d["Descriptions"] = _description(desc, langCode);
     return [name, _attr(d)];
   }
 
@@ -317,8 +317,8 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
     d["Format"] = fmt;
     d["MinValue"] = minVal;
     d["MaxValue"] = maxVal;
-    d["displaynames"] = _displayname(display);
-    d["Descriptions"] = _description(desc);
+    d["displaynames"] = _displayname(display, langCode);
+    d["Descriptions"] = _description(desc, langCode);
     return [name, _attr(d)];
   }
 
@@ -365,8 +365,8 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
             { "@id": "00000000-0000-0000-0000-000000000000", "#text": 9 },
           ],
         },
-        displaynames: _displayname("Owner"),
-        Descriptions: _description("Owner Id"),
+        displaynames: _displayname("Owner", langCode),
+        Descriptions: _description("Owner Id", langCode),
       }),
     ],
     _slookup("OwningBusinessUnit", "owningbusinessunit", "Owning Business Unit",
@@ -394,27 +394,27 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
           OptionSetType: "state",
           IntroducedVersion: "1.0.0",
           IsCustomizable: 1,
-          displaynames: _displayname("Status"),
-          Descriptions: _description(`Status of the ${entity.display_name}`),
+          displaynames: _displayname("Status", langCode),
+          Descriptions: _description(`Status of the ${entity.display_name}`, langCode),
           states: {
             state: [
               {
                 "@value": 0,
                 "@defaultstatus": 1,
                 "@invariantname": "Active",
-                labels: { label: { "@description": "Active", "@languagecode": 1033 } },
+                labels: { label: { "@description": "Active", "@languagecode": langCode } },
               },
               {
                 "@value": 1,
                 "@defaultstatus": 2,
                 "@invariantname": "Inactive",
-                labels: { label: { "@description": "Inactive", "@languagecode": 1033 } },
+                labels: { label: { "@description": "Inactive", "@languagecode": langCode } },
               },
             ],
           },
         },
-        displaynames: _displayname("Status"),
-        Descriptions: _description(`Status of the ${entity.name}`),
+        displaynames: _displayname("Status", langCode),
+        Descriptions: _description(`Status of the ${entity.name}`, langCode),
       }),
     ],
     [
@@ -432,25 +432,25 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
           OptionSetType: "status",
           IntroducedVersion: "1.0.0",
           IsCustomizable: 1,
-          displaynames: _displayname("Status Reason"),
-          Descriptions: _description(`Reason for the status of the ${entity.display_name}`),
+          displaynames: _displayname("Status Reason", langCode),
+          Descriptions: _description(`Reason for the status of the ${entity.display_name}`, langCode),
           statuses: {
             status: [
               {
                 "@value": 1,
                 "@state": 0,
-                labels: { label: { "@description": "Active", "@languagecode": 1033 } },
+                labels: { label: { "@description": "Active", "@languagecode": langCode } },
               },
               {
                 "@value": 2,
                 "@state": 1,
-                labels: { label: { "@description": "Inactive", "@languagecode": 1033 } },
+                labels: { label: { "@description": "Inactive", "@languagecode": langCode } },
               },
             ],
           },
         },
-        displaynames: _displayname("Status Reason"),
-        Descriptions: _description(`Reason for the status of the ${entity.name}`),
+        displaynames: _displayname("Status Reason", langCode),
+        Descriptions: _description(`Reason for the status of the ${entity.name}`, langCode),
       }),
     ],
     _sint("TimeZoneRuleVersionNumber", "timezoneruleversionnumber",
@@ -464,15 +464,15 @@ function _systemAttributes(entity: Entity, prefix: string): AttrEntry[] {
 
 // ── Generator entry ────────────────────────────────────────────────────────
 
-export function generate(entity: Entity, prefix: string): Record<string, unknown> {
+export function generate(entity: Entity, prefix: string, langCode: number): Record<string, unknown> {
   const fullEntity = prefixed(entity.name, prefix);
   const base = `entities/${fullEntity}/attributes`;
   const files: Record<string, unknown> = {};
 
-  const [pkName, pkData] = _primaryKey(entity.name, prefix);
+  const [pkName, pkData] = _primaryKey(entity.name, prefix, langCode);
   files[`${base}/${pkName}.yml`] = pkData;
 
-  const generators: Record<string, (col: Column, prefix: string) => AttrEntry> = {
+  const generators: Record<string, (col: Column, prefix: string, lc: number) => AttrEntry> = {
     string: _customString,
     lookup: _customLookup,
     datetime: _customDatetime,
@@ -484,11 +484,11 @@ export function generate(entity: Entity, prefix: string): Record<string, unknown
   for (const col of entity.columns) {
     const gen = generators[col.type];
     if (!gen) throw new Error(`Unsupported column type: ${col.type}`);
-    const [name, data] = gen(col, prefix);
+    const [name, data] = gen(col, prefix, langCode);
     files[`${base}/${name}.yml`] = data;
   }
 
-  for (const [sysName, sysData] of _systemAttributes(entity, prefix)) {
+  for (const [sysName, sysData] of _systemAttributes(entity, prefix, langCode)) {
     files[`${base}/${sysName}.yml`] = sysData;
   }
 

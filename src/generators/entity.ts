@@ -1,7 +1,7 @@
 import type { Entity } from "../model.js";
 import { prefixed } from "../utils.js";
 
-export function generate(entity: Entity, prefix: string): Record<string, unknown> {
+export function generate(entity: Entity, prefix: string, langCode: number): Record<string, unknown> {
   const fullName = prefixed(entity.name, prefix);
   const ownership = entity.ownership === "user" ? "UserOwned" : "OrganizationOwned";
 
@@ -18,19 +18,19 @@ export function generate(entity: Entity, prefix: string): Record<string, unknown
           LocalizedNames: {
             LocalizedName: {
               "@description": entity.display_name,
-              "@languagecode": 1033,
+              "@languagecode": langCode,
             },
           },
           LocalizedCollectionNames: {
             LocalizedCollectionName: {
               "@description": entity.display_name_plural,
-              "@languagecode": 1033,
+              "@languagecode": langCode,
             },
           },
           Descriptions: {
             Description: {
               "@description": entity.description ?? "",
-              "@languagecode": 1033,
+              "@languagecode": langCode,
             },
           },
           EntitySetName: `${fullName}s`,
