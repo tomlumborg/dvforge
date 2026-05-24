@@ -2,7 +2,7 @@
   "name": "dvforge",
   "version": "0.1.1",
   "description": "YAML → pac-ready Dataverse table solutions.",
-  "license": "SEE LICENSE IN LICENSE.md",
+  "license": "MIT",
   "keywords": [
     "dataverse",
     "dv",
