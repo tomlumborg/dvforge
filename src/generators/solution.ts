@@ -85,7 +85,7 @@ export function generate(
     ImportExportXml: {
       "@version": "9.2.26035.182",
       "@SolutionPackageVersion": floatScalar(9.2),
-      "@languagecode": 1033,
+      "@languagecode": config.solution.language_code,
       "@generatedBy": "CrmLive",
       "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
       SolutionManifest: {
@@ -93,7 +93,7 @@ export function generate(
         LocalizedNames: {
           LocalizedName: {
             "@description": sol.display_name,
-            "@languagecode": 1033,
+            "@languagecode": config.solution.language_code,
           },
         },
         Descriptions: null,

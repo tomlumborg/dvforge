@@ -14,15 +14,16 @@ import * as solution from "./generators/solution.js";
 
 export function compile(config: Config, outputDir: string, managed = true): void {
   const publisherPrefix = config.solution.publisher.prefix;
+  const langCode = config.solution.language_code;
   const files = new Map<string, unknown>();
 
   // publisher
-  for (const [k, v] of Object.entries(publisher.generate(config.solution.publisher)))
+  for (const [k, v] of Object.entries(publisher.generate(config.solution.publisher, langCode)))
     files.set(k, v);
 
   // option sets
   for (const os of config.option_sets)
-    for (const [k, v] of Object.entries(optionset.generate(os, publisherPrefix)))
+    for (const [k, v] of Object.entries(optionset.generate(os, publisherPrefix, langCode)))
       files.set(k, v);
 
   // entities
@@ -37,9 +38,9 @@ export function compile(config: Config, outputDir: string, managed = true): void
 
   for (const ent of customEntities) {
     for (const gen of [entity, attribute, formxml, savedquery, ribbondiff])
-      for (const [k, v] of Object.entries(gen.generate(ent, publisherPrefix)))
+      for (const [k, v] of Object.entries(gen.generate(ent, publisherPrefix, langCode)))
         files.set(k, v);
-    for (const [k, v] of Object.entries(relationship.generate(ent, publisherPrefix, systemTableNames)))
+    for (const [k, v] of Object.entries(relationship.generate(ent, publisherPrefix, systemTableNames, langCode)))
       files.set(k, v);
   }
 

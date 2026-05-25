@@ -62,6 +62,7 @@ solution:
   name: MySolution
   display_name: My Solution
   version: 1.0.0.0
+  language_code: 1033               # optional, default 1033
   publisher:
     name: TomLumborg
     display_name: TomLumborg
@@ -135,6 +136,8 @@ entities:
 **Relationships:** defined on the entity that holds the lookup column (the "many" side). Only one-to-many is supported.
 
 **YAML Schemas:** run `npx dvforge schema` from your project root to generate and configure schemas for your dvforge input files. This enables inline validation, field suggestions, and autocompletion in VS Code.
+
+**Language/Localisation** language code is set at solution level and applies that code to all localisation. Currently no support for multiple languages
 
 ## What gets generated
 

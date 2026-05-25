@@ -35,14 +35,14 @@ function address(number: number): Record<string, unknown> {
   };
 }
 
-export function generate(publisher: Publisher): Record<string, unknown> {
+export function generate(publisher: Publisher, langCode: number): Record<string, unknown> {
   const data = {
     Publisher: {
       UniqueName: publisher.name,
       LocalizedNames: {
         LocalizedName: {
           "@description": publisher.display_name,
-          "@languagecode": 1033,
+          "@languagecode": langCode,
         },
       },
       Descriptions: null,

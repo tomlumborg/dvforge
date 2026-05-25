@@ -12,6 +12,7 @@ export const SolutionSchema = z.object({
   display_name: z.string(),
   version: z.string(),
   publisher: PublisherSchema,
+  language_code: z.number().int().default(1033),
 });
 
 export const OptionValueSchema = z.object({

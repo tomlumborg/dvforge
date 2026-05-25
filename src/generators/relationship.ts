@@ -12,7 +12,8 @@ function _rel(
   navProperty: string | null = null,
   includeRoles: boolean = false,
   introducedVersion: string = "1.0.0",
-  isCustom: boolean = false
+  isCustom: boolean = false,
+  langCode: number
 ): Record<string, unknown> {
   const er: Record<string, unknown> = {
     "@Name": name,
@@ -40,7 +41,7 @@ function _rel(
     Descriptions: {
       Description: {
         "@description": description,
-        "@languagecode": 1033,
+        "@languagecode": langCode,
       },
     },
   };
@@ -71,7 +72,8 @@ function _rel(
 
 function _systemRelationships(
   entity: Entity,
-  prefix: string
+  prefix: string,
+  langCode: number
 ): Record<string, unknown> {
   const full = prefixed(entity.name, prefix);
   const files: Record<string, unknown> = {};
@@ -154,7 +156,9 @@ function _systemRelationships(
       desc,
       null,
       false,
-      "1.0.0"
+      "1.0.0",
+      false,
+      langCode
     );
   }
 
@@ -165,7 +169,8 @@ function _customRelationship(
   entity: Entity,
   rel: Relationship,
   prefix: string,
-  systemTableNames: Set<string>
+  systemTableNames: Set<string>,
+  langCode: number
 ): Record<string, unknown> {
   const fullReferencing = prefixed(entity.name, prefix);
   const fullReferenced = systemTableNames.has(rel.related_table)
@@ -185,7 +190,8 @@ function _customRelationship(
     fullAttr,
     true,
     "1.0.0",
-    true
+    true,
+    langCode
   );
 
   return { [`entityrelationships/${name}/entityrelationship.yml`]: data };
@@ -194,14 +200,15 @@ function _customRelationship(
 export function generate(
   entity: Entity,
   prefix: string,
-  systemTableNames: Set<string> = new Set()
+  systemTableNames: Set<string> = new Set(),
+  langCode: number
 ): Record<string, unknown> {
   const files: Record<string, unknown> = {};
 
-  Object.assign(files, _systemRelationships(entity, prefix));
+  Object.assign(files, _systemRelationships(entity, prefix, langCode));
 
   for (const rel of entity.relationships) {
-    Object.assign(files, _customRelationship(entity, rel, prefix, systemTableNames));
+    Object.assign(files, _customRelationship(entity, rel, prefix, systemTableNames, langCode));
   }
 
   return files;
