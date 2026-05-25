@@ -177,7 +177,7 @@ function _customRelationship(
     ? rel.related_table
     : prefixed(rel.related_table, prefix);
   const fullAttr = prefixed(rel.lookup_column, prefix);
-  const name = `${fullReferenced}__${fullReferencing}_${fullAttr}`;
+  const name = prefixed(`_${fullReferenced}__${fullReferencing}_${fullAttr}`, prefix);
 
   const data = _rel(
     name,

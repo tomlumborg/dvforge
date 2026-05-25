@@ -2,74 +2,76 @@ import { floatScalar, prefixed } from "../utils.js";
 import type { Config } from "../model.js";
 
 function componentPaths(config: Config, componentFiles: string[]): string[] {
-  const prefix = config.solution.publisher.prefix;
+  const prefix = config.solution.publisher.prefix.toLowerCase();
+  const files = componentFiles.map((f) => f.toLowerCase());
   const paths: string[] = [];
 
   const sortedEntities = [...config.entities].sort((a, b) => {
-    const nameA = a.existing_table === true ? a.name : prefixed(a.name, prefix);
-    const nameB = b.existing_table === true ? b.name : prefixed(b.name, prefix);
+    const nameA = (a.existing_table === true ? a.name : prefixed(a.name, prefix)).toLowerCase();
+    const nameB = (b.existing_table === true ? b.name : prefixed(b.name, prefix)).toLowerCase();
     return nameA.localeCompare(nameB);
   });
 
   for (const entity of sortedEntities) {
     if (entity.existing_table === true) {
-      const entityBase = `/entities/${entity.name}`;
+      const entityBase = `/entities/${entity.name.toLowerCase()}`;
       paths.push(entityBase);
       paths.push(`${entityBase}/ribbondiffs`);
       continue;
     }
 
-    const full = prefixed(entity.name, prefix);
+    const full = prefixed(entity.name, prefix).toLowerCase();
     const entityBase = `/entities/${full}`;
 
     paths.push(entityBase);
 
-    // attributes — sorted alphabetically
-    const attrPaths = componentFiles
-      .filter((p) => p.startsWith(`entities/${full}/attributes/`))
-      .map((p) => `/${p}`)
-      .sort();
-    paths.push(...attrPaths);
+    // attributes
+    paths.push(
+      ...files
+        .filter((p) => p.startsWith(`entities/${full}/attributes/`))
+        .map((p) => `/${p}`)
+        .sort()
+    );
 
-    // forms — card, main, quick order
-    for (const formType of ["card", "main", "quick"] as const) {
-      const formPaths = componentFiles
-        .filter((p) => p.startsWith(`entities/${full}/formxml/${formType}/`))
+    // forms
+    paths.push(
+      ...files
+        .filter((p) => p.startsWith(`entities/${full}/formxml/`))
         .map((p) => `/${p.slice(0, p.length - "/systemform.yml".length)}`)
-        .sort();
-      paths.push(...formPaths);
-    }
+        .sort()
+    );
 
     // ribbondiffs (directory, not file)
     paths.push(`${entityBase}/ribbondiffs`);
 
     // saved queries
-    const sqPaths = componentFiles
-      .filter((p) => p.startsWith(`entities/${full}/savedqueries/`))
-      .map((p) => `/${p.slice(0, p.length - "/savedquery.yml".length)}`)
-      .sort();
-    paths.push(...sqPaths);
+    paths.push(
+      ...files
+        .filter((p) => p.startsWith(`entities/${full}/savedqueries/`))
+        .map((p) => `/${p.slice(0, p.length - "/savedquery.yml".length)}`)
+        .sort()
+    );
   }
 
-  // entity relationships — sorted alphabetically
-  const relPaths = componentFiles
-    .filter((p) => p.startsWith("entityrelationships/"))
-    .map((p) => `/${p.slice(0, p.length - "/entityrelationship.yml".length)}`)
-    .sort();
-  paths.push(...relPaths);
-
-  // option sets — sorted alphabetically
-  const sortedOptionSets = [...config.option_sets].sort((a, b) =>
-    prefixed(a.name, prefix).localeCompare(prefixed(b.name, prefix))
+  // entity relationships
+  paths.push(
+    ...files
+      .filter((p) => p.startsWith("entityrelationships/"))
+      .map((p) => `/${p.slice(0, p.length - "/entityrelationship.yml".length)}`)
+      .sort()
   );
-  for (const os of sortedOptionSets) {
-    paths.push(`/optionsets/${prefixed(os.name, prefix)}`);
+
+  // option sets
+  for (const os of [...config.option_sets].sort((a, b) =>
+    a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+  )) {
+    paths.push(`/optionsets/${prefixed(os.name.toLowerCase(), prefix)}`);
   }
 
   // publisher
   paths.push(`/publishers/${config.solution.publisher.name}`);
 
-  return paths.map((p) => p.toLowerCase());
+  return paths;
 }
 
 export function generate(
