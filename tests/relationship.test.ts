@@ -19,12 +19,12 @@ describe("relationship generator", () => {
     const entity = makeEntity({
       relationships: [{ related_table: "contact", lookup_column: "contact_id" }],
     });
-    const files = generate(entity, "ts", new Set());
+    const files = generate(entity, "ts", new Set(), 1033);
     const keys = Object.keys(files);
     const relKey = keys.find((k) => k.includes("contact"));
     expect(relKey).toBeDefined();
     // relationship name starts with prefixed custom entity name
-    expect(relKey).toMatch(/entityrelationships\/ts_contact__/);
+    expect(relKey).toMatch(/entityrelationships\/ts__ts_contact__/);
 
     const rel = Object.values(files).find((_, i) => keys[i].includes("contact")) as Record<string, unknown>;
     const er = (rel as { EntityRelationship: Record<string, unknown> }).EntityRelationship;
@@ -36,12 +36,12 @@ describe("relationship generator", () => {
       relationships: [{ related_table: "account", lookup_column: "account_id" }],
     });
     const systemTableNames = new Set(["account"]);
-    const files = generate(entity, "ts", systemTableNames);
+    const files = generate(entity, "ts", systemTableNames, 1033);
     const keys = Object.keys(files);
     const relKey = keys.find((k) => k.includes("account"));
     expect(relKey).toBeDefined();
     // relationship name starts with bare system table name, not ts_account__
-    expect(relKey).toMatch(/entityrelationships\/account__/);
+    expect(relKey).toMatch(/entityrelationships\/ts__account__/);
 
     const rel = Object.values(files).find((_, i) => keys[i].includes("account")) as Record<string, unknown>;
     const er = (rel as { EntityRelationship: Record<string, unknown> }).EntityRelationship;
@@ -53,7 +53,7 @@ describe("relationship generator", () => {
       relationships: [{ related_table: "account", lookup_column: "account_id" }],
     });
     const systemTableNames = new Set(["account"]);
-    const files = generate(entity, "ts", systemTableNames);
+    const files = generate(entity, "ts", systemTableNames, 1033);
     const keys = Object.keys(files);
     const relKey = keys.find((k) => k.includes("account"));
     expect(relKey).toBeDefined();
