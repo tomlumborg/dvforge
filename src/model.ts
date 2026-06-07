@@ -29,13 +29,16 @@ export const OptionSetSchema = z.object({
 export const ColumnSchema = z
   .object({
     name: z.string(),
-    type: z.enum(["string", "lookup", "choice", "datetime", "dateonly", "int"]),
+    type: z.enum(["string", "lookup", "choice", "datetime", "dateonly", "int", "float"]),
     display_name: z.string(),
     required: z.boolean().default(false),
     primary_name: z.boolean().default(false),
     max_length: z.number().int().nullish(),
     option_set: z.string().nullish(),
     related_table: z.string().nullish(),
+    min_value: z.number().nullish(),
+    max_value: z.number().nullish(),
+    decimal_precision: z.number().int().nullish(),
   })
   .superRefine((col, ctx) => {
     if (col.type === "choice" && !col.option_set) {
@@ -60,6 +63,24 @@ export const ColumnSchema = z
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: `Column '${col.name}': only choice columns can specify option_set`,
+      });
+    }
+    if (col.type !== "float" && col.min_value != null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Column '${col.name}': only float columns can specify min_value`,
+      });
+    }
+    if (col.type !== "float" && col.max_value != null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Column '${col.name}': only float columns can specify max_value`,
+      });
+    }
+    if (col.type !== "float" && col.decimal_precision != null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Column '${col.name}': only float columns can specify decimal_precision`,
       });
     }
   });

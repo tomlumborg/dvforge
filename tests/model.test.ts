@@ -64,6 +64,75 @@ describe("ColumnSchema", () => {
     });
   });
 
+  describe("float", () => {
+    it("passes with no optional fields", () => {
+      const result = ColumnSchema.safeParse({
+        name: "price",
+        type: "float",
+        display_name: "Price",
+      });
+      expect(result.success).toBe(true);
+    });
+
+    it("passes with min_value, max_value, and decimal_precision", () => {
+      const result = ColumnSchema.safeParse({
+        name: "price",
+        type: "float",
+        display_name: "Price",
+        min_value: 0,
+        max_value: 1000000000,
+        decimal_precision: 2,
+      });
+      expect(result.success).toBe(true);
+    });
+
+    it("cannot have related_table", () => {
+      const result = ColumnSchema.safeParse({
+        name: "price",
+        type: "float",
+        display_name: "Price",
+        related_table: "account",
+      });
+      expect(result.success).toBe(false);
+    });
+
+    it("cannot have option_set", () => {
+      const result = ColumnSchema.safeParse({
+        name: "price",
+        type: "float",
+        display_name: "Price",
+        option_set: "my_set",
+      });
+      expect(result.success).toBe(false);
+    });
+
+    it.each(["string", "int", "datetime", "dateonly"] as const)(
+      "%s column cannot have min_value",
+      (type) => {
+        const result = ColumnSchema.safeParse({
+          name: "col",
+          type,
+          display_name: "Col",
+          min_value: 0,
+        });
+        expect(result.success).toBe(false);
+      },
+    );
+
+    it.each(["string", "int", "datetime", "dateonly"] as const)(
+      "%s column cannot have decimal_precision",
+      (type) => {
+        const result = ColumnSchema.safeParse({
+          name: "col",
+          type,
+          display_name: "Col",
+          decimal_precision: 2,
+        });
+        expect(result.success).toBe(false);
+      },
+    );
+  });
+
   describe("dates", () => {
     it.each(["datetime", "dateonly"] as const)(
       "%s type cannot have related_table",
@@ -302,6 +371,14 @@ describe("EntitySchema", () => {
           type: "int",
           display_name: "Count",
         },
+        {
+          name: "price",
+          type: "float",
+          display_name: "Price",
+          min_value: 0,
+          max_value: 1000000000,
+          decimal_precision: 2,
+        },
       ],
       relationships: [
         {
@@ -313,7 +390,7 @@ describe("EntitySchema", () => {
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.ownership).toBe("user");
-      expect(result.data.columns).toHaveLength(6);
+      expect(result.data.columns).toHaveLength(7);
     }
   });
 });

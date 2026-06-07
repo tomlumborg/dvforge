@@ -213,6 +213,29 @@ function _customLookup(col: Column, prefix: string, langCode: number): AttrEntry
   return [fullName, _attr(d)];
 }
 
+function _customFloat(col: Column, prefix: string, langCode: number): AttrEntry {
+  const fullName = prefixed(col.name, prefix);
+  const reqLevel = _reqLevel(col.required);
+  let mask = "ValidForAdvancedFind|ValidForForm|ValidForGrid";
+  if (col.required) {
+    mask += "|RequiredForForm";
+  }
+
+  const d = _base({
+    physical: fullName, type: "float", name: fullName, required: reqLevel,
+    update: 1, read: 1, create: 1,
+    isCustom: 1, audit: 1,
+    version: "1.0.0",
+    displayMask: mask, ime: "auto",
+  });
+  d["MinValue"] = col.min_value ?? 0;
+  d["MaxValue"] = col.max_value ?? 1000000000;
+  d["Accuracy"] = col.decimal_precision ?? 2;
+  d["displaynames"] = _displayname(col.display_name, langCode);
+  d["Descriptions"] = _description("", langCode);
+  return [fullName, _attr(d)];
+}
+
 function _customChoice(col: Column, prefix: string, langCode: number): AttrEntry {
   const fullName = prefixed(col.name, prefix);
   const optionSetName = col.option_set ? prefixed(col.option_set, prefix) : "";
@@ -478,6 +501,7 @@ export function generate(entity: Entity, prefix: string, langCode: number): Reco
     datetime: _customDatetime,
     dateonly: _customDateonly,
     int: _customInt,
+    float: _customFloat,
     choice: _customChoice,
   };
 
