@@ -9,6 +9,10 @@
     "type": "git",
     "url": "git+https://github.com/tomlumborg/dvforge.git"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomlumborg/dvforge"
+  },
   "files": [
     "dist"
   ],
