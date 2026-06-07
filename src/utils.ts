@@ -7,8 +7,10 @@ export function prefixed(name: string, prefix: string): string {
   return `${prefix}_${name}`;
 }
 
+const DVFORGE_NAMESPACE = "3aade439-8a5c-5a2b-bbc7-58af78221838";
+
 export function detUuid(seed: string): string {
-  return uuidv5(seed, uuidv5.URL);
+  return uuidv5(seed, DVFORGE_NAMESPACE);
 }
 
 export function floatScalar(n: number, fractionDigits = 1): Scalar {
